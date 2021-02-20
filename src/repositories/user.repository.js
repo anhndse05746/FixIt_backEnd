@@ -1,4 +1,4 @@
-const pool = require('./dbConnection');
+const pool = require('../databases/dbConnection');
 
 let users = {};
 

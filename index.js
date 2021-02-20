@@ -1,16 +1,21 @@
-const express = require('express');
 require('dotenv/config');
-const userAPI = require('./src/api/userAPI');
-const app = express();
+const cors = require('cors')
+const express = require('express');
+const bodyParser = require('body-parser');
 
+const routerWeb = require('./src/routers/web.router');
+const routerMobile = require('./src/routers/mobile.router');
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
 app.use(express.json());
 
-app.use('/api', userAPI);
+// Setup router
+routerWeb.setupWebRouter(app);
+routerMobile.setupMobileRouter(app);
 
 app.listen(process.env.PORT || '3000', () => {
-
     console.log(`Server is running on port: ${process.env.PORT || '3000'}`);
-
 });
-// app.listen(3000);
