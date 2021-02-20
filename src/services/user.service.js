@@ -1,5 +1,5 @@
 const userRepository = require('../repositories/user.repository');
-const user = require('../models/User')
+const user = require('../models/user')
 
 module.exports.getListUsers = () => {
     let userData = user.findAll().then().catch(err => console.log(err));
