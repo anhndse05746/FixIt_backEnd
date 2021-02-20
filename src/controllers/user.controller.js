@@ -11,10 +11,10 @@ module.exports.getListUsers = async (req, res, next) => {
   try {
     let resData = await userService.getListUsers();
 
-		res.json({
-			status: constants.STATUS_SUCCESS,
-			data: resData
-		})
+    res.json({
+      status: constants.STATUS_SUCCESS,
+      data: resData
+    })
   } catch (error) {
     res.json({
       status: constants.STATUS_ERROR,
@@ -29,8 +29,8 @@ module.exports.getListUsers = async (req, res, next) => {
 * @param {import('express').NextFunction} next
 */
 module.exports.getUserDetail = async (req, res, next) => {
-    let results = await user.getAll();
-    res.json(results);
+  let results = await user.getAll();
+  res.json(results);
 }
 
 /**
@@ -39,8 +39,8 @@ module.exports.getUserDetail = async (req, res, next) => {
 * @param {import('express').NextFunction} next
 */
 module.exports.createUser = async (req, res, next) => {
-	// console.log(JSON.stringify(req.body));
-	res.json({
-		data: req.body
-	})
+  console.log(JSON.stringify(req.body));
+  res.json({
+    data: req.body
+  })
 }
