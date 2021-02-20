@@ -29,7 +29,7 @@ module.exports.getListUsers = async (req, res, next) => {
 * @param {import('express').NextFunction} next
 */
 module.exports.getUserDetail = async (req, res, next) => {
-  let results = await user.getAll();
+  let results = await userService.getUsersById(req.params.id);
   res.json(results);
 }
 
