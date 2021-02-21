@@ -1,5 +1,6 @@
 const userRepository = require('../repositories/user.repository');
-const user = require('../models/user')
+const user = require('../models/user');
+const constants = require('../utils/constants');
 
 module.exports.getListUsers = () => {
     let userData = user.findAll().then().catch(err => console.log(err));
@@ -14,8 +15,7 @@ module.exports.getUsersById = (id) => {
 module.exports.getUsersByPhone = (phone) => {
     let userData = user.findOne({
         where: {
-            phone_number: phoneNumber,
-            role_id: constants.ROLE_CUSTOMER
+            phone_number: phone
         }
     })
         .then().catch(err => console.log(err));

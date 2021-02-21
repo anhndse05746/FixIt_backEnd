@@ -1,22 +1,28 @@
 const constants = require('../utils/constants');
 const userService = require('../services/user.service');
-const passport = require('passport');
+const jwt = require('../helpers/jwt.helper');
 
 /**
 * @param {import('express').Request} req
 * @param {import('express').Response} res
 * @param {import('express').NextFunction} next
 */
-
 module.exports.login = async (req, res, next) => {
 
 
     try {
-        let user = await userService.getUserByPhone(req.body.phoneNumber);
+        let user = await userService.getUsersByPhone(req.body.phoneNumber);
 
         if (user) {
             if (user.password == req.body.password) {
-
+                let token = jwt.genreateToken(user.user_id, user.phone_number);
+                res.json({
+                    status: constants.STATUS_SUCCESS,
+                    data: {
+                        phone: user.phone_number,
+                        token: `Bearer ${token}`
+                    }
+                })
             }
         }
         else {
@@ -28,7 +34,7 @@ module.exports.login = async (req, res, next) => {
     } catch (error) {
         res.json({
             status: constants.STATUS_ERROR,
-            message: constants.MESS_ERROR
+            message: error.message
         })
     }
 }
