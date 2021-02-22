@@ -6,7 +6,7 @@ const User = db.define('user', {
         type: Sequelize.INTEGER,
         primaryKey: true
     },
-    phone: {
+    phone_number: {
         type: Sequelize.STRING,
     },
     password: {
