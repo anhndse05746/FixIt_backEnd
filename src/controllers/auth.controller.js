@@ -20,6 +20,7 @@ module.exports.login = async (req, res, next) => {
                 const payload = {
                     phone: user.phone_number,
                     name: user.name,
+                    role: user.role_id,
                     token: `Bearer ${token}`
                 }
                 responseModel(
