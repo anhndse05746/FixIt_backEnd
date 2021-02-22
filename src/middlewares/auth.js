@@ -16,7 +16,7 @@ module.exports.checkAuthenticate = (req, res, next) => {
         })
     }
     token = token.split(' ')[1];
-    
+
     let payload = jwt.verifyToken(token); // Object in payload
     // Logic check object
 
@@ -26,7 +26,7 @@ module.exports.checkAuthenticate = (req, res, next) => {
             status: constants.STATUS_ERROR,
             message: 'Authorize fail'
         })
-    } 
+    }
 
     next();
 }

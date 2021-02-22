@@ -1,4 +1,6 @@
+require('dotenv/config')
+
 module.exports = {
-    tokenExpire: 30 * 60,
-    secretKey: 'PHANVANDUC'
+    tokenExpire: 60 * 60,
+    secretKey: process.env.SECRET_KEY
 }
