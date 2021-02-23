@@ -13,7 +13,7 @@ module.exports.getListUsers = async (req, res, next) => {
 
     res.json({
       status: constants.STATUS_SUCCESS,
-      data: resData
+      results: resData
     })
   } catch (error) {
     res.json({
