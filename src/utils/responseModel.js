@@ -7,7 +7,7 @@
 module.exports = (res, status, payload) => {
     return res.json({
         status: status,
-        payload: payload
+        results: payload
     })
 }
 
