@@ -32,14 +32,20 @@ module.exports.login = async (req, res, next) => {
             else {
                 errorResponse(
                     res,
-                    { message: "Password incorrect" }
+                    {
+                        code: '401',
+                        message: "Password incorrect"
+                    }
                 )
             }
         }
         else {
             errorResponse(
                 res,
-                { message: "This phone number is not registered" }
+                {
+                    code: '401',
+                    message: "This phone number is not registered"
+                }
             )
         }
     } catch (error) {
