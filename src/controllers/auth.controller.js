@@ -1,7 +1,7 @@
 const constants = require('../utils/constants');
 const userService = require('../services/user.service');
 const jwt = require('../helpers/jwt.helper');
-const { successResponse, errorResponse } = require('../utils/responseModel')
+const responseModel = require('../utils/responseModel')
 
 /**
 * @param {import('express').Request} req
@@ -23,34 +23,33 @@ module.exports.login = async (req, res, next) => {
                     role: user.role_id,
                     token: `Bearer ${token}`
                 }
-                successResponse(
+                responseModel(
                     res,
                     constants.STATUS_SUCCESS,
                     payload
                 )
             }
             else {
-                errorResponse(
+                res.status(401)
+                responseModel(
                     res,
-                    {
-                        code: '401',
-                        message: "Password incorrect"
-                    }
+                    constants.STATUS_ERROR,
+                    { message: "Password incorrect" }
                 )
             }
         }
         else {
-            errorResponse(
+            res.status(401)
+            responseModel(
                 res,
-                {
-                    code: '401',
-                    message: "This phone number is not registered"
-                }
+                constants.STATUS_ERROR,
+                { message: "This phone number is not registered" }
             )
         }
     } catch (error) {
-        errorResponse(
+        responseModel(
             res,
+            constants.STATUS_ERROR,
             error.message
         )
     }
