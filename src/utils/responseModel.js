@@ -4,10 +4,17 @@
  * @param {import('express').Response} res
  */
 
-module.exports = (res, status, payload) => {
+module.exports.successResponse = (res, status, payload) => {
     return res.json({
         status: status,
         results: payload
     })
 }
 
+module.exports.errorResponse = (res, message) => {
+    return res.json({
+        results: {
+            message: message
+        }
+    })
+}
