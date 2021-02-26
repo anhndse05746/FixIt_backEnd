@@ -13,8 +13,6 @@ module.exports.successResponse = (res, status, payload) => {
 
 module.exports.errorResponse = (res, message) => {
     return res.json({
-        results: {
-            message: message
-        }
+        error: message
     })
 }

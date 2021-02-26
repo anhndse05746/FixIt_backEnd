@@ -33,7 +33,7 @@ module.exports.login = async (req, res, next) => {
                 res.status(401)
                 errorResponse(
                     res,
-                    'Password incorrect'
+                    "Password incorrect"
                 )
             }
         }
