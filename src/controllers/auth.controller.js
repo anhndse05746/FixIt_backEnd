@@ -30,21 +30,11 @@ module.exports.login = async (req, res, next) => {
                 )
             }
             else {
-                res.status(401)
-                responseModel(
-                    res,
-                    constants.STATUS_ERROR,
-                    { message: "Password incorrect" }
-                )
+                res.status(401).send('Password incorrect')
             }
         }
         else {
-            res.status(401)
-            responseModel(
-                res,
-                constants.STATUS_ERROR,
-                { message: "This phone number is not registered" }
-            )
+            res.status(401).send("This phone number is not registered")
         }
     } catch (error) {
         responseModel(
