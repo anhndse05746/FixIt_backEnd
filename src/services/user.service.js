@@ -24,12 +24,12 @@ module.exports.userAuthentication = async (phone, password) => {
                 }
                 else {
                     // "Password incorrect"
-                    throw new Error("Password incorrect")
+                    throw new Error(constants.PASSWORD_INCORRECT)
                 }
             }
             else {
                 // "This phone number is not registered"
-                throw new Error("This phone number is not registered")
+                throw new Error(constants.NOT_REGISTERRED)
             }
         }).catch(err => {
             throw new Error(err.message)

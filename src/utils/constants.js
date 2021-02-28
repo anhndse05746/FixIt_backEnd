@@ -3,4 +3,7 @@ module.exports = Object.freeze({
 
     STATUS_SUCCESS: 'success',
     STATUS_ERROR: 'error',
+
+    PASSWORD_INCORRECT: "Password incorrect",
+    NOT_REGISTERRED: "This phone number is not registered"
 })

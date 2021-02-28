@@ -16,6 +16,9 @@ module.exports.login = async (req, res, next) => {
             payload
         )
     } catch (error) {
+        if (error.message == constants.NOT_REGISTERRED || error.message == constants.PASSWORD_INCORRECT) {
+            res.status(401)
+        }
         errorResponse(
             res,
             error.message
