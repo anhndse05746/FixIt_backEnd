@@ -1,12 +1,39 @@
 const userRepository = require('../repositories/user.repository');
-const user = require('../models/user')
+const user = require('../models/user');
+const constants = require('../utils/constants');
+const jwt = require('../helpers/jwt.helper');
 
-module.exports.getListUsers = () => {
-    let userData = user.findAll().then().catch(err => console.log(err));
-    return userData;
-}
+module.exports.userAuthentication = async (phone, password) => {
+    let payload
+    let userData = await user.findOne({
+        where: {
+            phone_number: phone
+        }
+    })
+        .then(user => {
+            if (user) {
+                console.log('user')
+                if (user.password == password) {
+                    let token = jwt.genreateToken(user.user_id, user.phone_number);
+                    payload = {
+                        phone: user.phone_number,
+                        name: user.name,
+                        role: user.role_id,
+                        token: `Bearer ${token}`
+                    }
+                }
+                else {
+                    // "Password incorrect"
+                    throw new Error(constants.PASSWORD_INCORRECT)
+                }
+            }
+            else {
+                // "This phone number is not registered"
+                throw new Error(constants.NOT_REGISTERRED)
+            }
+        }).catch(err => {
+            throw new Error(err.message)
+        });
 
-module.exports.getUsersById = (id) => {
-    let userData = user.findByPk(id).then().catch(err => console.log(err));
-    return userData;
+    return payload
 }
