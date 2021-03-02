@@ -27,7 +27,5 @@ module.exports.regiseter = async (phone_number, password, name, role_id, email) 
     }).catch(err => {
         throw new Error(err.message);
     });
-
-    
 };
 
