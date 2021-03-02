@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const db = require('../databases/dbConnection')
+const Sequelize = require('sequelize');
+const db = require('../databases/dbConnection');
 
 const User = db.define('user', {
     id: {
@@ -18,11 +18,14 @@ const User = db.define('user', {
     role_id: {
         type: Sequelize.INTEGER,
     },
+    email: {
+        type: Sequelize.STRING,
+    },
     is_active: {
         type: Sequelize.INTEGER,
     },
 }, {
     timestamps: false
-})
+});
 
-module.exports = User
+module.exports = User;

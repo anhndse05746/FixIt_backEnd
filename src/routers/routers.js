@@ -12,7 +12,6 @@ module.exports.setupRouters = (app) => {
     //Verify Midleware
     app.all('/api/*', checkAuthenticate);
 
-    // Api for user
-    app.post('/api/v1/users', userController.createUser);
-
-}
+    //API for register
+    app.post('/register', userController.register);
+};

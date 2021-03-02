@@ -1,12 +1,6 @@
-const constants = require('../utils/constants');
 const registerService = require('../services/register.service');
+const constants = require('../utils/constants');
 const { successResponse, errorResponse } = require('../utils/responseModel');
-
-/**
-* @param {import('express').Request} req
-* @param {import('express').Response} res
-* @param {import('express').NextFunction} next
-*/
 
 module.exports.register = async (req, res, next) => {
     try {
