@@ -2,7 +2,7 @@ const user = require('../models/user');
 const userRegister = require('../models/user');
 const constants = require('../utils/constants');
 
-module.exports.regiseter = async (id, phone_number, password, name, role_id, email) => {
+module.exports.regiseter = async (phone_number, password, name, role_id, email) => {
     
     let registerCheck = await user.findOne({
         where: {
@@ -17,12 +17,9 @@ module.exports.regiseter = async (id, phone_number, password, name, role_id, ema
                 role_id: role_id,
                 email: email,
                 is_active: true
-            }).then(userRegister => {
-                if(userRegister) {
-                    return true;
-                } else {
-                    throw new Error(constants.MESS_ERROR);
-                }
+            }).then()
+            .catch(err => {
+                throw new Error(constants.MESS_ERROR);
             });
         } else {
             throw new Error(constants.REGISTERED_PHONENUMBER);
