@@ -1,6 +1,6 @@
 const constants = require('../utils/constants');
 const majorService = require('../services/major.service');
-
+const { successResponse, errorResponse } = require('../utils/responseModel')
 
 /**
 * @param {import('express').Request} req
@@ -9,17 +9,16 @@ const majorService = require('../services/major.service');
 */
 module.exports.getMajorDetail = async (req, res, next) => {
   try {
-
-    let resData = await majorService.getMajorDetail();
-
-    res.json({
-      status: constants.STATUS_SUCCESS,
-      results: resData
-    })
+    let payload = await majorService.getMajorDetail();
+    successResponse(
+      res,
+      constants.STATUS_SUCCESS,
+      payload
+    )
   } catch (error) {
-    res.json({
-      status: constants.STATUS_ERROR,
-      message: constants.MESS_ERROR
-    })
+    errorResponse(
+      res,
+      error.message
+    )
   }
 }
