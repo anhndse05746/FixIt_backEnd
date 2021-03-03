@@ -13,10 +13,9 @@ module.exports.setupRouters = (app) => {
     //Verify Midleware
     app.all('/api/*', checkAuthenticate);
 
-    // Api for user
+    //API for register
     app.post('/register', userController.register);
-    // major service 
+   // major service 
     app.get('/getMajor', majorController.getMajorDetail);
+};
 
-
-}
