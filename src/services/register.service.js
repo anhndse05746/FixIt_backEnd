@@ -2,7 +2,7 @@ const user = require('../models/user');
 const userRegister = require('../models/user');
 const constants = require('../utils/constants');
 
-module.exports.regiseter = async (phone_number, password, name, role_id, email) => {
+module.exports.register = async (phone_number, password, name, role_id, email) => {
     
     let registerCheck = await user.findOne({
         where: {
