@@ -1,4 +1,4 @@
-const userRepository = require('../repositories/user.repository');
+// const userRepository = require('../repositories/user.repository');
 const user = require('../models/user');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');

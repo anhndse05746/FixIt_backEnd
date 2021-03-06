@@ -27,6 +27,7 @@ module.exports.register = async (req, res, next) => {
     }
 };
 
+
 module.exports.getAllCustomerController = async (req, res, next) => {
     try {
         let result = await userService.getAllCustomer();
@@ -43,3 +44,4 @@ module.exports.getAllCustomerController = async (req, res, next) => {
         );
     }
 }
+
