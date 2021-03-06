@@ -2,6 +2,7 @@
 const user = require('../models/user');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
+const { use } = require('passport');
 
 module.exports.userAuthentication = async (phone, password) => {
     let payload;
@@ -18,6 +19,7 @@ module.exports.userAuthentication = async (phone, password) => {
                     payload = {
                         phone: user.phone_number,
                         name: user.name,
+                        email: user.email,
                         role: user.role_id,
                         token: `Bearer ${token}`
                     };
