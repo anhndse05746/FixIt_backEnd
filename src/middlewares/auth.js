@@ -1,6 +1,7 @@
-const constants = require('../utils/constants')
+const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
 const userService = require('../services/user.service');
+const userRepo = require('../repositories/user.repository');
 
 /**
 * @param {import('express').Request} req
@@ -10,7 +11,7 @@ const userService = require('../services/user.service');
 module.exports.checkAuthenticate = (req, res, next) => {
     let token = req.get('Authorization');
     if (!token) {
-        res.json({
+        return res.json({
             status: constants.STATUS_ERROR,
             message: 'Authorize fail'
         })
@@ -19,10 +20,15 @@ module.exports.checkAuthenticate = (req, res, next) => {
 
     let payload = jwt.verifyToken(token); // Object in payload
     // Logic check object
-
-    let currentUser = userService.getUsersByPhone(payload.phone);
+    if(payload == null) {
+        return res.json({
+            status: constants.STATUS_ERROR,
+            message: 'Token is expired'
+        })
+    }
+    let currentUser = userRepo.getUsersByPhone(payload.phone);
     if (!currentUser) {
-        res.json({
+        return res.json({
             status: constants.STATUS_ERROR,
             message: 'Authorize fail'
         })

@@ -4,7 +4,7 @@ const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
 
 module.exports.userAuthentication = async (phone, password) => {
-    let payload
+    let payload;
     let userData = await user.findOne({
         where: {
             phone_number: phone
@@ -12,28 +12,32 @@ module.exports.userAuthentication = async (phone, password) => {
     })
         .then(user => {
             if (user) {
-                console.log('user')
+                console.log('user');
                 if (user.password == password) {
-                    let token = jwt.genreateToken(user.user_id, user.phone_number);
+                    let token = jwt.genreateToken(user.user_id, user.phone_number, user.role_id);
                     payload = {
                         phone: user.phone_number,
                         name: user.name,
                         role: user.role_id,
                         token: `Bearer ${token}`
-                    }
+                    };
                 }
                 else {
                     // "Password incorrect"
-                    throw new Error(constants.PASSWORD_INCORRECT)
+                    throw new Error(constants.PASSWORD_INCORRECT);
                 }
             }
             else {
                 // "This phone number is not registered"
-                throw new Error(constants.NOT_REGISTERRED)
+                throw new Error(constants.NOT_REGISTERRED);
             }
         }).catch(err => {
-            throw new Error(err.message)
+            throw new Error(err.message);
         });
 
-    return payload
-}
+    return payload;
+};
+
+module.exports.getAllCustomer = () => {
+    return userRepository.getAllUser(constants.ROLE_CUSTOMER);
+};

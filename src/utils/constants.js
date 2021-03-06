@@ -1,4 +1,9 @@
 module.exports = Object.freeze({
+    
+    ROLE_ADMIN: 1,
+    ROLE_REPAIRER: 2,
+    ROLE_CUSTOMER: 3,
+    
     MESS_ERROR: 'Has error',
 
     STATUS_SUCCESS: 'success',
