@@ -1,10 +1,16 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/appConfig');
 
-module.exports.genreateToken = (id, phone) => {
-    return jwt.sign({ id, phone }, config.secretKey, { expiresIn: config.tokenExpire });
+module.exports.genreateToken = (id, phone, role_id) => {
+    return jwt.sign({ id, phone, role_id }, config.secretKey, { expiresIn: config.tokenExpire });
 }
 
 module.exports.verifyToken = (token) => {
-    return jwt.verify(token, config.secretKey);
+    let decoded;
+    try{
+        return decoded = jwt.verify(token, config.secretKey);
+    } catch (err) {
+        return null;
+    }
+    
 }

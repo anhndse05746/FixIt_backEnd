@@ -1,11 +1,10 @@
-const registerService = require('../services/register.service');
-const constants = require('../utils/constants');
+const repairerService = require('../services/repairer.service');
 const { successResponse, errorResponse } = require('../utils/responseModel');
+const constants = require('../utils/constants');
 
-module.exports.register = async (req, res, next) => {
+module.exports.getAllRepairerController = async (req, res, next) => {
     try {
-        let result = await registerService.regiseter(req.body.phone_number, req.body.password,
-            req.body.name, req.body.role_id, req.body.email);
+        let result = await repairerService.getAllRepairer();
         successResponse(
             res,
             constants.STATUS_SUCCESS,
@@ -18,4 +17,4 @@ module.exports.register = async (req, res, next) => {
             error.message
         );
     }
-};
+}
