@@ -1,4 +1,4 @@
-// const userRepository = require('../repositories/user.repository');
+const userRepository = require('../repositories/user.repository');
 const user = require('../models/user');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
@@ -39,6 +39,12 @@ module.exports.userAuthentication = async (phone, password) => {
 
     return payload;
 };
+
+module.exports.checkRegistedPhoneNumber = async (phone, role_id) => {
+    let checkResult = await userRepository.checkRegisted(phone, role_id);
+    if(!checkResult) return false;
+    else return true;
+}
 
 module.exports.getAllCustomer = () => {
     return userRepository.getAllUser(constants.ROLE_CUSTOMER);

@@ -26,6 +26,18 @@ users.getUserByID = (id) => {
     });
 };
 
+users.checkRegisted = async (phone, role_id) => {
+    let result = await User.findOne({
+        where: {
+            phone_number: phone,
+            role_id: role_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    })
+    return result;
+}
+
 users.getUsersByPhone = async (phone) => {
     let userData = await User.findOne({
         where: {

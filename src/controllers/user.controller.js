@@ -12,7 +12,7 @@ const { successResponse, errorResponse } = require('../utils/responseModel');
 module.exports.register = async (req, res, next) => {
     try {
         let result = await registerService.register(req.body.phone_number, req.body.password,
-            req.body.name, req.body.role_id, req.body.email);
+            req.body.name, constants.ROLE_CUSTOMER, req.body.email);
         successResponse(
             res,
             constants.STATUS_SUCCESS,
@@ -45,3 +45,19 @@ module.exports.getAllCustomerController = async (req, res, next) => {
     }
 }
 
+module.exports.checkRegisteredPhoneNumber = async (req, res) => {
+    try {
+        let result = await userService.checkRegistedPhoneNumber(req.body.phone_number, req.body.role_id);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            result
+        );
+    } catch (error) {
+        res.status(400);
+        errorResponse(
+            res,
+            error.message
+        );
+    }
+}
