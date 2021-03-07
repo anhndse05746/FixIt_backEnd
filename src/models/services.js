@@ -7,12 +7,14 @@ const Services = db.define('services', {
         primaryKey: true
     },
     name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
     },
     image: {
         type: Sequelize.STRING,
+       
     },
 }, {
+    // require: true,
     timestamps: true
 });
 

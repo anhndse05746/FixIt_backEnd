@@ -7,9 +7,7 @@ const Issues = db.define('issues', {
         type: Sequelize.INTEGER,
         primaryKey: true
     },
-    image: {
-        type: Sequelize.STRING,
-    },
+
     name: {
         type: Sequelize.STRING
     },
@@ -20,7 +18,6 @@ const Issues = db.define('issues', {
         type: Sequelize.DECIMAL
     }
 }, {
-
     timestamps: true
 });
 //service_id

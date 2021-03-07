@@ -1,6 +1,8 @@
 const userController = require('../controllers/user.controller');
 const majorController = require('../controllers/major.controller');
 const authController = require('../controllers/auth.controller');
+
+const requestController = require('../controllers/request.controller');
 const { checkAuthenticate } = require('../middlewares/auth');
 
 /**
@@ -17,5 +19,6 @@ module.exports.setupRouters = (app) => {
     app.post('/register', userController.register);
    // major service 
     app.get('/getMajor', majorController.getMajorDetail);
+    app.get('/getRequest', requestController.getRequestDetail);
 };
 
