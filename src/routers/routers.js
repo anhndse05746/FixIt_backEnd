@@ -33,6 +33,6 @@ module.exports.setupRouters = (app) => {
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
 
     // major service 
-    app.get('/getMajor', majorController.getMajorDetail);
+    app.get('/api/getMajor', majorController.getMajorDetail);
 };
 
