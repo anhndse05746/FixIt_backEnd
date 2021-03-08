@@ -12,7 +12,7 @@ const { successResponse, errorResponse } = require('../utils/responseModel');
 module.exports.register = async (req, res, next) => {
     try {
         let result = await registerService.register(req.body.phone_number, req.body.password,
-            req.body.name, constants.ROLE_CUSTOMER, req.body.email);
+            req.body.name, req.body.role_id, req.body.email);
         successResponse(
             res,
             constants.STATUS_SUCCESS,
@@ -47,7 +47,7 @@ module.exports.getAllCustomerController = async (req, res, next) => {
 
 module.exports.checkRegisteredPhoneNumber = async (req, res) => {
     try {
-        let result = await userService.checkRegistedPhoneNumber(req.body.phone_number, req.body.role_id);
+        let result = await userService.checkRegisteredPhoneNumber(req.body.phone_number, req.body.role_id);
         successResponse(
             res,
             constants.STATUS_SUCCESS,
@@ -64,7 +64,7 @@ module.exports.checkRegisteredPhoneNumber = async (req, res) => {
 
 module.exports.updateUser = async (req, res) => {
     try {
-        let result = await userService.updateUser(req.body.phone_number, req.body.role_id, req.body.name, 
+        let result = await userService.updateUser(req.body.phone_number, req.body.role_id, req.body.name,
             req.body.dob, req.body.email, req.body.image);
         successResponse(
             res,
@@ -99,7 +99,7 @@ module.exports.resetPassword = async (req, res) => {
 
 module.exports.changePassword = async (req, res) => {
     try {
-        let result = await userService.changePassword(req.body.phone_number, req.body.role_id, 
+        let result = await userService.changePassword(req.body.phone_number, req.body.role_id,
             req.body.old_password, req.body.new_password);
         successResponse(
             res,

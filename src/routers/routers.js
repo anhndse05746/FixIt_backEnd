@@ -24,7 +24,7 @@ module.exports.setupRouters = (app) => {
 
     //API for register
     app.post('/register', userController.register);
-    app.get('/checkRegisted', userController.checkRegisteredPhoneNumber);
+    app.post('/checkRegisted', userController.checkRegisteredPhoneNumber);
 
     //Admin APIs
     //API for get all customers

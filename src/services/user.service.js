@@ -3,11 +3,12 @@ const user = require('../models/user');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
 
-module.exports.userAuthentication = async (phone, password) => {
+module.exports.userAuthentication = async (phone, password, role_id) => {
     let payload;
     let userData = await user.findOne({
         where: {
-            phone_number: phone
+            phone_number: phone,
+            role_id: role_id
         }
     })
         .then(user => {
@@ -39,10 +40,10 @@ module.exports.userAuthentication = async (phone, password) => {
     return payload;
 };
 
-module.exports.checkRegistedPhoneNumber = async (phone, role_id) => {
+module.exports.checkRegisteredPhoneNumber = async (phone, role_id) => {
     let message;
-    let checkResult = await userRepository.checkRegisted(phone, role_id);
-    if(!checkResult) return message = 'Phone number is not registered';
+    let checkResult = await userRepository.checkRegistered(phone, role_id);
+    if (!checkResult) return message = 'Phone number is not registered';
     else return message = 'Phone number is registed';
 }
 
@@ -55,20 +56,20 @@ module.exports.updateUser = async (phone, role_id, name, dob, email, image) => {
     return result;
 };
 
- module.exports.resetPassword = async (phone, role_id, newPassword) => {
+module.exports.resetPassword = async (phone, role_id, newPassword) => {
     let result = await userRepository.resetPassword(phone, role_id, newPassword);
     return result;
- }
+}
 
- module.exports.changePassword = async (phone, role_id, oldPassword, newPassword) => {
+module.exports.changePassword = async (phone, role_id, oldPassword, newPassword) => {
     let message;
     let passwordInDB = await userRepository.getOldPassword(phone, role_id);
 
-    if(oldPassword === passwordInDB) {
+    if (oldPassword === passwordInDB) {
         let resultOfChangePassword = await userRepository.resetPassword(phone, role_id, newPassword);
         message = 'success';
-    } else if(oldPassword !== passwordInDB) {
+    } else if (oldPassword !== passwordInDB) {
         message = 'Incorrect password'
     }
     return message;
- }
+}

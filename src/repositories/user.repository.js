@@ -26,7 +26,7 @@ users.getUserByID = (id) => {
     });
 };
 
-users.checkRegisted = async (phone, role_id) => {
+users.checkRegistered = async (phone, role_id) => {
     let result = await User.findOne({
         where: {
             phone_number: phone,
@@ -58,15 +58,15 @@ users.getAllUser = async (role_id) => {
             ['id', 'ASC']
         ]
     }).then().catch(err => {
-            throw new Error(err.message);
-        });
+        throw new Error(err.message);
+    });
     return getAllCustomer;
 };
 
 
 users.updateUser = async (phone, role_id, name, dob, email, image) => {
-    let user = await users.checkRegisted(phone, role_id);
-    if(user) {
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) {
         User.update({
             name: name,
             dob: dob,
@@ -87,8 +87,8 @@ users.updateUser = async (phone, role_id, name, dob, email, image) => {
 }
 
 users.resetPassword = async (phone, role_id, newPassword) => {
-    let user = await users.checkRegisted(phone, role_id);
-    if(user) {
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) {
         User.update({
             password: newPassword
         }, {
@@ -106,8 +106,8 @@ users.resetPassword = async (phone, role_id, newPassword) => {
 }
 
 users.getOldPassword = async (phone, role_id) => {
-    let user = await users.checkRegisted(phone, role_id);
-    if(user) return user.password;
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) return user.password;
 }
 
 module.exports = users;
