@@ -17,6 +17,11 @@ module.exports.setupRouters = (app) => {
     //Verify Admin Middleware
     app.all('/api/admin/*', verifyRole.checkRole);
 
+    //API for update user
+    app.post('/api/updateUser', userController.updateUser);
+    app.post('/resetPassword', userController.resetPassword);
+    app.post('/api/changePassword', userController.changePassword);
+
     //API for register
     app.post('/register', userController.register);
     app.get('/checkRegisted', userController.checkRegisteredPhoneNumber);

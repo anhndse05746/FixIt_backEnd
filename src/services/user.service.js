@@ -2,7 +2,6 @@ const userRepository = require('../repositories/user.repository');
 const user = require('../models/user');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
-const { use } = require('passport');
 
 module.exports.userAuthentication = async (phone, password) => {
     let payload;
@@ -41,11 +40,35 @@ module.exports.userAuthentication = async (phone, password) => {
 };
 
 module.exports.checkRegistedPhoneNumber = async (phone, role_id) => {
+    let message;
     let checkResult = await userRepository.checkRegisted(phone, role_id);
-    if(!checkResult) return false;
-    else return true;
+    if(!checkResult) return message = 'Phone number is not registered';
+    else return message = 'Phone number is registed';
 }
 
-module.exports.getAllCustomer = () => {
-    return userRepository.getAllUser(constants.ROLE_CUSTOMER);
+module.exports.getAllCustomer = async () => {
+    return await userRepository.getAllUser(constants.ROLE_CUSTOMER);
 };
+
+module.exports.updateUser = async (phone, role_id, name, dob, email, image) => {
+    let result = await userRepository.updateUser(phone, role_id, name, dob, email, image);
+    return result;
+};
+
+ module.exports.resetPassword = async (phone, role_id, newPassword) => {
+    let result = await userRepository.resetPassword(phone, role_id, newPassword);
+    return result;
+ }
+
+ module.exports.changePassword = async (phone, role_id, oldPassword, newPassword) => {
+    let message;
+    let passwordInDB = await userRepository.getOldPassword(phone, role_id);
+
+    if(oldPassword === passwordInDB) {
+        let resultOfChangePassword = await userRepository.resetPassword(phone, role_id, newPassword);
+        message = 'success';
+    } else if(oldPassword !== passwordInDB) {
+        message = 'Incorrect password'
+    }
+    return message;
+ }

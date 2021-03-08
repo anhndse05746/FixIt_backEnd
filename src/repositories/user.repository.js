@@ -63,4 +63,51 @@ users.getAllUser = async (role_id) => {
     return getAllCustomer;
 };
 
+
+users.updateUser = async (phone, role_id, name, dob, email, image) => {
+    let user = await users.checkRegisted(phone, role_id);
+    if(user) {
+        User.update({
+            name: name,
+            dob: dob,
+            email: email,
+            image: image
+        }, {
+            where: {
+                phone_number: phone,
+                role_id: role_id
+            }
+        }).then().catch(err => {
+            throw new Error(err.message);
+        });
+        return true;
+    } else {
+        return false;
+    }
+}
+
+users.resetPassword = async (phone, role_id, newPassword) => {
+    let user = await users.checkRegisted(phone, role_id);
+    if(user) {
+        User.update({
+            password: newPassword
+        }, {
+            where: {
+                phone_number: phone,
+                role_id: role_id
+            }
+        }).then().catch(err => {
+            throw new Error(err.message);
+        });
+        return true;
+    } else {
+        return false;
+    }
+}
+
+users.getOldPassword = async (phone, role_id) => {
+    let user = await users.checkRegisted(phone, role_id);
+    if(user) return user.password;
+}
+
 module.exports = users;
