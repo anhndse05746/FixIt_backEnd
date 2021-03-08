@@ -26,6 +26,18 @@ users.getUserByID = (id) => {
     });
 };
 
+users.checkRegistered = async (phone, role_id) => {
+    let result = await User.findOne({
+        where: {
+            phone_number: phone,
+            role_id: role_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    })
+    return result;
+}
+
 users.getUsersByPhone = async (phone) => {
     let userData = await User.findOne({
         where: {
@@ -46,9 +58,56 @@ users.getAllUser = async (role_id) => {
             ['id', 'ASC']
         ]
     }).then().catch(err => {
-            throw new Error(err.message);
-        });
+        throw new Error(err.message);
+    });
     return getAllCustomer;
 };
+
+
+users.updateUser = async (phone, role_id, name, dob, email, image) => {
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) {
+        User.update({
+            name: name,
+            dob: dob,
+            email: email,
+            image: image
+        }, {
+            where: {
+                phone_number: phone,
+                role_id: role_id
+            }
+        }).then().catch(err => {
+            throw new Error(err.message);
+        });
+        return true;
+    } else {
+        return false;
+    }
+}
+
+users.resetPassword = async (phone, role_id, newPassword) => {
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) {
+        User.update({
+            password: newPassword
+        }, {
+            where: {
+                phone_number: phone,
+                role_id: role_id
+            }
+        }).then().catch(err => {
+            throw new Error(err.message);
+        });
+        return true;
+    } else {
+        return false;
+    }
+}
+
+users.getOldPassword = async (phone, role_id) => {
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) return user.password;
+}
 
 module.exports = users;

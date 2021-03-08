@@ -7,6 +7,7 @@ module.exports.register = async (phone_number, password, name, role_id, email) =
     let registerCheck = await user.findOne({
         where: {
             phone_number: phone_number,
+            role_id: role_id
         }
     }).then( async (user) => {
         if(!user) {
