@@ -30,3 +30,44 @@ module.exports.getMajorDetail = async () => {
     return major;
 }
 
+module.exports.getMajorById = async (id) => {
+    return await Major.findOne({
+        where: {
+            id: id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+module.exports.createMajor = async (image, name) => {
+    return await Major.create({
+        image: image,
+        name: name
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+module.exports.updateMajor = async (id, image, name) => {
+    return await Major.update({
+        image: image,
+        name: name
+    }, {
+        where: {
+            id: id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+module.exports.deleteMajor = async (id) => {
+    return await Major.destroy({
+        where: {
+            id: id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
