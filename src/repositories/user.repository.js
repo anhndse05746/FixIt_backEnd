@@ -67,12 +67,13 @@ users.getAllUser = async (role_id) => {
 users.updateUser = async (phone, role_id, name, dob, email, image) => {
     let user = await users.checkRegistered(phone, role_id);
     if (user) {
-        User.update({
+        const newUser = {
             name: name,
             dob: dob,
             email: email,
             image: image
-        }, {
+        }
+        User.update(newUser, {
             where: {
                 phone_number: phone,
                 role_id: role_id
@@ -80,7 +81,7 @@ users.updateUser = async (phone, role_id, name, dob, email, image) => {
         }).then().catch(err => {
             throw new Error(err.message);
         });
-        return true;
+        return newUser;
     } else {
         return false;
     }
