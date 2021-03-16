@@ -24,6 +24,7 @@ module.exports.setupRouters = (app) => {
 
     //API for register
     app.post('/register', userController.register);
+<<<<<<< Updated upstream
     app.post('/checkRegistered', userController.checkRegisteredPhoneNumber);
 
     //Admin APIs
@@ -34,5 +35,12 @@ module.exports.setupRouters = (app) => {
 
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
+=======
+   // major service 
+    app.get('/getMajor', majorController.getMajorDetail);
+    app.get('/getRequest', requestController.getRequestDetail);
+    
+    app.get('/createRequest', requestController.createRequest);
+>>>>>>> Stashed changes
 };
 
