@@ -34,5 +34,8 @@ module.exports.setupRouters = (app) => {
 
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
+
+    //test push message
+    app.get('/cm', userController.pushMessage);
 };
 

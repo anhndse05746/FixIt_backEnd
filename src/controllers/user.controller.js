@@ -1,6 +1,7 @@
 const constants = require('../utils/constants');
 const registerService = require('../services/register.service');
 const userService = require('../services/user.service');
+const notify = require('../services/pushNotify.service');
 const { successResponse, errorResponse } = require('../utils/responseModel');
 
 /**
@@ -101,6 +102,23 @@ module.exports.changePassword = async (req, res) => {
     try {
         let result = await userService.changePassword(req.body.phone_number, req.body.role_id,
             req.body.old_password, req.body.new_password);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            result
+        );
+    } catch (error) {
+        res.status(400);
+        errorResponse(
+            res,
+            error.message
+        );
+    }
+}
+
+module.exports.pushMessage = async (req, res) => {
+    try {
+        let result = await notify.send()
         successResponse(
             res,
             constants.STATUS_SUCCESS,
