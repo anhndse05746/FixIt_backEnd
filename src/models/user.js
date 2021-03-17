@@ -24,6 +24,9 @@ const User = db.define('user', {
     is_active: {
         type: Sequelize.INTEGER,
     },
+    device_token: {
+        type: Sequelize.INTEGER,
+    },
 }, {
     timestamps: false
 });

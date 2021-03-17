@@ -3,7 +3,7 @@ const user = require('../models/user');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
 
-module.exports.userAuthentication = async (phone, password, role_id) => {
+module.exports.userAuthentication = async (phone, password, role_id, device_token) => {
     let payload;
     let userData = await user.findOne({
         where: {
@@ -23,6 +23,10 @@ module.exports.userAuthentication = async (phone, password, role_id) => {
                         role: user.role_id,
                         token: `Bearer ${token}`
                     };
+                    if (user.device_token !== device_token) {
+                        //update user device token
+                        userRepository.updateDevice(phone, role_id, device_token)
+                    }
                 }
                 else {
                     // "Password incorrect"
