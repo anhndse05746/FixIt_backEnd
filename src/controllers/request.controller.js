@@ -47,3 +47,20 @@ module.exports.createRequest = async (req, res, next) => {
     );
   }
 }
+module.exports.getCreatedRequest = async (req, res, next) => {
+  try {
+    let customer_id = req.body.customer_id;
+    let payload = await requestService.getRequestDetail(customer_id);
+    successResponse(
+      res,
+      constants.STATUS_SUCCESS,
+      payload
+    )
+  } catch (error) {
+    errorResponse(
+      res,
+      error.message
+    )
+  }
+}
+

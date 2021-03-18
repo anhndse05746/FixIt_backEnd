@@ -3,9 +3,9 @@ const RequestRepo = require("../repositories/request.repository");
 
 
 
-module.exports.getRequestDetail = async () => {
+module.exports.getRequestDetail = async (customer_id) => {
 
-    let requestData = await RequestRepo.getRequestDetail();
+    let requestData = await RequestRepo.getRequestDetail(customer_id);
     //.then().catch(err => console.log(err))
     return requestData;
 }
