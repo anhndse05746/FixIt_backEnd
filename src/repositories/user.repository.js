@@ -67,12 +67,13 @@ users.getAllUser = async (role_id) => {
 users.updateUser = async (phone, role_id, name, dob, email, image) => {
     let user = await users.checkRegistered(phone, role_id);
     if (user) {
-        User.update({
+        const newUser = {
             name: name,
             dob: dob,
             email: email,
             image: image
-        }, {
+        }
+        await User.update(newUser, {
             where: {
                 phone_number: phone,
                 role_id: role_id
@@ -80,7 +81,7 @@ users.updateUser = async (phone, role_id, name, dob, email, image) => {
         }).then().catch(err => {
             throw new Error(err.message);
         });
-        return true;
+        return newUser;
     } else {
         return false;
     }
@@ -89,7 +90,7 @@ users.updateUser = async (phone, role_id, name, dob, email, image) => {
 users.resetPassword = async (phone, role_id, newPassword) => {
     let user = await users.checkRegistered(phone, role_id);
     if (user) {
-        User.update({
+        await User.update({
             password: newPassword
         }, {
             where: {
@@ -108,6 +109,19 @@ users.resetPassword = async (phone, role_id, newPassword) => {
 users.getOldPassword = async (phone, role_id) => {
     let user = await users.checkRegistered(phone, role_id);
     if (user) return user.password;
+}
+
+users.updateDevice = async (phone, role_id, device_token) => {
+    await User.update({
+        device_token: device_token
+    }, {
+        where: {
+            phone_number: phone,
+            role_id: role_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
 }
 
 module.exports = users;
