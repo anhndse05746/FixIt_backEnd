@@ -8,7 +8,7 @@ const ReparingRequest = db.define('repairing_request', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true 
+        autoIncrement: true
     },
     schedule_time: {
         type: Sequelize.DATE,
@@ -24,6 +24,12 @@ const ReparingRequest = db.define('repairing_request', {
     },
     address: {
         type: Sequelize.STRING
+    },
+    district: {
+        type: Sequelize.STRING
+    },
+    city: {
+        type: Sequelize.STRING
     }
 }, {
     freezeTableName: true,
@@ -32,8 +38,8 @@ const ReparingRequest = db.define('repairing_request', {
 //service_id
 
 
-User.hasMany(ReparingRequest, {as: 'Customer', foreignKey: "customer_id" });
-ReparingRequest.belongsTo(User, {as: 'Customer', foreignKey: "customer_id" });
+User.hasMany(ReparingRequest, { as: 'Customer', foreignKey: "customer_id" });
+ReparingRequest.belongsTo(User, { as: 'Customer', foreignKey: "customer_id" });
 
 User.hasMany(ReparingRequest, { as: 'Repairer', foreignKey: "repairer_id" });
 ReparingRequest.belongsTo(User, { as: 'Repairer', foreignKey: "repairer_id" });

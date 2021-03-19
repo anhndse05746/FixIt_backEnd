@@ -25,7 +25,6 @@ module.exports.getRequestDetail = async (req, res, next) => {
 module.exports.createRequest = async (req, res, next) => {
   try {
     let customer_id = req.body.customer_id;
-    let repairer_id = req.body.repairer_id;
     let service_id = req.body.service_id;
     let schedule_time = req.body.schedule_time;
     let estimate_time = req.body.estimate_time;
@@ -33,7 +32,9 @@ module.exports.createRequest = async (req, res, next) => {
     let description = req.body.description;
     let address = req.body.address;
     let issues_lists = req.body.issues_lists;
-    let result = await requestService.createRequest(customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, issues_lists);
+    let city = req.body.city;
+    let district = req.body.district;
+    let result = await requestService.createRequest(customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, issues_lists, city, district);
     successResponse(
       res,
       constants.STATUS_SUCCESS,
@@ -49,8 +50,8 @@ module.exports.createRequest = async (req, res, next) => {
 }
 module.exports.getCreatedRequest = async (req, res, next) => {
   try {
-    let customer_id = req.body.customer_id;
-    let payload = await requestService.getRequestDetail(customer_id);
+    let user_id = req.body.user_id;
+    let payload = await requestService.getRequestDetail(user_id);
     successResponse(
       res,
       constants.STATUS_SUCCESS,

@@ -39,11 +39,11 @@ module.exports.setupRouters = (app) => {
 
    // major service 
     app.get('/getMajor', majorController.getMajorDetail);
-    app.get('/getRequest', requestController.getRequestDetail);
+    //get all request
     
     app.get('/createRequest', requestController.createRequest);
     // user service
-    
+
     app.get('/getRequestByUID', requestController.getCreatedRequest);
 
 };

@@ -3,16 +3,16 @@ const RequestRepo = require("../repositories/request.repository");
 
 
 
-module.exports.getRequestDetail = async (customer_id) => {
+module.exports.getRequestDetail = async (user_id) => {
 
-    let requestData = await RequestRepo.getRequestDetail(customer_id);
+    let requestData = await RequestRepo.getRequestDetail(user_id);
     //.then().catch(err => console.log(err))
     return requestData;
 }
 
-module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, issues_lists) => {
+module.exports.createRequest = async (customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, issues_lists, city, district) => {
 
-    let requestData = await RequestRepo.createRequest(customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address);
+    let requestData = await RequestRepo.createRequest(customer_id, 1, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district);
     // lay ra request cuoi theo id nguoi dung
     let request = await RequestRepo.getLastRequestByUID(customer_id);
 

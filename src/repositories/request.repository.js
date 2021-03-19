@@ -9,16 +9,14 @@ const ReparingRequest = require('../models/repairing_request');
 const { Op } = require("sequelize");
 
 // lay ra data cua major (service, issues)
-module.exports.getRequestDetail = async (customer_id) => {
-    // console.log(customer_id);
+module.exports.getRequestDetail = async (user_id) => {
+
     const request = await ReparingRequest.findAll({
         include: [
             { model: Service, attributes: ['id', 'name'], },
             {
                 model: User, as: 'Customer', attributes: ['id', 'name'],
-                where: {
-                    id: customer_id
-                }
+
             },
             { model: User, as: 'Repairer', attributes: ['id', 'name'] },
             {
@@ -34,8 +32,10 @@ module.exports.getRequestDetail = async (customer_id) => {
                         attributes: ['id', 'name'],
                     }]
             }
-
         ],
+        where: {
+            [Op.or]: [{ customer_id: user_id }, { repairer_id: user_id }]
+        },
         order: [['updatedAt', 'DESC']],
     }
     ).then().catch(err => {
@@ -79,8 +79,8 @@ module.exports.insertStatusHistory = async (request_id, status_id) => {
 }
 
 
-module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address) => {
-   // console.log(estimate_time);
+module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {
+    // console.log(estimate_time);
     const request = await ReparingRequest.create(
         {
             customer_id: customer_id,
@@ -90,7 +90,9 @@ module.exports.createRequest = async (customer_id, repairer_id, service_id, sche
             estimate_time: estimate_time,
             estimate_price: estimate_price,
             description: description,
-            address: address
+            address: address,
+            city: city,
+            district: district
         }
 
     ).then().catch(err => {
