@@ -1,6 +1,7 @@
 const pool = require('../databases/dbConnection');
 const User = require('../models/user');
 const constants = require('../utils/constants');
+const User_Address = require('../models/user_address');
 
 let users = {};
 
@@ -118,6 +119,16 @@ users.updateDevice = async (phone, role_id, device_token) => {
         where: {
             phone_number: phone,
             role_id: role_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+users.getAddressList = async (id) => {
+    return await User_Address.findAll({
+        where: {
+            user_id: id
         }
     }).then().catch(err => {
         throw new Error(err.message);
