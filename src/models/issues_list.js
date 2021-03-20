@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../databases/dbConnection')
 const Issues = require('../models/issues')
-const Services = require('../models/services')
 const ReparingRequest = require('../models/repairing_request')
 
 const IssuesList = db.define('issues_list', {

@@ -3,6 +3,10 @@ const majorController = require('../controllers/major.controller');
 const authController = require('../controllers/auth.controller');
 const { checkAuthenticate } = require('../middlewares/auth');
 const repairerController = require('../controllers/repairer.controller');
+
+const invoiceController = require('../controllers/invoice.controller');
+
+const reviewController = require('../controllers/review.controller');
 const requestController = require('../controllers/request.controller');
 const verifyRole = require('../middlewares/verifyRole');
 
@@ -45,6 +49,12 @@ module.exports.setupRouters = (app) => {
     // user service
 
     app.get('/getRequestByUID', requestController.getCreatedRequest);
+
+    //create Invoice 
+    app.get('/api/createInvoice', invoiceController.createInvoice);
+    //review Engineer
+    app.get('/api/reviewEngineer', invoiceController.createInvoice);
+    
 
 };
 
