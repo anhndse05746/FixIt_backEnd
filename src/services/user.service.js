@@ -11,17 +11,19 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
             role_id: role_id
         }
     })
-        .then(user => {
+        .then(async user => {
             if (user) {
                 console.log('user');
                 if (user.password == password) {
-                    let token = jwt.genreateToken(user.user_id, user.phone_number, user.role_id);
+                    let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
+                    let address_list = await userRepository.getAddressList(user.id);
                     payload = {
                         phone: user.phone_number,
                         name: user.name,
                         email: user.email,
                         role: user.role_id,
-                        token: `Bearer ${token}`
+                        token: `Bearer ${token}`,
+                        address_list: address_list
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
