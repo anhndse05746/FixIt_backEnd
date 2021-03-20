@@ -18,6 +18,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = await userRepository.getAddressList(user.id);
                     payload = {
+                        id: user.id,
                         phone: user.phone_number,
                         name: user.name,
                         email: user.email,
