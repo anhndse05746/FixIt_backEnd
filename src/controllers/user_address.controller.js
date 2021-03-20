@@ -9,14 +9,25 @@ const user_addressService = require('../services/user_address.service');
 */
 module.exports.createAddress = async (req, res) => {
   try {
-    await user_addressService.createAddress(req.body.user_id, req.body.address,
+    let create = await user_addressService.createAddress(req.body.user_id, req.body.address,
       req.body.district, req.body.city);
-    let payload = await user_addressService.getAddressByUser(req.body.user_id)
-    successResponse(
-      res,
-      constants.STATUS_SUCCESS,
-      payload
-    )
+
+    if (create !== "New address is duplicated") {
+      let payload = await user_addressService.getAddressByUser(req.body.user_id)
+      successResponse(
+        res,
+        constants.STATUS_SUCCESS,
+        payload
+      )
+    }
+    else {
+      successResponse(
+        res,
+        constants.STATUS_SUCCESS,
+        create
+      )
+    }
+
   } catch (error) {
     errorResponse(
       res,
