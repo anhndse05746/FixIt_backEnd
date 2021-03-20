@@ -9,8 +9,9 @@ const user_addressService = require('../services/user_address.service');
 */
 module.exports.createAddress = async (req, res) => {
   try {
-    let payload = await user_addressService.createAddress(req.body.user_id, req.body.address, 
-        req.body.district, req.body.city);
+    await user_addressService.createAddress(req.body.user_id, req.body.address,
+      req.body.district, req.body.city);
+    let payload = await user_addressService.getAddressByUser(req.body.user_id)
     successResponse(
       res,
       constants.STATUS_SUCCESS,
