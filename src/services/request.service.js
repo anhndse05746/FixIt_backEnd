@@ -8,14 +8,14 @@ module.exports.getRequestDetail = async (user_id) => {
     return requestData;
 }
 
-module.exports.createRequest = async (customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, issues_lists, city, district) => {
+module.exports.createRequest = async (customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, request_issues, city, district) => {
 
     await RequestRepo.createRequest(customer_id, 1, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district);
     let request = await RequestRepo.getLastRequestByUID(customer_id);
-    for (let i = 0, l = issues_lists.length; i < l; i++) {
-        issues_lists[i].request_id = request.id;
+    for (let i = 0, l = request_issues.length; i < l; i++) {
+        request_issues[i].request_id = request.id;
     }
-    await RequestRepo.insertListIssues(issues_lists);
+    await RequestRepo.insertRequestIssues(request_issues);
     await RequestRepo.updateStatus(request.id, 1);
     let recentlyRequest = await RequestRepo.getLastRequestByUID(customer_id);
     return recentlyRequest;
