@@ -13,10 +13,16 @@ module.exports.getRequestDetail = async (user_id) => {
 
     const request = await ReparingRequest.findAll({
         include: [
-            { model: Service, attributes: ['id', 'name'], },
+            {
+                model: Service, attributes: ['id', 'name'],
+                include: [
+                    {
+                        model: Issues,
+                        attributes: ['id', 'name'],
+                    }]
+            },
             {
                 model: User, as: 'Customer', attributes: ['id', 'name'],
-
             },
             { model: User, as: 'Repairer', attributes: ['id', 'name'] },
             {
@@ -31,7 +37,8 @@ module.exports.getRequestDetail = async (user_id) => {
                         model: Issues,
                         attributes: ['id', 'name'],
                     }]
-            }
+            },
+
         ],
         where: {
             [Op.or]: [{ customer_id: user_id }, { repairer_id: user_id }]
@@ -46,7 +53,29 @@ module.exports.getRequestDetail = async (user_id) => {
 
 module.exports.getLastRequestByUID = async (id) => {
     const request = await ReparingRequest.findOne({
+        include: [
+            {
+                model: Service, attributes: ['id', 'name'],
+            },
+            {
+                model: User, as: 'Customer', attributes: ['id', 'name'],
+            },
+            { model: User, as: 'Repairer', attributes: ['id', 'name'] },
+            {
+                model: StatusHistory,
+                limit: 1,
+                order: [['updatedAt', 'DESC']],
+                include: [{ model: Status }]    
+            }, {
+                model: IssuesList,
+                include: [
+                    {
+                        model: Issues,
+                        attributes: ['id', 'name'],
+                    }]
+            },
 
+        ],
         where: {
             [Op.or]: [{ customer_id: id }, { repairer_id: id }]
         },
@@ -65,7 +94,7 @@ module.exports.insertListIssues = async (issues_list) => {
     });
     return request;
 }
-module.exports.insertStatusHistory = async (request_id, status_id) => {
+module.exports.updateStatus = async (request_id, status_id) => {
 
     const request = await StatusHistory.create(
         {

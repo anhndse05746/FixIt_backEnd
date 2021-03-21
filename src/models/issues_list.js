@@ -1,10 +1,9 @@
 const Sequelize = require('sequelize')
 const db = require('../databases/dbConnection')
 const Issues = require('../models/issues')
-const Services = require('../models/services')
 const ReparingRequest = require('../models/repairing_request')
 
-const IssuesList = db.define('issues_list', {
+const RequestIssue = db.define('request_issues', {
 
     request_id: {
         type: Sequelize.INTEGER,
@@ -16,14 +15,13 @@ const IssuesList = db.define('issues_list', {
     },
 }, {
     freezeTableName: true,
-    timestamps: false
+    timestamps: true
 });
 
-ReparingRequest.hasMany(IssuesList, {foreignKey: "request_id"});
-IssuesList.belongsTo(ReparingRequest, { foreignKey: 'request_id' });
+ReparingRequest.hasMany(RequestIssue, {foreignKey: "request_id"});
+RequestIssue.belongsTo(ReparingRequest, { foreignKey: 'request_id' });
 
-Issues.hasMany(IssuesList, {foreignKey: "issues_id"});
-IssuesList.belongsTo(Issues, {foreignKey: "issues_id"});
+Issues.hasMany(RequestIssue, {foreignKey: "issues_id"});
+RequestIssue.belongsTo(Issues, {foreignKey: "issues_id"});
 
-
-module.exports = IssuesList 
+module.exports = RequestIssue
