@@ -28,7 +28,7 @@ module.exports.deleteMajor = async (id) => {
     if(countService != 0) {
         return constants.FK_ERROR;
     } else {
-        result = await MajorRepo.deleteMajor(id);
+        result = await MajorRepo.deleteMajor(id).then().catch();
     }
     return result;
 }

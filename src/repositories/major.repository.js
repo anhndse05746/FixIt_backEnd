@@ -44,7 +44,9 @@ module.exports.createMajor = async (image, name) => {
     return await Major.create({
         image: image,
         name: name
-    }).then().catch(err => {
+    }).then(major => {
+        console.log(major);
+    }).catch(err => {
         throw new Error(err.message);
     });
 }
