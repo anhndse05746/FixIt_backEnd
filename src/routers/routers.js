@@ -5,6 +5,7 @@ const { checkAuthenticate } = require('../middlewares/auth');
 const repairerController = require('../controllers/repairer.controller');
 const requestController = require('../controllers/request.controller');
 const verifyRole = require('../middlewares/verifyRole');
+const user_addressController = require('../controllers/user_address.controller');
 
 /**
 * @param {import('express').Application} app
@@ -33,18 +34,15 @@ module.exports.setupRouters = (app) => {
     app.get('/api/admin/getAllCus', userController.getAllCustomerController);
     //API for get all repairers
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
-
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
-
-   // major service 
-    app.get('/getMajor', majorController.getMajorDetail);
     //get all request
     
     app.get('/createRequest', requestController.createRequest);
     // user service
 
     app.get('/getRequestByUID', requestController.getCreatedRequest);
-
+    //API for address
+    app.post('/api/createAddress', user_addressController.createAddress);
 };
 
