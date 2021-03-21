@@ -101,4 +101,14 @@ module.exports.createRequest = async (customer_id, repairer_id, service_id, sche
     return request;
 }
 
-
+module.exports.updateRequestForTakingRequest = async (id, repairer_id) => {
+    return await ReparingRequest.update({
+        repairer_id: repairer_id,
+    }, {
+        where: {
+            id: id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}

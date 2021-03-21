@@ -46,5 +46,7 @@ module.exports.setupRouters = (app) => {
 
     app.get('/getRequestByUID', requestController.getCreatedRequest);
 
+
+    app.post('/api/takeRequest', requestController.takeRequest);
 };
 
