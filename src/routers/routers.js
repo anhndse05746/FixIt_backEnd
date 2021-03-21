@@ -4,6 +4,7 @@ const authController = require('../controllers/auth.controller');
 const { checkAuthenticate } = require('../middlewares/auth');
 const repairerController = require('../controllers/repairer.controller');
 const verifyRole = require('../middlewares/verifyRole');
+const user_addressController = require('../controllers/user_address.controller');
 
 /**
 * @param {import('express').Application} app
@@ -37,5 +38,7 @@ module.exports.setupRouters = (app) => {
 
     //test push message
     app.get('/cm', userController.pushMessage);
+    //API for address
+    app.post('/api/createAddress', user_addressController.createAddress);
 };
 

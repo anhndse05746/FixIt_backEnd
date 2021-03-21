@@ -12,10 +12,19 @@ const Repairer = db.define('repairer', {
     },
     identity_card_number: {
         type: Sequelize.STRING
-    }
+    }, 
+    is_verify: {
+        type: Sequelize.INTEGER
+    },
+    district: {
+        type: Sequelize.STRING
+    }, 
+    city: {
+        type: Sequelize.STRING
+    }, 
 }, {
     // freezeTableName: true,
-    timestamps: false
+    timestamps: true
 });
 
 User.hasOne(Repairer, {foreignKey: 'id'});
