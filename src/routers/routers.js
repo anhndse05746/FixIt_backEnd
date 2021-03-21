@@ -6,6 +6,7 @@ const repairerController = require('../controllers/repairer.controller');
 const issueController = require('../controllers/issue.controller');
 const serviceController = require('../controllers/service.controller');
 const verifyRole = require('../middlewares/verifyRole');
+const user_addressController = require('../controllers/user_address.controller');
 
 /**
 * @param {import('express').Application} app
@@ -26,7 +27,7 @@ module.exports.setupRouters = (app) => {
 
     //API for register
     app.post('/register', userController.register);
-    app.get('/checkRegisted', userController.checkRegisteredPhoneNumber);
+    app.post('/checkRegistered', userController.checkRegisteredPhoneNumber);
 
     //Admin APIs
     //API for get all customers
@@ -50,5 +51,10 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/updateService', serviceController.updateService);
     app.post('/api/admin/deleteService', serviceController.deleteService);
 
+    // major service 
+    app.get('/api/getMajor', majorController.getMajorDetail);
+
+    //API for address
+    app.post('/api/createAddress', user_addressController.createAddress);
 };
 

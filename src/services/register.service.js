@@ -1,8 +1,10 @@
 const user = require('../models/user');
 const userRegister = require('../models/user');
 const constants = require('../utils/constants');
+const Repairer = require('../models/repairer');
 
-module.exports.register = async (phone_number, password, name, role_id, email) => {
+module.exports.register = async (phone_number, password, name, role_id, email, identity_card,
+    major_id, district, city) => {
     
     let registerCheck = await user.findOne({
         where: {
@@ -18,10 +20,29 @@ module.exports.register = async (phone_number, password, name, role_id, email) =
                 role_id: role_id,
                 email: email,
                 is_active: true
-            }).then()
-            .catch(err => {
-                throw new Error(constants.MESS_ERROR);
+            }).then().catch(err => {
+                throw new Error(err.message);
             });
+            if(role_id == 2) {
+                let registeredUser = await userRegister.findOne({
+                    where: {
+                        phone_number: phone_number,
+                        role_id: role_id
+                    }
+                }).then().catch(err => {
+                    throw new Error(err.message);
+                });
+                let registerRepairer = await Repairer.create({
+                    id: registeredUser.id,
+                    major_id: major_id,
+                    identity_card_number: identity_card,
+                    is_verify: 0, 
+                    district: district,
+                    city: city
+                }).then().catch(err => {
+                    throw new Error(err.message);
+                });
+            }
         } else {
             throw new Error(constants.REGISTERED_PHONENUMBER);
         }

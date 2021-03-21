@@ -9,7 +9,7 @@ const { successResponse, errorResponse } = require('../utils/responseModel')
 */
 module.exports.login = async (req, res, next) => {
     try {
-        let payload = await userService.userAuthentication(req.body.phoneNumber, req.body.password);
+        let payload = await userService.userAuthentication(req.body.phone_number, req.body.password, req.body.role_id, req.body.device_token);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

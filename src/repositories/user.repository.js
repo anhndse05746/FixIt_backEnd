@@ -1,6 +1,7 @@
 const pool = require('../databases/dbConnection');
 const User = require('../models/user');
 const constants = require('../utils/constants');
+const User_Address = require('../models/user_address');
 
 let users = {};
 
@@ -26,7 +27,7 @@ users.getUserByID = (id) => {
     });
 };
 
-users.checkRegisted = async (phone, role_id) => {
+users.checkRegistered = async (phone, role_id) => {
     let result = await User.findOne({
         where: {
             phone_number: phone,
@@ -58,21 +59,22 @@ users.getAllUser = async (role_id) => {
             ['id', 'ASC']
         ]
     }).then().catch(err => {
-            throw new Error(err.message);
-        });
+        throw new Error(err.message);
+    });
     return getAllCustomer;
 };
 
 
 users.updateUser = async (phone, role_id, name, dob, email, image) => {
-    let user = await users.checkRegisted(phone, role_id);
-    if(user) {
-        User.update({
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) {
+        const newUser = {
             name: name,
             dob: dob,
             email: email,
             image: image
-        }, {
+        }
+        await User.update(newUser, {
             where: {
                 phone_number: phone,
                 role_id: role_id
@@ -80,16 +82,16 @@ users.updateUser = async (phone, role_id, name, dob, email, image) => {
         }).then().catch(err => {
             throw new Error(err.message);
         });
-        return true;
+        return newUser;
     } else {
         return false;
     }
 }
 
 users.resetPassword = async (phone, role_id, newPassword) => {
-    let user = await users.checkRegisted(phone, role_id);
-    if(user) {
-        User.update({
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) {
+        await User.update({
             password: newPassword
         }, {
             where: {
@@ -106,8 +108,31 @@ users.resetPassword = async (phone, role_id, newPassword) => {
 }
 
 users.getOldPassword = async (phone, role_id) => {
-    let user = await users.checkRegisted(phone, role_id);
-    if(user) return user.password;
+    let user = await users.checkRegistered(phone, role_id);
+    if (user) return user.password;
+}
+
+users.updateDevice = async (phone, role_id, device_token) => {
+    await User.update({
+        device_token: device_token
+    }, {
+        where: {
+            phone_number: phone,
+            role_id: role_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+users.getAddressList = async (id) => {
+    return await User_Address.findAll({
+        where: {
+            user_id: id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
 }
 
 module.exports = users;
