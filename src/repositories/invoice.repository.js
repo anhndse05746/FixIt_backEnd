@@ -11,6 +11,6 @@ module.exports.createInvoice = async (request_id, payment_method_id, status, cos
     ).then().catch(err => {
         console.log(err)
     });
-    return major;
+    return invoice;
 }
 

@@ -1,5 +1,6 @@
 const RequestRepo = require("../repositories/request.repository");
-// const IssuseRepo = require("../repositories/.repository")
+const StatusHistoryRepo = require("../repositories/status_history.repository")
+const IssuesListRepo  = require("../repositories/issues_list.repository")
 
 
 
@@ -20,7 +21,7 @@ module.exports.createRequest = async (customer_id, service_id, schedule_time, es
         issues_lists[i].request_id = request.id;
 
     }
-    await RequestRepo.insertListIssues(issues_lists);
-    await RequestRepo.insertStatusHistory( request.id, 1);
+    await IssuesListRepo.insertListIssues(issues_lists);
+    await StatusHistoryRepo.updateStatus(request.id, 1);
     return requestData;
 }

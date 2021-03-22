@@ -56,27 +56,6 @@ module.exports.getLastRequestByUID = async (id) => {
     });
     return request;
 }
-module.exports.insertListIssues = async (issues_list) => {
-
-    const request = await IssuesList.bulkCreate(
-        issues_list
-    ).then().catch(err => {
-        console.log(err)
-    });
-    return request;
-}
-module.exports.insertStatusHistory = async (request_id, status_id) => {
-
-    const request = await StatusHistory.create(
-        {
-            request_id: request_id,
-            status_id: status_id,
-        }
-    ).then().catch(err => {
-        console.log(err)
-    });
-    return request;
-}
 
 
 module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {

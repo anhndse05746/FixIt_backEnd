@@ -14,8 +14,8 @@ module.exports.createInvoice = async (req, res, next) => {
     let status = req.body.status;
     let cost_incurred = req.body.cost_incurred;
     let total_price = req.body.total_price;
-
-    let payload = await invoiceService.insertInvoiceDetail(request_id, payment_method_id, status, cost_incurred, total_price);
+    let request_issues = req.body.request_issues;
+    let payload = await invoiceService.insertInvoiceDetail(request_id, payment_method_id, status, cost_incurred, total_price, request_issues);
     successResponse(
       res,
       constants.STATUS_SUCCESS,
