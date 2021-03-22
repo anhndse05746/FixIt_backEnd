@@ -18,6 +18,7 @@ module.exports.setupRouters = (app) => {
     app.all('/api/*', checkAuthenticate);
     //Verify Admin Middleware
     app.all('/api/admin/*', verifyRole.checkRole);
+    app.all('/api/repairer/*', verifyRole.checkRoleRepairer);
 
     //API for update user
     app.post('/api/updateUser', userController.updateUser);
@@ -38,7 +39,12 @@ module.exports.setupRouters = (app) => {
     app.get('/api/getMajor', majorController.getMajorDetail);
     //get all request
     
-    app.get('/createRequest', requestController.createRequest);
+    app.get('/api/createRequest', requestController.createRequest);
+    //API for take request
+    app.post('/api/repairer/takeRequest', requestController.takeRequest)
+    //API for cancel request
+    app.post('/api/cancelRequest', requestController.cancelRequest);
+
     // user service
 
     app.get('/getRequestByUID', requestController.getCreatedRequest);
