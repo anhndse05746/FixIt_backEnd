@@ -17,3 +17,8 @@ module.exports.getAddressByUser = async (user_id) => {
     let address_list = await user_addressRepo.getAddressByUserID(user_id).then().catch(err => { throw new Error(err.message); });
     return address_list;
 }
+
+module.exports.getLastestAddressByUser = async (user_id) => {
+    let address_list = await user_addressRepo.getLastestAddressByUserID(user_id).then().catch(err => { throw new Error(err.message); });
+    return address_list;
+}
