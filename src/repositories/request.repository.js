@@ -2,9 +2,9 @@
 const Service = require('../models/services');
 const Issues = require('../models/issues');
 const User = require('../models/user');
-const StatusHistory = require('../models/status_history');
+const StatusHistory = require('../models/request_status');
 const Status = require('../models/status');
-const IssuesList = require('../models/issues_list');
+const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
 const { Op } = require("sequelize");
 
@@ -13,10 +13,16 @@ module.exports.getRequestDetail = async (user_id) => {
 
     const request = await ReparingRequest.findAll({
         include: [
-            { model: Service, attributes: ['id', 'name'], },
+            {
+                model: Service, attributes: ['id', 'name'],
+                include: [
+                    {
+                        model: Issues,
+                        attributes: ['id', 'name'],
+                    }]
+            },
             {
                 model: User, as: 'Customer', attributes: ['id', 'name'],
-
             },
             { model: User, as: 'Repairer', attributes: ['id', 'name'] },
             {
@@ -25,13 +31,16 @@ module.exports.getRequestDetail = async (user_id) => {
                 order: [['updatedAt', 'DESC']],
                 include: [{ model: Status }]
             }, {
-                model: IssuesList,
+                model: RequestIssue,
                 include: [
                     {
                         model: Issues,
-                        attributes: ['id', 'name'],
-                    }]
-            }
+                        attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    },
+                ],
+
+            },
+
         ],
         where: {
             [Op.or]: [{ customer_id: user_id }, { repairer_id: user_id }]
@@ -46,7 +55,29 @@ module.exports.getRequestDetail = async (user_id) => {
 
 module.exports.getLastRequestByUID = async (id) => {
     const request = await ReparingRequest.findOne({
+        include: [
+            {
+                model: Service, attributes: ['id', 'name'],
+            },
+            {
+                model: User, as: 'Customer', attributes: ['id', 'name'],
+            },
+            { model: User, as: 'Repairer', attributes: ['id', 'name'] },
+            {
+                model: StatusHistory,
+                limit: 1,
+                order: [['updatedAt', 'DESC']],
+                include: [{ model: Status }]
+            }, {
+                model: RequestIssue,
+                include: [
+                    {
+                        model: Issues,
+                        attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    }]
+            },
 
+        ],
         where: {
             [Op.or]: [{ customer_id: id }, { repairer_id: id }]
         },
@@ -56,6 +87,7 @@ module.exports.getLastRequestByUID = async (id) => {
     });
     return request;
 }
+
 
 
 module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {

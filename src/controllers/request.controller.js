@@ -31,10 +31,10 @@ module.exports.createRequest = async (req, res, next) => {
     let estimate_price = req.body.estimate_price;
     let description = req.body.description;
     let address = req.body.address;
-    let issues_lists = req.body.issues_lists;
+    let request_issues = req.body.request_issues;
     let city = req.body.city;
     let district = req.body.district;
-    let result = await requestService.createRequest(customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, issues_lists, city, district);
+    let result = await requestService.createRequest(customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, request_issues, city, district);
     successResponse(
       res,
       constants.STATUS_SUCCESS,

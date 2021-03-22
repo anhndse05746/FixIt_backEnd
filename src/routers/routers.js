@@ -9,6 +9,7 @@ const invoiceController = require('../controllers/invoice.controller');
 const reviewController = require('../controllers/review.controller');
 const requestController = require('../controllers/request.controller');
 const verifyRole = require('../middlewares/verifyRole');
+const user_addressController = require('../controllers/user_address.controller');
 
 /**
 * @param {import('express').Application} app
@@ -37,12 +38,8 @@ module.exports.setupRouters = (app) => {
     app.get('/api/admin/getAllCus', userController.getAllCustomerController);
     //API for get all repairers
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
-
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
-
-   // major service 
-    app.get('/getMajor', majorController.getMajorDetail);
     //get all request
     
     app.get('/createRequest', requestController.createRequest);
@@ -51,10 +48,12 @@ module.exports.setupRouters = (app) => {
     app.get('/getRequestByUID', requestController.getCreatedRequest);
 
     //create Invoice 
-    app.get('/api/createInvoice', invoiceController.createInvoice);
+    app.get('/createInvoice', invoiceController.createInvoice);
     //review Engineer
     // app.get('/api/reviewEngineer', invoiceController.createInvoice);
     
 
+    //API for address
+    app.post('/api/createAddress', user_addressController.createAddress);
 };
 
