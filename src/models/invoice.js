@@ -3,7 +3,10 @@ const db = require('../databases/dbConnection');
 const ReparingRequest = require('../models/repairing_request');
 
 const Invoice = db.define('invoice', {
-
+    request_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true
+    },
     payment_method_id: {
         type: Sequelize.INTEGER,
     },

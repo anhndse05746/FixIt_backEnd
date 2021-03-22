@@ -10,7 +10,7 @@ const { successResponse, errorResponse } = require('../utils/responseModel')
 module.exports.createInvoice = async (req, res, next) => {
   try {
     let request_id = req.body.request_id;
-    let payment_method_id = req.body.request_id;
+    let payment_method_id = req.body.payment_method_id;
     let status = req.body.status;
     let cost_incurred = req.body.cost_incurred;
     let total_price = req.body.total_price;
