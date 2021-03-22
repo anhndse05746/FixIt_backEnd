@@ -2,9 +2,9 @@
 const Service = require('../models/services');
 const Issues = require('../models/issues');
 const User = require('../models/user');
-const StatusHistory = require('../models/status_history');
+const StatusHistory = require('../models/request_status');
 const Status = require('../models/status');
-const IssuesList = require('../models/issues_list');
+const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
 const { Op } = require("sequelize");
 
@@ -31,7 +31,7 @@ module.exports.getRequestDetail = async (user_id) => {
                 order: [['updatedAt', 'DESC']],
                 include: [{ model: Status }]
             }, {
-                model: IssuesList,
+                model: RequestIssue,
                 include: [
                     {
                         model: Issues,
@@ -67,7 +67,7 @@ module.exports.getLastRequestByUID = async (id) => {
                 order: [['updatedAt', 'DESC']],
                 include: [{ model: Status }]    
             }, {
-                model: IssuesList,
+                model: RequestIssue,
                 include: [
                     {
                         model: Issues,
@@ -85,10 +85,10 @@ module.exports.getLastRequestByUID = async (id) => {
     });
     return request;
 }
-module.exports.insertListIssues = async (issues_list) => {
+module.exports.insertRequestIssues = async (request_issues) => {
 
-    const request = await IssuesList.bulkCreate(
-        issues_list
+    const request = await RequestIssue.bulkCreate(
+        request_issues
     ).then().catch(err => {
         console.log(err)
     });

@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const db = require('../databases/dbConnection')
 // const User = require('../models/user')
-const ReparingRequest = require('../models/repairing_request')
-const Status = require('../models/status')
+const ReparingRequest = require('./repairing_request')
+const Status = require('./status')
 
 const RequestStatus = db.define('request_status', {
     request_id: {
