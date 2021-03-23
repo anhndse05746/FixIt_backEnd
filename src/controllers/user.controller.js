@@ -119,7 +119,8 @@ module.exports.changePassword = async (req, res) => {
 
 module.exports.pushMessage = async (req, res) => {
     try {
-        let result = await notify.send()
+        let sendNotify = await notify.send()
+        let result = await notify.getRepairerDeviceTokenByCity('Ha Noi')
         successResponse(
             res,
             constants.STATUS_SUCCESS,
