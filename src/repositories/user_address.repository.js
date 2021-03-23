@@ -7,7 +7,7 @@ user_address.createAddress = async (user_id, address, district, city) => {
     return await User_Address.create({
         user_id: user_id,
         address: address,
-        district: district, 
+        district: district,
         city: city
     }).then().catch(err => {
         throw new Error(err.message);
@@ -23,5 +23,18 @@ user_address.getAddressByUserID = async (user_id) => {
         throw new Error(err.message);
     });
 }
+
+user_address.getLastestAddressByUserID = async (user_id) => {
+    return await User_Address.findOne({
+        where: {
+            user_id: user_id
+        },
+        order: [['createdAt', 'DESC']]
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+
 
 module.exports = user_address;
