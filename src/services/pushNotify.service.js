@@ -14,7 +14,7 @@ module.exports.send = async (tokens, title, body, screen, requestId) => {
         },
         data: {
             screen: 'RequestDetailView',
-            requestId: 1
+            requestId: '1'
         }
     });
 }
