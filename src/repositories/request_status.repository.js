@@ -13,4 +13,13 @@ requestStatus.getRequestStatus = async (request_id) => {
     })
 }
 
+requestStatus.updateStatus = async (request_id, status_id) => {
+    return await RequestStatus.create({
+        request_id: request_id,
+        status_id: status_id
+    }).then().catch(err => {
+        throw new Error(err.message);
+    })
+}
+
 module.exports = requestStatus;

@@ -1,11 +1,11 @@
 const RequestRepo = require("../repositories/request.repository");
 const constants = require('../utils/constants');
-const requestStatusRepo = require('../repositories/request_status.repository');
-// const IssuseRepo = require("../repositories/.repository")
+const RequestStatusRepo = require("../repositories/request_status.repository")
+const RequestIssuesRepo = require("../repositories/request_issues.repository")
 
-module.exports.getRequestDetail = async (user_id) => {
+module.exports.getRequestDetail = async (request_id) => {
 
-    let requestData = await RequestRepo.getRequestDetail(user_id);
+    let requestData = await RequestRepo.getRequestDetail(request_id);
     //.then().catch(err => console.log(err))
     return requestData;
 }
@@ -25,7 +25,7 @@ module.exports.createRequest = async (customer_id, service_id, schedule_time, es
 
 module.exports.takeRequest = async (request_id, repairer_id) => {
     let request = await RequestRepo.getRequestByID(request_id);
-    let status = await requestStatusRepo.getRequestStatus(request_id);
+    let status = await RequestStatusRepo.getRequestStatus(request_id);
 
     if (status.status_id == constants.STATUS_REQUEST_FINDING) {
         await RequestRepo.updateRequest(request_id, repairer_id);
@@ -39,7 +39,7 @@ module.exports.takeRequest = async (request_id, repairer_id) => {
 }
 
 module.exports.cancelRequest = async (request_id, cancel_by, cancel_reason) => {
-    let status = await requestStatusRepo.getRequestStatus(request_id);
+    let status = await RequestStatusRepo.getRequestStatus(request_id);
     if (status.status_id == constants.STATUS_REQUEST_FINDING || status.status_id == constants.STATUS_REQUEST_FIXING ||
         status.status_id == constants.STATUS_REQUEST_HASTAKEN) {
         await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_CANCELLED, cancel_by, cancel_reason);

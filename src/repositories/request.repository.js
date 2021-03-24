@@ -7,58 +7,58 @@ const StatusHistory = require('../models/request_status');
 const Status = require('../models/status');
 const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
+const { Op } = require("sequelize");
+const Invoice = require('../models/invoice');
 const pool = require('../databases/dbConnection');
 const constants = require('../utils/constants');
-const {
-    Op
-} = require("sequelize");
-
 // lay ra data cua major (service, issues)
-module.exports.getRequestDetail = async (user_id) => {
+module.exports.getRequestDetail = async (request_id) => {
 
     const request = await ReparingRequest.findAll({
         include: [{
-                model: Service,
+            model: Service,
+            attributes: ['id', 'name'],
+            include: [{
+                model: Issues,
                 attributes: ['id', 'name'],
-                include: [{
+            }]
+        },
+        {
+            model: User,
+            as: 'Customer',
+            attributes: ['id', 'name'],
+        },
+        {
+            model: User,
+            as: 'Repairer',
+            attributes: ['id', 'name']
+        },
+        {
+            model: StatusHistory,
+            limit: 1,
+            order: [
+                ['updatedAt', 'DESC']
+            ],
+            include: [{
+                model: Status
+            }]
+        }, {
+            model: RequestIssue,
+            include: [
+                {
                     model: Issues,
-                    attributes: ['id', 'name'],
-                }]
-            },
-            {
-                model: User,
-                as: 'Customer',
-                attributes: ['id', 'name'],
-            },
-            {
-                model: User,
-                as: 'Repairer',
-                attributes: ['id', 'name']
-            },
-            {
-                model: StatusHistory,
-                limit: 1,
-                order: [
-                    ['updatedAt', 'DESC']
-                ],
-                include: [{
-                    model: Status
-                }]
-            }, {
-                model: RequestIssue,
-                include: [{
-                    model: Issues,
-                    attributes: ['id', 'name'],
-                }]
-            },
+                    attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                },
+            ],
+
+        },
+        {
+            model: Invoice,
+        },
 
         ],
         where: {
-            [Op.or]: [{
-                customer_id: user_id
-            }, {
-                repairer_id: user_id
-            }]
+            id: request_id
         },
         order: [
             ['updatedAt', 'DESC']
@@ -72,35 +72,32 @@ module.exports.getRequestDetail = async (user_id) => {
 module.exports.getLastRequestByUID = async (id) => {
     const request = await ReparingRequest.findOne({
         include: [{
-                model: Service,
-                attributes: ['id', 'name'],
-            },
-            {
-                model: User,
-                as: 'Customer',
-                attributes: ['id', 'name'],
-            },
-            {
-                model: User,
-                as: 'Repairer',
-                attributes: ['id', 'name']
-            },
-            {
-                model: StatusHistory,
-                limit: 1,
-                order: [
-                    ['updatedAt', 'DESC']
-                ],
-                include: [{
-                    model: Status
-                }]
-            }, {
-                model: RequestIssue,
-                include: [{
+            model: Service,
+            attributes: ['id', 'name'],
+        },
+        {
+            model: User,
+            as: 'Customer',
+            attributes: ['id', 'name'],
+        },
+        {
+            model: User,
+            as: 'Repairer',
+            attributes: ['id', 'name']
+        },
+        {
+            model: StatusHistory,
+            limit: 1,
+            order: [['updatedAt', 'DESC']],
+            include: [{ model: Status }]
+        }, {
+            model: RequestIssue,
+            include: [
+                {
                     model: Issues,
-                    attributes: ['id', 'name'],
+                    attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
                 }]
-            },
+        },
 
         ],
         where: {
@@ -145,17 +142,17 @@ module.exports.updateStatus = async (request_id, status_id, cancel_by, cancel_re
 module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {
 
     const request = await ReparingRequest.create({
-            customer_id: customer_id,
-            repairer_id: repairer_id,
-            service_id: service_id,
-            schedule_time: schedule_time,
-            estimate_time: estimate_time,
-            estimate_price: estimate_price,
-            description: description,
-            address: address,
-            city: city,
-            district: district
-        }
+        customer_id: customer_id,
+        repairer_id: repairer_id,
+        service_id: service_id,
+        schedule_time: schedule_time,
+        estimate_time: estimate_time,
+        estimate_price: estimate_price,
+        description: description,
+        address: address,
+        city: city,
+        district: district
+    }
 
     ).then().catch(err => {
         console.log(err)
@@ -178,35 +175,35 @@ module.exports.updateRequest = async (request_id, repairer_id) => {
 module.exports.getRequestByID = async (request_id) => {
     const request = await ReparingRequest.findOne({
         include: [{
-                model: Service,
+            model: Service,
+            attributes: ['id', 'name'],
+        },
+        {
+            model: User,
+            as: 'Customer',
+            attributes: ['id', 'name', 'phone_number'],
+        },
+        {
+            model: User,
+            as: 'Repairer',
+            attributes: ['id', 'name', 'phone_number']
+        },
+        {
+            model: StatusHistory,
+            limit: 1,
+            order: [
+                ['updatedAt', 'DESC']
+            ],
+            include: [{
+                model: Status
+            }]
+        }, {
+            model: RequestIssue,
+            include: [{
+                model: Issues,
                 attributes: ['id', 'name'],
-            },
-            {
-                model: User,
-                as: 'Customer',
-                attributes: ['id', 'name', 'phone_number'],
-            },
-            {
-                model: User,
-                as: 'Repairer',
-                attributes: ['id', 'name', 'phone_number']
-            },
-            {
-                model: StatusHistory,
-                limit: 1,
-                order: [
-                    ['updatedAt', 'DESC']
-                ],
-                include: [{
-                    model: Status
-                }]
-            }, {
-                model: RequestIssue,
-                include: [{
-                    model: Issues,
-                    attributes: ['id', 'name'],
-                }]
-            },
+            }]
+        },
 
         ],
         where: {
