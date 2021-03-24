@@ -52,6 +52,7 @@ module.exports.createRequest = async (req, res, next) => {
         );
     }
 }
+<<<<<<< HEAD
 
 module.exports.getCreatedRequest = async (req, res, next) => {
     try {
@@ -68,6 +69,23 @@ module.exports.getCreatedRequest = async (req, res, next) => {
             error.message
         )
     }
+=======
+module.exports.getRequestByRequestID = async (req, res, next) => {
+  try {
+    let request_id = req.body.request_id;
+    let payload = await requestService.getRequestDetail(request_id);
+    successResponse(
+      res,
+      constants.STATUS_SUCCESS,
+      payload
+    )
+  } catch (error) {
+    errorResponse(
+      res,
+      error.message
+    )
+  }
+>>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
 }
 
 module.exports.takeRequest = async (req, res) => {

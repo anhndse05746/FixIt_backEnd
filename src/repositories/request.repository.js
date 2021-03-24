@@ -6,12 +6,17 @@ const StatusHistory = require('../models/request_status');
 const Status = require('../models/status');
 const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
+<<<<<<< HEAD
 const {
     Op
 } = require("sequelize");
+=======
+const { Op } = require("sequelize");
+const Invoice = require('../models/invoice');
+>>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
 
 // lay ra data cua major (service, issues)
-module.exports.getRequestDetail = async (user_id) => {
+module.exports.getRequestDetail = async (request_id) => {
 
     const request = await ReparingRequest.findAll({
         include: [{
@@ -43,19 +48,36 @@ module.exports.getRequestDetail = async (user_id) => {
                 }]
             }, {
                 model: RequestIssue,
+<<<<<<< HEAD
                 include: [{
                     model: Issues,
                     attributes: ['id', 'name'],
                 }]
+=======
+                include: [
+                    {
+                        model: Issues,
+                        attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    },
+                ],
+
+            },
+            {
+                model: Invoice,
+>>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
             },
 
         ],
         where: {
+<<<<<<< HEAD
             [Op.or]: [{
                 customer_id: user_id
             }, {
                 repairer_id: user_id
             }]
+=======
+            id: request_id
+>>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
         },
         order: [
             ['updatedAt', 'DESC']
@@ -85,6 +107,7 @@ module.exports.getLastRequestByUID = async (id) => {
             {
                 model: StatusHistory,
                 limit: 1,
+<<<<<<< HEAD
                 order: [
                     ['updatedAt', 'DESC']
                 ],
@@ -97,6 +120,17 @@ module.exports.getLastRequestByUID = async (id) => {
                     model: Issues,
                     attributes: ['id', 'name'],
                 }]
+=======
+                order: [['updatedAt', 'DESC']],
+                include: [{ model: Status }]
+            }, {
+                model: RequestIssue,
+                include: [
+                    {
+                        model: Issues,
+                        attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    }]
+>>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
             },
 
         ],
@@ -115,6 +149,7 @@ module.exports.getLastRequestByUID = async (id) => {
     });
     return request;
 }
+<<<<<<< HEAD
 module.exports.insertRequestIssues = async (request_issues) => {
 
     const request = await RequestIssue.bulkCreate(
@@ -136,6 +171,9 @@ module.exports.updateStatus = async (request_id, status_id, cancel_by, cancel_re
     });
     return request;
 }
+=======
+
+>>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
 
 
 module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {
