@@ -7,9 +7,10 @@ const Status = require('../models/status');
 const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
 const { Op } = require("sequelize");
+const Invoice = require('../models/invoice');
 
 // lay ra data cua major (service, issues)
-module.exports.getRequestDetail = async (user_id) => {
+module.exports.getRequestDetail = async (request_id) => {
 
     const request = await ReparingRequest.findAll({
         include: [
@@ -35,13 +36,18 @@ module.exports.getRequestDetail = async (user_id) => {
                 include: [
                     {
                         model: Issues,
-                        attributes: ['id', 'name'],
-                    }]
+                        attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    },
+                ],
+
+            },
+            {
+                model: Invoice,
             },
 
         ],
         where: {
-            [Op.or]: [{ customer_id: user_id }, { repairer_id: user_id }]
+            id: request_id
         },
         order: [['updatedAt', 'DESC']],
     }
@@ -65,13 +71,13 @@ module.exports.getLastRequestByUID = async (id) => {
                 model: StatusHistory,
                 limit: 1,
                 order: [['updatedAt', 'DESC']],
-                include: [{ model: Status }]    
+                include: [{ model: Status }]
             }, {
                 model: RequestIssue,
                 include: [
                     {
                         model: Issues,
-                        attributes: ['id', 'name'],
+                        attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
                     }]
             },
 
@@ -85,27 +91,7 @@ module.exports.getLastRequestByUID = async (id) => {
     });
     return request;
 }
-module.exports.insertRequestIssues = async (request_issues) => {
 
-    const request = await RequestIssue.bulkCreate(
-        request_issues
-    ).then().catch(err => {
-        console.log(err)
-    });
-    return request;
-}
-module.exports.updateStatus = async (request_id, status_id) => {
-
-    const request = await StatusHistory.create(
-        {
-            request_id: request_id,
-            status_id: status_id,
-        }
-    ).then().catch(err => {
-        console.log(err)
-    });
-    return request;
-}
 
 
 module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {

@@ -48,10 +48,10 @@ module.exports.createRequest = async (req, res, next) => {
     );
   }
 }
-module.exports.getCreatedRequest = async (req, res, next) => {
+module.exports.getRequestByRequestID = async (req, res, next) => {
   try {
-    let user_id = req.body.user_id;
-    let payload = await requestService.getRequestDetail(user_id);
+    let request_id = req.body.request_id;
+    let payload = await requestService.getRequestDetail(request_id);
     successResponse(
       res,
       constants.STATUS_SUCCESS,
