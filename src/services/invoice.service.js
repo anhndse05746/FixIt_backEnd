@@ -1,12 +1,6 @@
 const InvoiceRepo = require("../repositories/invoice.repository");
 const RequestStatusRepo = require("../repositories/request_status.repository");
 const IssuesListRepo = require("../repositories/request_issues.repository");
-// module.exports.getRequestDetail = async (user_id) => {
-
-//     let requestData = await RequestRepo.getRequestDetail(user_id);
-//     //.then().catch(err => console.log(err))
-//     return requestData;
-// }
 
 module.exports.insertInvoiceDetail = async (request_id, payment_method_id, status, cost_incurred, total_price, request_issues) => {
 
