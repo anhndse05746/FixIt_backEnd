@@ -42,9 +42,8 @@ module.exports.setupRouters = (app) => {
 
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
-<<<<<<< HEAD
     //get all request
-    
+
     app.get('/api/createRequest', requestController.createRequest);
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
@@ -52,11 +51,6 @@ module.exports.setupRouters = (app) => {
     app.post('/api/cancelRequest', requestController.cancelRequest);
 
     // user service
-=======
-
-    //create Request
-    app.get('/createRequest', requestController.createRequest);
->>>>>>> 3714582ac65be66976a8e2702654a79093b243bf
 
     // get Request detail by request_id
     app.get('/getRequestDetail', requestController.getRequestByRequestID);
