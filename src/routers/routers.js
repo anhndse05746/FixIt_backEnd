@@ -43,7 +43,7 @@ module.exports.setupRouters = (app) => {
     app.get('/api/getMajor', majorController.getMajorDetail);
 
     //create Request
-    app.get('/createRequest', requestController.createRequest);
+    app.post('/createRequest', requestController.createRequest);
 
     // get Request detail by request_id
     app.get('/getRequestDetail', requestController.getRequestByRequestID);
