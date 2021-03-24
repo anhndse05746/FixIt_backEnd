@@ -30,28 +30,29 @@ module.exports.setupRouters = (app) => {
 
     //API for register
     app.post('/register', userController.register);
-
     app.post('/checkRegistered', userController.checkRegisteredPhoneNumber);
 
     //Admin APIs
     //API for get all customers
     app.get('/api/admin/getAllCus', userController.getAllCustomerController);
+
     //API for get all repairers
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
+
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
-    //get all request
-    
-    app.get('/createRequest', requestController.createRequest);
-    // user service
 
-    app.get('/getRequestByUID', requestController.getCreatedRequest);
+    //create Request
+    app.get('/createRequest', requestController.createRequest);
+
+    // get Request detail by request_id
+    app.get('/getRequestDetail', requestController.getRequestByRequestID);
 
     //create Invoice 
     app.get('/createInvoice', invoiceController.createInvoice);
+
     //review Engineer
     // app.get('/api/reviewEngineer', invoiceController.createInvoice);
-    
 
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);

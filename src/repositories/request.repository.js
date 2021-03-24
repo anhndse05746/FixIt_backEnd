@@ -7,9 +7,10 @@ const Status = require('../models/status');
 const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
 const { Op } = require("sequelize");
+const Invoice = require('../models/invoice');
 
 // lay ra data cua major (service, issues)
-module.exports.getRequestDetail = async (user_id) => {
+module.exports.getRequestDetail = async (request_id) => {
 
     const request = await ReparingRequest.findAll({
         include: [
@@ -40,10 +41,13 @@ module.exports.getRequestDetail = async (user_id) => {
                 ],
 
             },
+            {
+                model: Invoice,
+            },
 
         ],
         where: {
-            [Op.or]: [{ customer_id: user_id }, { repairer_id: user_id }]
+            id: request_id
         },
         order: [['updatedAt', 'DESC']],
     }

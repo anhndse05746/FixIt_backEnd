@@ -6,13 +6,20 @@ module.exports.insertInvoiceDetail = async (request_id, payment_method_id, statu
 
     let request = await InvoiceRepo.createInvoice(request_id, payment_method_id, status, cost_incurred, total_price);
     let list_issues = await IssuesListRepo.getListIssuseByRequestID(request_id);
+    let count = 0;
+    if (request_issues.length != list_issues.length) {
+        count = 1;
+    }
     for (let i = 0, l = request_issues.length; i < l; i++) {
         if (request_issues[i].issues_id != list_issues[i].issues_id) {
-            await IssuesListRepo.deleteListIssuesByID(request_id)
-            await IssuesListRepo.insertListIssues(request_issues);
+            count = 1;
             break;
         }
-
+    }
+  
+    if (count != 0) {
+        await IssuesListRepo.deleteListIssuesByID(request_id)
+        await IssuesListRepo.insertListIssues(request_issues);
     }
     await RequestStatusRepo.updateStatus(request_id, 4);
     return request;
