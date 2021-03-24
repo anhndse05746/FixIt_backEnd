@@ -43,13 +43,13 @@ module.exports.setupRouters = (app) => {
     app.get('/api/getMajor', majorController.getMajorDetail);
 
     //create Request
-    app.get('/createRequest', requestController.createRequest);
+    app.post('/api/createRequest', requestController.createRequest);
 
     // get Request detail by request_id
-    app.get('/getRequestDetail', requestController.getRequestByRequestID);
+    app.get('/api/getRequestDetail', requestController.getRequestByRequestID);
 
     //create Invoice 
-    app.get('/createInvoice', invoiceController.createInvoice);
+    app.post('/api/createInvoice', invoiceController.createInvoice);
 
     //review Engineer
     // app.get('/api/reviewEngineer', invoiceController.createInvoice);
