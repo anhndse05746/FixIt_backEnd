@@ -45,6 +45,12 @@ module.exports.setupRouters = (app) => {
     //API for cancel request
     app.post('/api/cancelRequest', requestController.cancelRequest);
 
+    //API for get list request for customer
+    app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
+
+    //API for get init list request
+    app.post('/api/getInitListRequest', requestController.getInitListRequest);
+
     // user service
 
     app.get('/getRequestByUID', requestController.getCreatedRequest);

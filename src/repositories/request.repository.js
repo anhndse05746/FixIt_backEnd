@@ -1,4 +1,5 @@
 // const Major = require('../models/major');
+const Sequelize = require('sequelize');
 const Service = require('../models/services');
 const Issues = require('../models/issues');
 const User = require('../models/user');
@@ -6,6 +7,8 @@ const StatusHistory = require('../models/request_status');
 const Status = require('../models/status');
 const RequestIssue = require('../models/request_issues');
 const ReparingRequest = require('../models/repairing_request');
+const pool = require('../databases/dbConnection');
+const constants = require('../utils/constants');
 const {
     Op
 } = require("sequelize");
@@ -115,6 +118,7 @@ module.exports.getLastRequestByUID = async (id) => {
     });
     return request;
 }
+
 module.exports.insertRequestIssues = async (request_issues) => {
 
     const request = await RequestIssue.bulkCreate(
@@ -124,6 +128,7 @@ module.exports.insertRequestIssues = async (request_issues) => {
     });
     return request;
 }
+
 module.exports.updateStatus = async (request_id, status_id, cancel_by, cancel_reason) => {
 
     const request = await StatusHistory.create({
@@ -136,7 +141,6 @@ module.exports.updateStatus = async (request_id, status_id, cancel_by, cancel_re
     });
     return request;
 }
-
 
 module.exports.createRequest = async (customer_id, repairer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district) => {
 
@@ -170,7 +174,6 @@ module.exports.updateRequest = async (request_id, repairer_id) => {
         throw new Error(err.message);
     });
 }
-
 
 module.exports.getRequestByID = async (request_id) => {
     const request = await ReparingRequest.findOne({
@@ -213,4 +216,25 @@ module.exports.getRequestByID = async (request_id) => {
         console.log(err)
     });
     return request;
+}
+
+module.exports.getListRequestByStatusForCustomer = async (customer_id, page, status_id_1, status_id_2, status_id_3) => {
+    return await pool.query('SELECT * FROM repairing_request JOIN (SELECT R.request_id AS request_id, R.countStatus AS currentStatus, request_status.updatedAt as time FROM ' +
+    '(SELECT MAX(request_status.status_id) AS countStatus, request_status.request_id AS request_id FROM request_status GROUP BY request_status.request_id) AS R ' +
+    'LEFT OUTER JOIN request_status ON R.request_id = request_status.request_id AND R.countStatus = request_status.status_id WHERE R.countStatus = $status_id_1 OR R.countStatus = $status_id_2 OR R.countStatus = $status_id_3 ' +
+    'ORDER BY request_status.updatedAt DESC) AS temp ON repairing_request.id = temp.request_id WHERE repairing_request.customer_id = $customer_id ' +
+    'ORDER BY temp.time DESC ' + 
+    'LIMIT $page, $requestPerPage',{
+        bind: { 
+            customer_id: customer_id,
+            status_id_1: status_id_1,
+            status_id_2: status_id_2,
+            status_id_3: status_id_3,
+            page: page,
+            requestPerPage: constants.NUMBER_REQUEST_PER_PAGE   
+        }, 
+        type: Sequelize.QueryTypes.SELECT
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
 }

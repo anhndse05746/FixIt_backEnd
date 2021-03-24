@@ -32,7 +32,7 @@ module.exports.takeRequest = async (request_id, repairer_id) => {
         await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_HASTAKEN);
     } else if (status.status_id == constants.STATUS_REQUEST_HASTAKEN || status.status_id == constants.STATUS_REQUEST_FIXING) {
         return message = 'This request is taken';
-    } else if (status.status_id == constants.STATUS_REQUEST_CANCELED) {
+    } else if (status.status_id == constants.STATUS_REQUEST_CANCELLED) {
         return message = 'This request is canceled';
     }
     return await RequestRepo.getRequestByID(request_id);
@@ -42,9 +42,36 @@ module.exports.cancelRequest = async (request_id, cancel_by, cancel_reason) => {
     let status = await requestStatusRepo.getRequestStatus(request_id);
     if (status.status_id == constants.STATUS_REQUEST_FINDING || status.status_id == constants.STATUS_REQUEST_FIXING ||
         status.status_id == constants.STATUS_REQUEST_HASTAKEN) {
-        await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_CANCELED, cancel_by, cancel_reason);
+        await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_CANCELLED, cancel_by, cancel_reason);
     } else {
         return message = 'Can not cancel this request';
     }
     return await RequestRepo.getRequestByID(request_id);
+}
+
+module.exports.getListRequestByStatusForCustomer = async (customer_id, pageNo, status_id_1, status_id_2, status_id_3) => {
+    let page = (pageNo - 1) * 5;
+
+    if(status_id_1 != status_id_2 != status_id_3) {
+        return await RequestRepo.getListRequestByStatusForCustomer(customer_id, page, status_id_1, status_id_2, status_id_3);
+    }
+    return await RequestRepo.getListRequestByStatusForCustomer(customer_id, page, status_id_1);
+}
+
+module.exports.getInitListRequest = async (customer_id) => {
+    //Finding request
+    let listFindingRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, constants.STATUS_REQUEST_FINDING, constants.STATUS_REQUEST_FINDING, constants.STATUS_REQUEST_FINDING);
+    
+    //Processing request
+    let listProcessingRequest =  await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, constants.STATUS_REQUEST_HASTAKEN, constants.STATUS_REQUEST_FIXING, constants.STATUS_REQUEST_FIXED);
+
+    //Completed request
+    let listCompletedRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, constants.STATUS_REQUEST_COMPLETED, constants.STATUS_REQUEST_COMPLETED, constants.STATUS_REQUEST_COMPLETED);
+    
+    //Canceled request
+    let listCancelledRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, constants.STATUS_REQUEST_CANCELLED, constants.STATUS_REQUEST_CANCELLED, constants.STATUS_REQUEST_CANCELLED);
+    
+    
+    let listRequest = [listFindingRequest, listProcessingRequest, listCompletedRequest, listCancelledRequest];
+    return listRequest
 }
