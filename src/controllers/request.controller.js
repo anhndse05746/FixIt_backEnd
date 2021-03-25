@@ -1,6 +1,7 @@
 const constants = require('../utils/constants');
 const requestService = require('../services/request.service');
 const { successResponse, errorResponse } = require('../utils/responseModel')
+const pushNotifyService = require('../services/pushNotify.service')
 
 /**
 * @param {import('express').Request} req
@@ -35,6 +36,9 @@ module.exports.createRequest = async (req, res, next) => {
     let city = req.body.city;
     let district = req.body.district;
     let result = await requestService.createRequest(customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, request_issues, city, district);
+    let tokens = await pushNotifyService.getRepairerDeviceTokenByCity(city)
+    let notify = await pushNotifyService.send(tokens, `Bạn có yêu cầu ${result.service.name} mới`, description, 'RequestDetailView', result.id)
+
     successResponse(
       res,
       constants.STATUS_SUCCESS,

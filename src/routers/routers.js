@@ -42,10 +42,8 @@ module.exports.setupRouters = (app) => {
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
 
-<<<<<<< HEAD
     //test push message
     app.get('/cm', userController.pushMessage);
-=======
     //create Request
     app.post('/api/createRequest', requestController.createRequest);
 
@@ -58,7 +56,6 @@ module.exports.setupRouters = (app) => {
     //review Engineer
     // app.get('/api/reviewEngineer', invoiceController.createInvoice);
 
->>>>>>> 9adfed52430687261b809d3952ce2e53eb1b0af7
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);
 };

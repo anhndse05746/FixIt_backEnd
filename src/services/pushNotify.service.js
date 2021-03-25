@@ -6,15 +6,15 @@ module.exports.send = async (tokens, title, body, screen, requestId) => {
 
     await admin.messaging().sendMulticast({
         tokens: [
-            'eRoKwiRQQLaOtt87IUTbCA:APA91bFSQ48aoeUXx8GfOtm76rPIwd9EqndpXtmOkN4fkpCcIVUyxpN6UqRV7hIXqK4VJiv7efIe2MlhSJCX7kiEwYEfv6gMvyOudVXlSuja_jWtFr_DwKVDyOS0hhNh4w86PvHdNHtG'
+            'dfATwIXzSMWInIyvpEt3RX:APA91bHMtUyUbAprCO8xDj-SUzK94iiw6t4IUmyASWu2tSUfaGGOLmmkzceEfyb1diPLXFzwx22Yi0qxR5N7Te9wicARJaSpHUDK7h3YWGh3KJcgbDbys9aFCYqdXPmINs9tcxcVfkRP'
         ],
         notification: {
-            title: 'Yêu cầu của bạn',
-            body: 'Yêu cầu của bạn đã được tạo thành công',
+            title: title,
+            body: body,
         },
         data: {
-            screen: 'RequestDetailView',
-            requestId: '1'
+            screen: screen,
+            requestId: requestId.toString()
         }
     });
 }
