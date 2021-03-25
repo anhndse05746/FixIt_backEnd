@@ -215,18 +215,21 @@ module.exports.getRequestByID = async (request_id) => {
     return request;
 }
 
-module.exports.getListRequestByStatusForCustomer = async (customer_id, page, status_id_1, status_id_2, status_id_3) => {
+module.exports.getListRequestByStatusForCustomer = async (customer_id, page, status_id) => {
+    
+    let status = status_id.length > 1 ? 'OR R.countStatus = $status_id_2 OR R.countStatus = $status_id_3 ': '';
+    
     return await pool.query('SELECT * FROM repairing_request JOIN (SELECT R.request_id AS request_id, R.countStatus AS currentStatus, request_status.updatedAt as time FROM ' +
     '(SELECT MAX(request_status.status_id) AS countStatus, request_status.request_id AS request_id FROM request_status GROUP BY request_status.request_id) AS R ' +
-    'LEFT OUTER JOIN request_status ON R.request_id = request_status.request_id AND R.countStatus = request_status.status_id WHERE R.countStatus = $status_id_1 OR R.countStatus = $status_id_2 OR R.countStatus = $status_id_3 ' +
+    'LEFT OUTER JOIN request_status ON R.request_id = request_status.request_id AND R.countStatus = request_status.status_id WHERE R.countStatus = $status_id_1 ' + status +
     'ORDER BY request_status.updatedAt DESC) AS temp ON repairing_request.id = temp.request_id WHERE repairing_request.customer_id = $customer_id ' +
     'ORDER BY temp.time DESC ' + 
     'LIMIT $page, $requestPerPage',{
         bind: { 
             customer_id: customer_id,
-            status_id_1: status_id_1,
-            status_id_2: status_id_2,
-            status_id_3: status_id_3,
+            status_id_1: status_id[0],
+            status_id_2: status_id[1],
+            status_id_3: status_id[2],
             page: page,
             requestPerPage: constants.NUMBER_REQUEST_PER_PAGE   
         }, 

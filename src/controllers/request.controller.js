@@ -104,7 +104,7 @@ module.exports.cancelRequest = async (req, res) => {
 
 module.exports.getListRequestByStatusForCustomer = async (req, res) => {
     try {
-        let payload = await requestService.getListRequestByStatusForCustomer(req.body.customer_id, req.body.page, req.body.status_1, req.body.status_2, req.body.status_3);
+        let payload = await requestService.getListRequestByStatusForCustomer(req.body.customer_id, req.body.page, req.body.status_id);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

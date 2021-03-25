@@ -44,7 +44,6 @@ module.exports.setupRouters = (app) => {
     app.get('/api/getMajor', majorController.getMajorDetail);
     //get all request
 
-    app.get('/api/createRequest', requestController.createRequest);
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
     //API for cancel request
@@ -57,12 +56,14 @@ module.exports.setupRouters = (app) => {
     app.post('/api/getInitListRequest', requestController.getInitListRequest);
 
     // user service
+    //create Request
+    app.post('/api/createRequest', requestController.createRequest);
 
     // get Request detail by request_id
-    app.get('/getRequestDetail', requestController.getRequestByRequestID);
+    app.get('/api/getRequestDetail', requestController.getRequestByRequestID);
 
     //create Invoice 
-    app.get('/createInvoice', invoiceController.createInvoice);
+    app.post('/api/createInvoice', invoiceController.createInvoice);
 
     //review Engineer
     // app.get('/api/reviewEngineer', invoiceController.createInvoice);
