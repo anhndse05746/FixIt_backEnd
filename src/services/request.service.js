@@ -69,6 +69,11 @@ module.exports.getInitListRequest = async (customer_id) => {
     let listCancelledRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, [constants.STATUS_REQUEST_CANCELLED]);
 
 
-    let listRequest = [{ listFindingRequest: listFindingRequest }, { listProcessingRequest: listProcessingRequest }, { listCompletedRequest: listCompletedRequest }, { listCancelledRequest: listCancelledRequest }];
+    let listRequest = {
+        listFindingRequest: listFindingRequest,
+        listProcessingRequest: listProcessingRequest,
+        listCompletedRequest: listCompletedRequest,
+        listCancelledRequest: listCancelledRequest
+    };
     return listRequest
 }
