@@ -10,6 +10,7 @@ const reviewController = require('../controllers/review.controller');
 const requestController = require('../controllers/request.controller');
 const verifyRole = require('../middlewares/verifyRole');
 const user_addressController = require('../controllers/user_address.controller');
+const notificationController = require('../controllers/notificationController');
 
 /**
 * @param {import('express').Application} app
@@ -56,5 +57,8 @@ module.exports.setupRouters = (app) => {
 
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);
+
+    //API for notification
+    app.post('/api/getNotification', notificationController.getNotificationByUser);
 };
 

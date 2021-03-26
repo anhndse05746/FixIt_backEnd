@@ -12,5 +12,8 @@ module.exports = Object.freeze({
     NOT_REGISTERRED: "This phone number is not registered",
     REGISTERED_PHONENUMBER: "This phone number is registed",
     TOKEN_EXPRIED: 'Token is expired',
-    AUTHORIZE_FAIL: 'Authorize fail'
+    AUTHORIZE_FAIL: 'Authorize fail',
+
+    STATUS_READ: 2,
+    STATUS_UNREAD: 1
 })
