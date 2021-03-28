@@ -60,7 +60,7 @@ module.exports.setupRouters = (app) => {
     app.post('/api/createRequest', requestController.createRequest);
 
     // get Request detail by request_id
-    app.get('/api/getRequestDetail', requestController.getRequestByRequestID);
+    app.post('/api/getRequestDetail', requestController.getRequestByRequestID);
 
     //create Invoice 
     app.post('/api/createInvoice', invoiceController.createInvoice);
