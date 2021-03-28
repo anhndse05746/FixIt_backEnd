@@ -46,11 +46,12 @@ module.exports.setupRouters = (app) => {
 
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
+
     //API for cancel request
     app.post('/api/cancelRequest', requestController.cancelRequest);
 
     //API for get list request for customer
-    app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
+    app.post('/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
 
     //API for get init list request
     app.post('/api/getInitListRequest', requestController.getInitListRequest);
@@ -70,5 +71,8 @@ module.exports.setupRouters = (app) => {
 
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);
+
+    //get request list for repairer
+    app.post('/api/getRequestList', repairerController.getListRequest);
 };
 
