@@ -45,7 +45,7 @@ module.exports.setupRouters = (app) => {
     //get all request
 
     //API for take request
-    app.post('/api/repairer/takeRequest', requestController.takeRequest)
+    app.post('/takeRequest', requestController.takeRequest)
 
     //API for cancel request
     app.post('/api/cancelRequest', requestController.cancelRequest);

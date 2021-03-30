@@ -5,9 +5,7 @@ const repairer = require('../models/repairer')
 module.exports.send = async (tokens, title, body, screen, requestId) => {
 
     await admin.messaging().sendMulticast({
-        tokens: [
-            'dfATwIXzSMWInIyvpEt3RX:APA91bHMtUyUbAprCO8xDj-SUzK94iiw6t4IUmyASWu2tSUfaGGOLmmkzceEfyb1diPLXFzwx22Yi0qxR5N7Te9wicARJaSpHUDK7h3YWGh3KJcgbDbys9aFCYqdXPmINs9tcxcVfkRP'
-        ],
+        tokens: tokens,
         notification: {
             title: title,
             body: body,
@@ -40,6 +38,21 @@ module.exports.getRepairerDeviceTokenByCity = async (city) => {
     for (let i = 0; i < tokenList.length; i++) {
         tokens.push(tokenList[i].device_token)
     }
+
+    return tokens
+}
+
+module.exports.getUserDeviceToken = async (userId) => {
+    const token = await user.findOne({
+        attributes: [
+            'device_token'
+        ],
+        where: {
+            id: userId
+        }
+    }).then().catch(err => { console.log(err.message) })
+    let tokens = []
+    tokens.push(token.device_token)
 
     return tokens
 }

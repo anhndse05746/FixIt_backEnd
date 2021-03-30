@@ -73,6 +73,8 @@ module.exports.getRequestByRequestID = async (req, res, next) => {
 module.exports.takeRequest = async (req, res) => {
   try {
     let payload = await requestService.takeRequest(req.body.request_id, req.body.repairer_id);
+    let token = await pushNotifyService.getUserDeviceToken(payload.customer_id)
+    let notify = await pushNotifyService.send(token, `Yêu cầu ${payload.service.name} đã được nhận`, payload.description, 'RequestDetailView', payload.id)
     successResponse(
       res,
       constants.STATUS_SUCCESS,
