@@ -5,3 +5,6 @@ module.exports.getAllRepairer = () => {
     return repairerRepo.getAllRepairer();
 }
 
+module.exports.getRequestList = (repairer_id) => {
+    return repairerRepo.getRequestList(repairer_id);
+}

@@ -1,8 +1,19 @@
 const RequestStatus = require('../models/request_status');
 
-let request_status = {};
+let requestStatus = {};
 
-request_status.updateStatus = async (request_id, status_id) => {
+requestStatus.getRequestStatus = async (request_id) => {
+    return await RequestStatus.findOne({
+        where: {
+            request_id: request_id
+        },
+        order: [
+            ['updatedAt', 'DESC']
+        ]
+    })
+}
+
+requestStatus.updateStatus = async (request_id, status_id) => {
     return await RequestStatus.create({
         request_id: request_id,
         status_id: status_id
@@ -11,4 +22,4 @@ request_status.updateStatus = async (request_id, status_id) => {
     })
 }
 
-module.exports = request_status;
+module.exports = requestStatus;
