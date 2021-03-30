@@ -24,5 +24,8 @@ module.exports = Object.freeze({
     STATUS_REQUEST_FIXED: 4,
     // Đã tạo xong hóa đơn
     STATUS_REQUEST_PAID: 5,
-    STATUS_REQUEST_CANCELED: 6
+    STATUS_REQUEST_CANCELED: 6,
+
+    REPAIRER_NOT_VERIFIED: 0,
+    REPAIRER_VERIFIED: 1
 })
