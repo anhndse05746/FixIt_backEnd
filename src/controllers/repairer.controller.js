@@ -35,3 +35,20 @@ module.exports.getAllRepairerNotVerifiedController = async (req, res, next) => {
         );
     }
 }
+
+module.exports.approveCV = async (req, res, next) => {
+    try {
+        let result = await repairerService.approveCV(req.body.id);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            result
+        );
+    } catch (error) {
+        res.status(400);
+        errorResponse(
+            res,
+            error.message
+        );
+    }
+}
