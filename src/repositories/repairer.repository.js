@@ -27,7 +27,14 @@ repairer.getListNotVerified = async () => {
     return await Repairer.findAll({
         where: {
             is_verify: constants.REPAIRER_NOT_VERIFIED
-        }
+        }, 
+        order: [
+            ['id', 'ASC']
+        ],
+
+        include: [{
+            model: Repairer, 
+        }]
     })
 }
 
