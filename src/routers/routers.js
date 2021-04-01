@@ -51,10 +51,10 @@ module.exports.setupRouters = (app) => {
     app.post('/api/cancelRequest', requestController.cancelRequest);
 
     //API for get list request for customer
-    app.post('/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
+    app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
 
     //API for get init list request
-    app.post('/getInitListRequest', requestController.getInitListRequest);
+    app.post('/api/getInitListRequest', requestController.getInitListRequest);
 
     // user service
     //create Request
