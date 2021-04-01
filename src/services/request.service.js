@@ -49,24 +49,24 @@ module.exports.cancelRequest = async (request_id, cancel_by, cancel_reason) => {
     return await RequestRepo.getRequestByID(request_id);
 }
 
-module.exports.getListRequestByStatusForCustomer = async (customer_id, pageNo, status_id) => {
+module.exports.getListRequestByStatusForCustomer = async (customer_id, role, pageNo, status_id) => {
     let page = (pageNo - 1) * 5;
 
-    return await RequestRepo.getListRequestByStatusForCustomer(customer_id, page, status_id);
+    return await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, page, status_id);
 }
 
-module.exports.getInitListRequest = async (customer_id) => {
+module.exports.getInitListRequest = async (customer_id, role) => {
     //Finding request
-    let listFindingRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, [constants.STATUS_REQUEST_FINDING]);
+    let listFindingRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_FINDING]);
 
     //Processing request
-    let listProcessingRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, [constants.STATUS_REQUEST_HASTAKEN, constants.STATUS_REQUEST_FIXING, constants.STATUS_REQUEST_FIXED]);
+    let listProcessingRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_HASTAKEN, constants.STATUS_REQUEST_FIXING, constants.STATUS_REQUEST_FIXED]);
 
     //Completed request
-    let listCompletedRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, [constants.STATUS_REQUEST_COMPLETED]);
+    let listCompletedRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_COMPLETED]);
 
     //Canceled request
-    let listCancelledRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, 0, [constants.STATUS_REQUEST_CANCELLED]);
+    let listCancelledRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_CANCELLED]);
 
 
     let listRequest = {

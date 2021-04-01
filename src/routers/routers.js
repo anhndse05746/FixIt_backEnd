@@ -54,7 +54,7 @@ module.exports.setupRouters = (app) => {
     app.post('/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
 
     //API for get init list request
-    app.post('/api/getInitListRequest', requestController.getInitListRequest);
+    app.post('/getInitListRequest', requestController.getInitListRequest);
 
     // user service
     //create Request
