@@ -48,6 +48,9 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/approveCV', repairerController.approveCV);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2099d65d6d620e740315f488775253ad885a2861
     //API for major service 
     app.get('/getMajor', majorController.getMajorDetail);
     app.post('/api/admin/createMajor', majorController.createMajor);
@@ -64,7 +67,10 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/updateService', serviceController.updateService);
     app.post('/api/admin/deleteService', serviceController.deleteService);
 
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2099d65d6d620e740315f488775253ad885a2861
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
     //get all request
@@ -88,6 +94,9 @@ module.exports.setupRouters = (app) => {
 
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);
+<<<<<<< HEAD
 >>>>>>> 52c0cf9d8c6d4303e3121b08af7a0367ec681877
+=======
+>>>>>>> 2099d65d6d620e740315f488775253ad885a2861
 };
 
