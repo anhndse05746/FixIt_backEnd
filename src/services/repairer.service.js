@@ -7,4 +7,5 @@ module.exports.getAllRepairer = async () => {
 
 module.exports.getAllRepairerNotVerified = async () => {
     return await repairerRepo.getListNotVerified();
+
 }
