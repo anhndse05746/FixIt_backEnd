@@ -3,6 +3,8 @@ const majorController = require('../controllers/major.controller');
 const authController = require('../controllers/auth.controller');
 const { checkAuthenticate } = require('../middlewares/auth');
 const repairerController = require('../controllers/repairer.controller');
+const issueController = require('../controllers/issue.controller');
+const serviceController = require('../controllers/service.controller');
 
 const invoiceController = require('../controllers/invoice.controller');
 
@@ -41,6 +43,22 @@ module.exports.setupRouters = (app) => {
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
     app.get('/api/admin/getAllRepairerNotVerified', repairerController.getAllRepairerNotVerifiedController);
 
+    //API for major service 
+    app.get('/getMajor', majorController.getMajorDetail);
+    app.post('/api/admin/createMajor', majorController.createMajor);
+    app.post('/api/admin/updateMajor', majorController.updateMajor);
+    app.post('/api/admin/deleteMajor', majorController.deleteMajor);
+
+    //API for issue
+    app.post('/api/admin/createIssue', issueController.createIssue);
+    app.post('/api/admin/updateIssue', issueController.updateIssue);
+    app.post('/api/admin/deleteIssue', issueController.deleteIssue);
+
+    //API for service
+    app.post('/api/admin/createService', serviceController.createService);
+    app.post('/api/admin/updateService', serviceController.updateService);
+    app.post('/api/admin/deleteService', serviceController.deleteService);
+
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
     //get all request
@@ -64,6 +82,5 @@ module.exports.setupRouters = (app) => {
 
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);
-
 };
 
