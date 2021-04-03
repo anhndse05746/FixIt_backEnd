@@ -8,8 +8,3 @@ module.exports.getAllRepairer = async () => {
 module.exports.getAllRepairerNotVerified = async () => {
     return await repairerRepo.getListNotVerified();
 }
-
-module.exports.approveCV = async (id) => {
-    await repairerRepo.approveCV(id);
-    return await repairerRepo.getListNotVerified();
-}

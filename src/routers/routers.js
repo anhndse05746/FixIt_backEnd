@@ -40,7 +40,6 @@ module.exports.setupRouters = (app) => {
     //API for get all repairers
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
     app.get('/api/admin/getAllRepairerNotVerified', repairerController.getAllRepairerNotVerifiedController);
-    app.post('/api/admin/approveCV', repairerController.approveCV);
 
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
