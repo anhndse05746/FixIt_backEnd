@@ -9,3 +9,6 @@ module.exports.getAllRepairerNotVerified = async () => {
     return await repairerRepo.getListNotVerified();
 
 }
+module.exports.getRequestList = (repairer_id) => {
+    return repairerRepo.getRequestList(repairer_id);
+}

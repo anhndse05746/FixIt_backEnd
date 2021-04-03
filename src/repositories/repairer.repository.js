@@ -51,7 +51,8 @@ repairer.getRequestList = async (repairer_id) => {
     }).then().catch(err => {
         throw new Error(err.message);
     });
-};
+}
+
 repairer.getListNotVerified = async () => {
     return await Repairer.findAll({
         where: {
