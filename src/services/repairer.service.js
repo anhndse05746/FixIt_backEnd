@@ -8,3 +8,12 @@ module.exports.getAllRepairer = () => {
 module.exports.getRequestList = (repairer_id) => {
     return repairerRepo.getRequestList(repairer_id);
 }
+
+module.exports.getAllRepairerNotVerified = async () => {
+    return await repairerRepo.getListNotVerified();
+}
+
+module.exports.approveCV = async (id) => {
+    await repairerRepo.approveCV(id);
+    return await repairerRepo.getListNotVerified();
+}
