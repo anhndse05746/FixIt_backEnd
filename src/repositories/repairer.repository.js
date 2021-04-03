@@ -62,18 +62,8 @@ repairer.getListNotVerified = async () => {
         ],
 
         include: [{
-            model: User,
+            model: Repairer,
         }]
-    })
-}
-
-repairer.approveCV = async (id) => {
-    return await Repairer.update({
-        is_verify: constants.REPAIRER_VERIFIED
-    }, {
-        where: {
-            id: id
-        }
     })
 }
 
