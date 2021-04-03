@@ -101,3 +101,36 @@ module.exports.cancelRequest = async (req, res) => {
     )
   }
 }
+
+module.exports.getListRequestByStatusForCustomer = async (req, res) => {
+  try {
+    let payload = await requestService.getListRequestByStatusForCustomer(req.body.customer_id, req.body.role, req.body.page, req.body.status_id);
+    successResponse(
+      res,
+      constants.STATUS_SUCCESS,
+      payload
+    )
+  } catch (error) {
+    errorResponse(
+      res,
+      error.message
+    )
+  }
+}
+
+module.exports.getInitListRequest = async (req, res) => {
+  try {
+    let payload = await requestService.getInitListRequest(req.body.customer_id, req.body.role);
+    successResponse(
+      res,
+      constants.STATUS_SUCCESS,
+      payload
+    )
+  } catch (error) {
+    errorResponse(
+      res,
+      error.message
+    )
+  }
+
+}
