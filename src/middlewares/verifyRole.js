@@ -24,3 +24,19 @@ module.exports.checkRole = (req, res, next) => {
     }
     next();
 }
+
+module.exports.checkRoleRepairer = (req, res, next) => {
+    let token = req.get('Authorization');
+
+    token = token.split(' ')[1];
+
+    let payload = jwt.verifyToken(token);
+    
+    if (payload.role_id != constants.ROLE_REPAIRER) {
+        return errorResponse(
+            res,
+            'This account is not a repairer'
+        );
+    }
+    next();
+}
