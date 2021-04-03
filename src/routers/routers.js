@@ -78,10 +78,10 @@ module.exports.setupRouters = (app) => {
     // user service
 
     // get Request detail by request_id
-    app.get('/api/getRequestDetail', requestController.getRequestByRequestID);
+    app.post('/api/getRequestDetail', requestController.getRequestByRequestID);
 
     //create Invoice 
-    app.get('/api/createInvoice', invoiceController.createInvoice);
+    app.post('/api/createInvoice', invoiceController.createInvoice);
 
     //review Engineer
     // app.get('/api/reviewEngineer', invoiceController.createInvoice);
