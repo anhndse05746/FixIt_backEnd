@@ -52,5 +52,29 @@ repairer.getRequestList = async (repairer_id) => {
         throw new Error(err.message);
     });
 };
+repairer.getListNotVerified = async () => {
+    return await Repairer.findAll({
+        where: {
+            is_verify: constants.REPAIRER_NOT_VERIFIED
+        },
+        order: [
+            ['id', 'ASC']
+        ],
+
+        include: [{
+            model: User,
+        }]
+    })
+}
+
+repairer.approveCV = async (id) => {
+    return await Repairer.update({
+        is_verify: constants.REPAIRER_VERIFIED
+    }, {
+        where: {
+            id: id
+        }
+    })
+}
 
 module.exports = repairer;

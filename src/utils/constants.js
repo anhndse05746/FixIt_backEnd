@@ -13,7 +13,9 @@ module.exports = Object.freeze({
     REGISTERED_PHONENUMBER: "This phone number is registed",
     TOKEN_EXPRIED: 'Token is expired',
     AUTHORIZE_FAIL: 'Authorize fail',
-    
+
+    FK_ERROR: 'FK error',
+
     // Đang tìm thợ
     STATUS_REQUEST_FINDING: 1,
     // Thợ đã nhận đồng thời có nút Bắt đầu sửa
@@ -27,5 +29,10 @@ module.exports = Object.freeze({
     STATUS_REQUEST_CANCELLED: 6,
 
     //Paging
-    NUMBER_REQUEST_PER_PAGE: 5
+    NUMBER_REQUEST_PER_PAGE: 5,
+    STATUS_REQUEST_PAID: 5,
+    STATUS_REQUEST_CANCELED: 6,
+
+    REPAIRER_NOT_VERIFIED: 0,
+    REPAIRER_VERIFIED: 1
 })
