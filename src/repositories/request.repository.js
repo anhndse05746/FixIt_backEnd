@@ -20,7 +20,7 @@ module.exports.getRequestDetail = async (request_id) => {
             attributes: ['id', 'name'],
             include: [{
                 model: Issues,
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'estimate_price'],
             }]
         },
         {
@@ -47,7 +47,7 @@ module.exports.getRequestDetail = async (request_id) => {
             include: [
                 {
                     model: Issues,
-                    attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    attributes: ['id', 'name', 'estimate_price'], order: [['updatedAt', 'DESC']],
                 },
             ],
 
