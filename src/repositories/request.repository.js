@@ -26,12 +26,12 @@ module.exports.getRequestDetail = async (request_id) => {
         {
             model: User,
             as: 'Customer',
-            attributes: ['id', 'name'],
+            attributes: ['id', 'name', 'phone_number'],
         },
         {
             model: User,
             as: 'Repairer',
-            attributes: ['id', 'name']
+            attributes: ['id', 'name', 'phone_number']
         },
         {
             model: StatusHistory,
