@@ -63,7 +63,7 @@ repairer.getListNotVerified = async () => {
         ],
 
         include: [{
-            model: Repairer,
+            model: User,
         }]
     })
 }
