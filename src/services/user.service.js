@@ -21,14 +21,17 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = await userRepository.getAddressList(user.id);
                     let repairer = {}
-
+                    let city
+                    let district
+                    let is_verify
                     //Check if user is an repairer
                     if (role_id == 2) {
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
+                        city = cityOfVN.find(city => city.Name == repairer.repairer.city).Id
+                        district = city.Districts.find(district => district.Name == repairer.repairer.district).Id
+                        is_verify = repairer.repairer.is_verify
                     }
-                    let city = cityOfVN.find(city => city.Name == repairer.repairer.city)
-                    let district = city.Districts.find(district => district.Name == repairer.repairer.district)
 
                     payload = {
                         id: user.id,
@@ -38,9 +41,9 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         role: user.role_id,
                         token: `Bearer ${token}`,
                         address_list: address_list,
-                        is_verify: repairer.repairer.is_verify,
-                        city: city.Id,
-                        district: district.Id
+                        is_verify: is_verify,
+                        city: city,
+                        district: district
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
