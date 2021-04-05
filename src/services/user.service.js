@@ -32,8 +32,10 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         let city = cityOfVN.find(city => city.Name == repairer.repairer.city)
                         let district = city.Districts.find(district => district.Name == repairer.repairer.district)
                         is_verify = repairer.repairer.is_verify
-                        cityId = city.Id
-                        districtId = district.Id
+                        if (city) {
+                            cityId = city.Id
+                            districtId = district.Id
+                        }
                     }
 
                     payload = {
