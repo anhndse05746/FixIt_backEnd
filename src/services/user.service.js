@@ -30,9 +30,9 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
                         let city = cityOfVN.find(city => city.Name == repairer.repairer.city)
-                        let district = city.Districts.find(district => district.Name == repairer.repairer.district)
                         is_verify = repairer.repairer.is_verify
                         if (city) {
+                            let district = city.Districts.find(district => district.Name == repairer.repairer.district)
                             cityId = city.Id
                             districtId = district.Id
                         }
