@@ -13,7 +13,7 @@ module.exports.createAddress = async (req, res) => {
       req.body.district, req.body.city);
 
     if (create !== "New address is duplicated") {
-      let payload = await user_addressService.getAddressByUser(req.body.user_id)
+      let payload = await user_addressService.getLastestAddressByUser(req.body.user_id)
       successResponse(
         res,
         constants.STATUS_SUCCESS,

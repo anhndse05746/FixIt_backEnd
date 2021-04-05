@@ -14,5 +14,25 @@ module.exports = Object.freeze({
     TOKEN_EXPRIED: 'Token is expired',
     AUTHORIZE_FAIL: 'Authorize fail',
 
-    FK_ERROR: 'FK error'
+    FK_ERROR: 'FK error',
+
+    // Đang tìm thợ
+    STATUS_REQUEST_FINDING: 1,
+    // Thợ đã nhận đồng thời có nút Bắt đầu sửa
+    STATUS_REQUEST_HASTAKEN: 2,
+    // Đang sửa: chuyển sang sau khi thợ ấn vào nút Bắt đầu sửa
+    STATUS_REQUEST_FIXING: 3,
+    // Đã sửa xong đồng thời khi ấn vào tạo hóa đơn
+    STATUS_REQUEST_FIXED: 4,
+    // Đã tạo xong hóa đơn
+    STATUS_REQUEST_COMPLETED: 5,
+    STATUS_REQUEST_CANCELLED: 6,
+
+    //Paging
+    NUMBER_REQUEST_PER_PAGE: 5,
+    STATUS_REQUEST_PAID: 5,
+    STATUS_REQUEST_CANCELED: 6,
+
+    REPAIRER_NOT_VERIFIED: 0,
+    REPAIRER_VERIFIED: 1
 })
