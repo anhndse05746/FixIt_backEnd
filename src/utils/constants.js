@@ -30,8 +30,6 @@ module.exports = Object.freeze({
 
     //Paging
     NUMBER_REQUEST_PER_PAGE: 5,
-    STATUS_REQUEST_PAID: 5,
-    STATUS_REQUEST_CANCELED: 6,
 
     REPAIRER_NOT_VERIFIED: 0,
     REPAIRER_VERIFIED: 1
