@@ -1,6 +1,7 @@
 const major = require('../models/major');
 const MajorRepo = require("../repositories/major.repository")
 const serviceRepo = require('../repositories/service.repository');
+const issueRepo = require('../repositories/issue.repository');
 const constants = require('../utils/constants');
 
 module.exports.getListMajor = async () => {
@@ -24,11 +25,11 @@ module.exports.updateMajor = async (id, image, name) => {
 
 module.exports.deleteMajor = async (id) => {
     let result;
-    let countService = await serviceRepo.countServiceByMajorId(id);
-    if(countService != 0) {
-        return constants.FK_ERROR;
-    } else {
-        result = await MajorRepo.deleteMajor(id).then().catch();
+    let serviceList = await serviceRepo.getAllServiceByMajorId(id);
+    if(serviceList.length > 0) {
+        for(const item of serviceList) {
+            await issueRepo.deleteIssueByServiceId(item.id);
+        }
     }
     return result;
 }

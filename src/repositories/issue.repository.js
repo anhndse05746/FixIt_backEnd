@@ -52,4 +52,14 @@ issues.countIssueByServiceId = async (service_id) => {
     })
 }
 
+issues.deleteIssueByServiceId = async (service_id) => {
+    return await Issue.destroy({
+        where: {
+            service_id: service_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    })
+}
+
 module.exports = issues;

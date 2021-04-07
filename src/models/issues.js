@@ -7,11 +7,11 @@ const Issues = db.define('issues', {
         type: Sequelize.INTEGER,
         primaryKey: true
     },
-    image: {
-        type: Sequelize.STRING,
-    },
     name: {
         type: Sequelize.STRING
+    },
+    service_id: {
+        type: Sequelize.INTEGER
     },
     estimate_fix_duration: {
         type: Sequelize.INTEGER
