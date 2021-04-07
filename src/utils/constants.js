@@ -26,7 +26,7 @@ module.exports = Object.freeze({
     STATUS_REQUEST_FIXED: 4,
     // Đã tạo xong hóa đơn
     STATUS_REQUEST_COMPLETED: 5,
-    STATUS_REQUEST_CANCELLED: 6,
+    STATUS_REQUEST_CANCELED: 6,
 
     //Paging
     NUMBER_REQUEST_PER_PAGE: 5,
