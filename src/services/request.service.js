@@ -66,7 +66,7 @@ module.exports.getInitListRequest = async (customer_id, role) => {
     let listCompletedRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_COMPLETED]);
 
     //Canceled request
-    let listCancelledRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_CANCELLED]);
+    let listCancelledRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_CANCELED]);
 
 
     let listRequest = {
