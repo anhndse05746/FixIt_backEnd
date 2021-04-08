@@ -20,18 +20,18 @@ module.exports.getRequestDetail = async (request_id) => {
             attributes: ['id', 'name'],
             include: [{
                 model: Issues,
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'estimate_price'],
             }]
         },
         {
             model: User,
             as: 'Customer',
-            attributes: ['id', 'name'],
+            attributes: ['id', 'name', 'phone_number'],
         },
         {
             model: User,
             as: 'Repairer',
-            attributes: ['id', 'name']
+            attributes: ['id', 'name', 'phone_number']
         },
         {
             model: StatusHistory,
@@ -47,7 +47,7 @@ module.exports.getRequestDetail = async (request_id) => {
             include: [
                 {
                     model: Issues,
-                    attributes: ['id', 'name'], order: [['updatedAt', 'DESC']],
+                    attributes: ['id', 'name', 'estimate_price'], order: [['updatedAt', 'DESC']],
                 },
             ],
 
@@ -215,14 +215,20 @@ module.exports.getRequestByID = async (request_id) => {
     return request;
 }
 
-module.exports.getListRequestByStatusForCustomer = async (customer_id, page, status_id) => {
+module.exports.getListRequestByStatusForCustomer = async (customer_id, role, page, status_id) => {
+    let where = '';
+    if (role === constants.ROLE_CUSTOMER) {
+        where = 're.customer_id = $customer_id'
+    } else if (role === constants.ROLE_REPAIRER) {
+        where = 're.repairer_id = $customer_id'
+    }
 
     let status = status_id.length > 1 ? 'OR R.countStatus = $status_id_2 OR R.countStatus = $status_id_3 ' : '';
 
     return await pool.query('SELECT re.id, re.customer_id, re.repairer_id, re.service_id, se.`name` AS serviceName, se.major_id, re.schedule_time, re.estimate_time, re.estimate_price, re.description, re.address, re.district, re.city, temp.currentStatus, st.`name` as statusName FROM repairing_request re JOIN (SELECT R.request_id AS request_id, R.countStatus AS currentStatus, request_status.updatedAt ' +
         'as time FROM (SELECT MAX(request_status.status_id) AS countStatus, request_status.request_id AS request_id FROM request_status GROUP BY request_status.request_id) AS R LEFT OUTER JOIN request_status ON R.request_id = request_status.request_id AND R.countStatus = request_status.status_id WHERE R.countStatus = $status_id_1 ' + status +
-        'ORDER BY request_status.updatedAt DESC) AS temp ON re.id = temp.request_id JOIN services se ON re.service_id = se.id JOIN `status` st ON temp.currentStatus = st.id WHERE re.customer_id = $customer_id ' +
-        'ORDER BY temp.time DESC ' + 'LIMIT $page, $requestPerPage', {
+        'ORDER BY request_status.updatedAt DESC) AS temp ON re.id = temp.request_id JOIN services se ON re.service_id = se.id JOIN `status` st ON temp.currentStatus = st.id WHERE ' + where +
+        ' ORDER BY temp.time DESC ' + 'LIMIT $page, $requestPerPage', {
         bind: {
             customer_id: customer_id,
             status_id_1: status_id[0],

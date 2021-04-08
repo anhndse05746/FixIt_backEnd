@@ -60,26 +60,23 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/updateService', serviceController.updateService);
     app.post('/api/admin/deleteService', serviceController.deleteService);
 
-
     // major service 
     app.get('/api/getMajor', majorController.getMajorDetail);
     //get all request
 
+    app.post('/createRequest', requestController.createRequest);
     //API for take request
-    app.post('/takeRequest', requestController.takeRequest)
-
+    app.post('/api/repairer/takeRequest', requestController.takeRequest)
     //API for cancel request
     app.post('/api/cancelRequest', requestController.cancelRequest);
 
     //API for get list request for customer
-    app.post('/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
+    app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
 
     //API for get init list request
     app.post('/api/getInitListRequest', requestController.getInitListRequest);
 
     // user service
-    //create Request
-    app.post('/api/createRequest', requestController.createRequest);
 
     // get Request detail by request_id
     app.post('/api/getRequestDetail', requestController.getRequestByRequestID);
