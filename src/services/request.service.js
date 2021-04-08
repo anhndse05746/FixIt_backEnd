@@ -32,7 +32,7 @@ module.exports.takeRequest = async (request_id, repairer_id) => {
         await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_HASTAKEN);
     } else if (status.status_id == constants.STATUS_REQUEST_HASTAKEN || status.status_id == constants.STATUS_REQUEST_FIXING) {
         return message = 'This request is taken';
-    } else if (status.status_id == constants.STATUS_REQUEST_CANCELLED) {
+    } else if (status.status_id == constants.STATUS_REQUEST_CANCELED) {
         return message = 'This request is canceled';
     }
     return await RequestRepo.getRequestByID(request_id);
@@ -42,7 +42,7 @@ module.exports.cancelRequest = async (request_id, cancel_by, cancel_reason) => {
     let status = await RequestStatusRepo.getRequestStatus(request_id);
     if (status.status_id == constants.STATUS_REQUEST_FINDING || status.status_id == constants.STATUS_REQUEST_FIXING ||
         status.status_id == constants.STATUS_REQUEST_HASTAKEN) {
-        await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_CANCELLED, cancel_by, cancel_reason);
+        await RequestRepo.updateStatus(request_id, constants.STATUS_REQUEST_CANCELED, cancel_by, cancel_reason);
     } else {
         return message = 'Can not cancel this request';
     }
