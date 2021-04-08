@@ -1,6 +1,8 @@
 const InvoiceRepo = require("../repositories/invoice.repository");
 const RequestStatusRepo = require("../repositories/request_status.repository");
 const IssuesListRepo = require("../repositories/request_issues.repository");
+const constants = require("../utils/constants");
+const requestService = require("./request.service")
 
 module.exports.insertInvoiceDetail = async (request_id, payment_method_id, status, cost_incurred, total_price, request_issues) => {
 
@@ -9,18 +11,20 @@ module.exports.insertInvoiceDetail = async (request_id, payment_method_id, statu
     let count = 0;
     if (request_issues.length != list_issues.length) {
         count = 1;
-    }
-    for (let i = 0, l = request_issues.length; i < l; i++) {
-        if (request_issues[i].issues_id != list_issues[i].issues_id) {
-            count = 1;
-            break;
+    } else {
+        for (let i = 0, l = request_issues.length; i < l; i++) {
+            if (request_issues[i].issues_id != list_issues[i].issues_id) {
+                count = 1;
+                break;
+            }
         }
     }
-  
+
     if (count != 0) {
         await IssuesListRepo.deleteListIssuesByID(request_id)
         await IssuesListRepo.insertListIssues(request_issues);
     }
-    await RequestStatusRepo.updateStatus(request_id, 4);
-    return request;
+    await RequestStatusRepo.updateStatus(request_id, constants.STATUS_REQUEST_FIXED);
+    const result = await requestService.getRequestDetail(request_id)
+    return result;
 }
