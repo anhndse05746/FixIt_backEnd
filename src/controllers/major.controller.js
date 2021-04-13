@@ -12,7 +12,7 @@ const {
  */
 module.exports.getMajorDetail = async (req, res, next) => {
     try {
-        let payload = await majorService.getMajorDetail();
+        let payload = await majorService.getMajorDetail(req.body.role_id);
         successResponse(
             res,
             constants.STATUS_SUCCESS,
@@ -58,9 +58,25 @@ module.exports.updateMajor = async (req, res) => {
     }
 }
 
-module.exports.deleteMajor = async (req, res) => {
+module.exports.deactivateMajor = async (req, res) => {
     try {
-        let payload = await majorService.deleteMajor(req.body.id);
+        let payload = await majorService.deactivateMajor(req.body.id);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            payload
+        )
+    } catch (error) {
+        errorResponse(
+            res,
+            error.message
+        )
+    }
+}
+
+module.exports.activeMajor = async (req, res) => {
+    try {
+        let payload = await majorService.activeMajor(req.body.id);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

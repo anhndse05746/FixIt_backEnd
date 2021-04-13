@@ -45,23 +45,22 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/approveCV', repairerController.approveCV);
 
     //API for major service 
-    app.get('/getMajor', majorController.getMajorDetail);
     app.post('/api/admin/createMajor', majorController.createMajor);
     app.post('/api/admin/updateMajor', majorController.updateMajor);
-    app.post('/api/admin/deleteMajor', majorController.deleteMajor);
-
+    app.post('/api/admin/deactivateMajor', majorController.deactivateMajor);
+    app.post('/api/admin/activeMajor', majorController.activeMajor);
     //API for issue
     app.post('/api/admin/createIssue', issueController.createIssue);
     app.post('/api/admin/updateIssue', issueController.updateIssue);
-    app.post('/api/admin/deleteIssue', issueController.deleteIssue);
-
+    app.post('/api/admin/deactivateIssue', issueController.deactivateIssue);
+    app.post('/api/admin/activeIssue', issueController.activeIssue);
     //API for service
     app.post('/api/admin/createService', serviceController.createService);
     app.post('/api/admin/updateService', serviceController.updateService);
-    app.post('/api/admin/deleteService', serviceController.deleteService);
-
+    app.post('/api/admin/deactivateService', serviceController.deactivateService);
+    app.post('/api/admin/activeService', serviceController.activeService);
     // major service 
-    app.get('/api/getMajor', majorController.getMajorDetail);
+    app.post('/api/getMajor', majorController.getMajorDetail);
     //get all request
 
     app.post('/api/createRequest', requestController.createRequest);
