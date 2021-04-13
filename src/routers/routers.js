@@ -42,6 +42,7 @@ module.exports.setupRouters = (app) => {
     //API for get all repairers
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
     app.get('/api/admin/getAllRepairerNotVerified', repairerController.getAllRepairerNotVerifiedController);
+    app.post('/api/admin/approveCV', repairerController.approveCV);
 
     //API for major service 
     app.get('/getMajor', majorController.getMajorDetail);
@@ -63,11 +64,13 @@ module.exports.setupRouters = (app) => {
     app.get('/api/getMajor', majorController.getMajorDetail);
     //get all request
 
-    app.get('/api/createRequest', requestController.createRequest);
+    app.post('/api/createRequest', requestController.createRequest);
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
     //API for cancel request
     app.post('/api/cancelRequest', requestController.cancelRequest);
+    //API for confirm invoice, completed request
+    app.post('/api/confirmInvoice', invoiceController.confirmInvoice);
 
     //API for get list request for customer
     app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);

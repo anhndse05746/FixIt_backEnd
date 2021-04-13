@@ -28,3 +28,19 @@ module.exports.createInvoice = async (req, res, next) => {
     )
   }
 }
+
+module.exports.confirmInvoice = async (req, res) => {
+    try {
+        let payload = await invoiceService.confirmInvoice(req.body.request_id);
+        successResponse(
+          res,
+          constants.STATUS_SUCCESS,
+          payload
+        )
+      } catch (error) {
+        errorResponse(
+          res,
+          error.message
+        )
+      }
+}
