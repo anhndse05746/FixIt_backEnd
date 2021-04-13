@@ -18,6 +18,9 @@ const Issues = db.define('issues', {
     },
     estimate_price: {
         type: Sequelize.DECIMAL
+    },
+    is_active: {
+        type: Sequelize.INTEGER
     }
 }, {
 

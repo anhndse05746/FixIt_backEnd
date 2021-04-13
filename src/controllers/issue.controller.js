@@ -39,9 +39,25 @@ module.exports.updateIssue = async (req, res) => {
     }
 }
 
-module.exports.deleteIssue = async (req, res) => {
+module.exports.deactivateIssue = async (req, res) => {
     try {
-        let payload = await issueService.deleteIssue(req.body.id);
+        let payload = await issueService.deactivateIssue(req.body.id, req.body.service_id);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            payload
+        )
+    } catch (error) {
+        errorResponse(
+            res,
+            error.message
+        )
+    }
+}
+
+module.exports.activeIssue = async (req, res) => {
+    try {
+        let payload = await issueService.activeIssue(req.body.id, req.body.service_id);
         successResponse(
             res,
             constants.STATUS_SUCCESS,
