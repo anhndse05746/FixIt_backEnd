@@ -39,9 +39,25 @@ module.exports.updateService = async (req, res) => {
     }
 }
 
-module.exports.deleteService = async (req, res) => {
+module.exports.deactivateService = async (req, res) => {
     try {
-        let payload = await serviceSer.deleteService(req.body.id);
+        let payload = await serviceSer.deactivateService(req.body.id, req.body.major_id);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            payload
+        )
+    } catch (error) {
+        errorResponse(
+            res,
+            error.message
+        )
+    }
+}
+
+module.exports.activeService = async (req, res) => {
+    try {
+        let payload = await serviceSer.activeService(req.body.id, req.body.major_id);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

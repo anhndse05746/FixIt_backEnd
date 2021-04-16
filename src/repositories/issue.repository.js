@@ -10,6 +10,7 @@ issues.createIssue = async (name, service_id, estimate_fix_duration, estimate_pr
         service_id: service_id,
         estimate_fix_duration: estimate_fix_duration,
         estimate_price: estimate_price,
+        is_active: constants.ACTIVE
     }).then().catch(err => {
         throw new Error(err.message);
     });
@@ -32,8 +33,10 @@ issues.updateIssue = async (id, name, service_id, estimate_fix_duration, estimat
     });
 }
 
-issues.deleteIssue = async (id) => {
-    return await Issue.destroy({
+issues.changeIssueStatus = async (id, status) => {
+    return await Issue.update({
+        is_active: status
+    },{
         where: {
             id: id
         }
@@ -50,6 +53,16 @@ issues.countIssueByServiceId = async (service_id) => {
     }).then().catch(err => {
         throw new Error(err.message);
     })
+}
+
+issues.getIssueByServiceId = async (service_id) => {
+    return await Issue.findAll({
+        where: {
+            service_id: service_id,
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
 }
 
 module.exports = issues;

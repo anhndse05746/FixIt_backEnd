@@ -45,30 +45,35 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/approveCV', repairerController.approveCV);
 
     //API for major service 
-    app.get('/getMajor', majorController.getMajorDetail);
     app.post('/api/admin/createMajor', majorController.createMajor);
     app.post('/api/admin/updateMajor', majorController.updateMajor);
-    app.post('/api/admin/deleteMajor', majorController.deleteMajor);
-
+    app.post('/api/admin/deactivateMajor', majorController.deactivateMajor);
+    app.post('/api/admin/activeMajor', majorController.activeMajor);
     //API for issue
     app.post('/api/admin/createIssue', issueController.createIssue);
     app.post('/api/admin/updateIssue', issueController.updateIssue);
-    app.post('/api/admin/deleteIssue', issueController.deleteIssue);
-
+    app.post('/api/admin/deactivateIssue', issueController.deactivateIssue);
+    app.post('/api/admin/activeIssue', issueController.activeIssue);
     //API for service
     app.post('/api/admin/createService', serviceController.createService);
     app.post('/api/admin/updateService', serviceController.updateService);
-    app.post('/api/admin/deleteService', serviceController.deleteService);
-
+    app.post('/api/admin/deactivateService', serviceController.deactivateService);
+    app.post('/api/admin/activeService', serviceController.activeService);
     // major service 
-    app.get('/api/getMajor', majorController.getMajorDetail);
+    app.post('/api/getMajor', majorController.getMajorDetail);
     //get all request
 
+<<<<<<< HEAD
     app.post('/createRequest', requestController.createRequest);
+=======
+    app.post('/api/createRequest', requestController.createRequest);
+>>>>>>> 1d38763f2e157f7345e4dab80f86987212137d2b
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
     //API for cancel request
     app.post('/api/cancelRequest', requestController.cancelRequest);
+    //API for confirm invoice, completed request
+    app.post('/api/confirmInvoice', invoiceController.confirmInvoice);
 
     //API for get list request for customer
     app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);

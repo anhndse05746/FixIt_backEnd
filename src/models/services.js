@@ -12,6 +12,9 @@ const Services = db.define('services', {
     image: {
         type: Sequelize.STRING,
     },
+    is_active: {
+        type: Sequelize.INTEGER
+    }
 }, {
     timestamps: true
 });

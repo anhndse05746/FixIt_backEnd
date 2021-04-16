@@ -1,6 +1,5 @@
 const Service = require('../models/services');
 const constants = require('../utils/constants');
-const issueRepo = require('./issue.repository');
 
 let services = {};
 
@@ -8,7 +7,8 @@ services.createService = async (name, major_id, image) => {
     return await Service.create({
         name: name,
         major_id: major_id,
-        image: image
+        image: image,
+        is_active: constants.ACTIVE
     }).then().catch(err => {
         throw new Error(err.message)
     });
@@ -28,8 +28,10 @@ services.updateService = async (id, name, major_id, image) => {
     });
 }
 
-services.deleteService = async (id) => {
-    return await Service.destroy({
+services.changeServiceStatus = async (id, status) => {
+    return await Service.update({
+        is_active: status
+    },{
         where: {
             id: id
         }
@@ -41,7 +43,7 @@ services.deleteService = async (id) => {
 services.getServiceById = async (id) => {
     return await Service.findOne({
         where: {
-            id: id
+            id: id,
         }
     }).then().catch(err => {
         throw new Error(err.message);
@@ -52,6 +54,16 @@ services.countServiceByMajorId = async (major_id) => {
     return await Service.count({
         where: {
             major_id: major_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
+services.getAllServiceByMajorId = async (major_id) => {
+    return await Service.findAll({
+        where: {
+            major_id: major_id,
         }
     }).then().catch(err => {
         throw new Error(err.message);
