@@ -63,11 +63,7 @@ module.exports.setupRouters = (app) => {
     app.post('/api/getMajor', majorController.getMajorDetail);
     //get all request
 
-<<<<<<< HEAD
-    app.post('/createRequest', requestController.createRequest);
-=======
     app.post('/api/createRequest', requestController.createRequest);
->>>>>>> 1d38763f2e157f7345e4dab80f86987212137d2b
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
     //API for cancel request

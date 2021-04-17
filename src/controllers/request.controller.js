@@ -39,7 +39,7 @@ module.exports.createRequest = async (req, res, next) => {
     let result = await requestService.createRequest(customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, request_issues, city, district);
     let tokens = await pushNotifyService.getRepairerDeviceTokenByCity(city)
     let notify = await pushNotifyService.send(tokens, `Bạn có yêu cầu ${result.service.name} mới`, description, 'RequestDetailView', result.id)
-
+    console.log(tokens)
     successResponse(
       res,
       constants.STATUS_SUCCESS,

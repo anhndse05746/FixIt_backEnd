@@ -1,6 +1,8 @@
 const admin = require('../config/firebaseAdmin')
 const user = require('../models/user');
 const repairer = require('../models/repairer')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
 
 module.exports.send = async (tokens, title, body, screen, requestId) => {
 
@@ -28,10 +30,16 @@ module.exports.getRepairerDeviceTokenByCity = async (city) => {
                 attributes: [
                 ],
                 where: {
-                    city: city
+                    city: city,
                 }
             }
-        ]
+        ],
+        where: {
+            device_token: {
+                [Op.not]: null,
+                [Op.notLike]: ''
+            }
+        }
     }).then().catch(err => { console.log(err.message) })
 
     let tokens = []
