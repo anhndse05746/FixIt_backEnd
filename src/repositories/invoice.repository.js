@@ -3,11 +3,11 @@ const constants = require('../utils/constants');
 
 
 // lay ra data cua major (service, issues)
-module.exports.createInvoice = async (request_id, payment_method_id, status, cost_incurred, total_price) => {
+module.exports.createInvoice = async (request_id, payment_method_id, status, other_cost, cost_of_supplies, total_price, actual_proceeds) => {
 
     const invoice = await Invoice.create(
         {
-            request_id, payment_method_id, status, cost_incurred, total_price
+            request_id, payment_method_id, status, other_cost, cost_of_supplies, total_price, actual_proceeds
         }
     ).then().catch(err => {
         console.log(err)

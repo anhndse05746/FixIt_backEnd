@@ -13,10 +13,16 @@ const Invoice = db.define('invoice', {
     status: {
         type: Sequelize.STRING,
     },
-    cost_incurred: {
-        type: Sequelize.DOUBLE,
+    other_cost: {
+        type: Sequelize.INTEGER,
     },
     total_price: {
+        type: Sequelize.INTEGER,
+    },
+    cost_of_supplies: {
+        type: Sequelize.INTEGER,
+    },
+    actual_proceeds: {
         type: Sequelize.INTEGER,
     },
 }, {
