@@ -6,16 +6,10 @@ module.exports.getNotificationByUserID = async (user_id, page) => {
 }
 
 module.exports.insertNotification = async (user_id, title, type, request_id) => {
-    // let title = 'Notification 1';
-    // let type = 1;
-    // let request_id = 34;
-    // let user_id = [43];
-    // let page = 1;
-
     //truyền vào mảng user_id
+    // notificationRepo.insertNotification(user_id, title, type, request_id, constants.STATUS_UNREAD);
     for (const item of user_id) {
         await notificationRepo.insertNotification(item, title, type, request_id, constants.STATUS_UNREAD);
     }
-
     return await notificationRepo.getNotificationByUser(user_id, 0);
 }

@@ -60,5 +60,6 @@ module.exports.setupRouters = (app) => {
 
     //API for notification
     app.post('/api/getNotification', notificationController.getNotificationByUser);
+    app.post('/api/sendNotification', notificationController.sendNotification);
 };
 
