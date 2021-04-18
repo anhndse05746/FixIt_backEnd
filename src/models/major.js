@@ -13,6 +13,9 @@ const Major = db.define('major', {
     name: {
         type: Sequelize.STRING
     },
+    is_active: {
+        type: Sequelize.INTEGER
+    }
 }, {
     freezeTableName: true,
     timestamps: true

@@ -3,6 +3,8 @@ const majorController = require('../controllers/major.controller');
 const authController = require('../controllers/auth.controller');
 const { checkAuthenticate } = require('../middlewares/auth');
 const repairerController = require('../controllers/repairer.controller');
+const issueController = require('../controllers/issue.controller');
+const serviceController = require('../controllers/service.controller');
 
 const invoiceController = require('../controllers/invoice.controller');
 
@@ -23,6 +25,7 @@ module.exports.setupRouters = (app) => {
     app.all('/api/*', checkAuthenticate);
     //Verify Admin Middleware
     app.all('/api/admin/*', verifyRole.checkRole);
+    app.all('/api/repairer/*', verifyRole.checkRoleRepairer);
 
     //API for update user
     app.post('/api/updateUser', userController.updateUser);
@@ -39,15 +42,46 @@ module.exports.setupRouters = (app) => {
 
     //API for get all repairers
     app.get('/api/admin/getAllRepairer', repairerController.getAllRepairerController);
+    app.get('/api/admin/getAllRepairerNotVerified', repairerController.getAllRepairerNotVerifiedController);
+    app.post('/api/admin/approveCV', repairerController.approveCV);
 
+    //API for major service 
+    app.post('/api/admin/createMajor', majorController.createMajor);
+    app.post('/api/admin/updateMajor', majorController.updateMajor);
+    app.post('/api/admin/deactivateMajor', majorController.deactivateMajor);
+    app.post('/api/admin/activeMajor', majorController.activeMajor);
+    //API for issue
+    app.post('/api/admin/createIssue', issueController.createIssue);
+    app.post('/api/admin/updateIssue', issueController.updateIssue);
+    app.post('/api/admin/deactivateIssue', issueController.deactivateIssue);
+    app.post('/api/admin/activeIssue', issueController.activeIssue);
+    //API for service
+    app.post('/api/admin/createService', serviceController.createService);
+    app.post('/api/admin/updateService', serviceController.updateService);
+    app.post('/api/admin/deactivateService', serviceController.deactivateService);
+    app.post('/api/admin/activeService', serviceController.activeService);
     // major service 
-    app.get('/api/getMajor', majorController.getMajorDetail);
+    app.post('/api/getMajor', majorController.getMajorDetail);
+    //get all request
 
-    //create Request
     app.post('/api/createRequest', requestController.createRequest);
+    //API for take request
+    app.post('/api/repairer/takeRequest', requestController.takeRequest)
+    //API for cancel request
+    app.post('/api/cancelRequest', requestController.cancelRequest);
+    //API for confirm invoice, completed request
+    app.post('/api/confirmInvoice', invoiceController.confirmInvoice);
+
+    //API for get list request for customer
+    app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
+
+    //API for get init list request
+    app.post('/api/getInitListRequest', requestController.getInitListRequest);
+
+    // user service
 
     // get Request detail by request_id
-    app.get('/api/getRequestDetail', requestController.getRequestByRequestID);
+    app.post('/api/getRequestDetail', requestController.getRequestByRequestID);
 
     //create Invoice 
     app.post('/api/createInvoice', invoiceController.createInvoice);
@@ -61,5 +95,7 @@ module.exports.setupRouters = (app) => {
     //API for notification
     app.post('/api/getNotification', notificationController.getNotificationByUser);
     app.post('/api/sendNotification', notificationController.sendNotification);
+    //get request list for repairer
+    app.post('/api/getRequestList', repairerController.getListRequest);
 };
 
