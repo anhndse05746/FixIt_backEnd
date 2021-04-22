@@ -13,10 +13,10 @@ const User_Address = db.define('user_request_address', {
         type: Sequelize.STRING,
     },
     district: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
     },
     city: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
     },
 }, {
     freezeTableName: true,

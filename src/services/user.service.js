@@ -23,19 +23,15 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let repairer = {}
 
                     let is_verify
-                    let cityId
-                    let districtId
+                    let city
+                    let district
                     //Check if user is an repairer
                     if (role_id == 2) {
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
-                        let city = cityOfVN.find(city => city.Name == repairer.repairer.city)
-                        is_verify = repairer.repairer.is_verify
-                        if (city) {
-                            let district = city.Districts.find(district => district.Name == repairer.repairer.district)
-                            cityId = city.Id
-                            districtId = district.Id
-                        }
+                        is_verify = repairer.repairer.is_verify;
+                        city = repairer.repairer.city;
+                        district = repairer.repairer.district;
                     }
 
                     payload = {
@@ -47,8 +43,8 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         token: `Bearer ${token}`,
                         address_list: address_list,
                         is_verify: is_verify,
-                        city: cityId,
-                        district: districtId
+                        city: city,
+                        district: district
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
@@ -85,7 +81,7 @@ module.exports.getAllCustomer = async () => {
 module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
     let result = await userRepository.updateUser(phone, role_id, name, email, image);
     if (role_id == 2) {
-       
+
         //get repairer information 
         let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
         if (cityVN) {

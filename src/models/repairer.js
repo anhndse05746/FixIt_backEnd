@@ -20,10 +20,10 @@ const Repairer = db.define('repairer', {
         type: Sequelize.STRING
     },
     district: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     city: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
 }, {
     // freezeTableName: true,
