@@ -65,8 +65,7 @@ module.exports.checkRegisteredPhoneNumber = async (req, res) => {
 
 module.exports.updateUser = async (req, res) => {
     try {
-        let result = await userService.updateUser(req.body.phone_number, req.body.role_id, req.body.name,
-            req.body.dob, req.body.email, req.body.image);
+        let result = await userService.updateUser(req.body.user_id, req.body.phone, req.body.role_id, req.body.name, req.body.email, req.body.image, req.body.district, req.body.city, req.body.address, req.body.identity_card_number);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

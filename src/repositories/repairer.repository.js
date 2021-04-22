@@ -24,6 +24,24 @@ repairer.getAllRepairer = async () => {
     });
 };
 
+repairer.updateProfile = async (user_id, district, city, address, identity_card_number) => {
+    newRepairer = {
+        district: district,
+        city: city,
+        address: address,
+        identity_card_number: identity_card_number
+    }
+    await Repairer.update(newRepairer, {
+        where: {
+            id: user_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+    return newRepairer;
+
+
+}
 repairer.getRepairer = async (repairer_id) => {
     return await User.findOne({
         where: {

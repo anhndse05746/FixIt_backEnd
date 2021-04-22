@@ -65,12 +65,11 @@ users.getAllUser = async (role_id) => {
 };
 
 
-users.updateUser = async (phone, role_id, name, dob, email, image) => {
+users.updateUser = async (phone, role_id, name, email, image) => {
     let user = await users.checkRegistered(phone, role_id);
     if (user) {
         const newUser = {
             name: name,
-            dob: dob,
             email: email,
             image: image
         }

@@ -82,8 +82,19 @@ module.exports.getAllCustomer = async () => {
     return await userRepository.getAllUser(constants.ROLE_CUSTOMER);
 };
 
-module.exports.updateUser = async (phone, role_id, name, dob, email, image) => {
-    let result = await userRepository.updateUser(phone, role_id, name, dob, email, image);
+module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
+    let result = await userRepository.updateUser(phone, role_id, name, email, image);
+    if (role_id == 2) {
+       
+        //get repairer information 
+        let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
+        if (cityVN) {
+            let districtVN = cityVN.Districts.find(districtVN => districtVN.Name == district)
+            cityId = cityVN.Id
+            districtId = districtVN.Id
+        }
+        await repairerRepo.updateProfile(user_id, districtId, cityId, address, identity_card_number)
+    }
     return result;
 };
 
