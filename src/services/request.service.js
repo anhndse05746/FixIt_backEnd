@@ -1,4 +1,6 @@
 const RequestRepo = require("../repositories/request.repository");
+const ReparierRepo = require('../repositories/repairer.repository');
+
 const constants = require("../utils/constants");
 // const IssuseRepo = require("../repositories/.repository")
 
@@ -25,6 +27,16 @@ module.exports.createRequest = async (customer_id, service_id, schedule_time, es
 }
 
 module.exports.takeRequest = async (request_id, repairer_id) => {
-    await RequestRepo.insertStatusHistory(request_id, constants.STATUS_REQUEST_FIXING);
-    await RequestRepo.updateRequestForApprove(request_id, repairer_id);
+    let message;
+    if (await ReparierRepo.getVerifyRepairerByUID(repairer_id)) {
+        await RequestRepo.insertStatusHistory(request_id, constants.STATUS_REQUEST_FIXING);
+        await RequestRepo.updateRequestForTakingRequest(request_id, repairer_id);
+        message = "success"
+        return message;
+    }
+    else {
+        message = "Repaier need to verify";
+        return message;
+    }
+
 }

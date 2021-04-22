@@ -15,9 +15,20 @@ repairer.getAllRepairer = async () => {
         ],
 
         include: [{
-            model: Repairer, 
+            model: Repairer,
             // required: true
         }]
+    }).then().catch(err => {
+        console.log(err);
+    });
+};
+
+repairer.getVerifyRepairerByUID = async (repairer_id) => {
+    return await Repairer.findOne({
+        where: {
+            id: repairer_id,
+            is_verify: true
+        }
     }).then().catch(err => {
         console.log(err);
     });

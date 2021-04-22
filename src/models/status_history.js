@@ -5,16 +5,13 @@ const ReparingRequest = require('../models/repairing_request')
 const Status = require('../models/status')
 
 const RequestStatus = db.define('request_status', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
     request_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        primaryKey: true
     }, 
     status_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        primaryKey: true
     },
     cancel_by: {
         type: Sequelize.INTEGER
