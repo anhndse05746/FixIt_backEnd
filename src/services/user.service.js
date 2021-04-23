@@ -94,15 +94,16 @@ module.exports.updateUser = async (phone, role_id, name, dob, email, image) => {
 };
 
 module.exports.resetPassword = async (phone, role_id, newPassword) => {
+    let message = '';
     let passwordInDB = await userRepository.getOldPassword(phone, role_id);
     let comparePassword = await bcrypt.compare(newPassword, passwordInDB);
     if (comparePassword) {
-        throw new Error(constants.PASSWORD_DUPPLICATE);
+        message = constants.PASSWORD_DUPPLICATE;
     } else {
         newPassword = await bcrypt.hash(newPassword, salt);
         let result = await userRepository.resetPassword(phone, role_id, newPassword);
-        return result;
     }
+    return message
 }
 
 module.exports.changePassword = async (phone, role_id, oldPassword, newPassword) => {
