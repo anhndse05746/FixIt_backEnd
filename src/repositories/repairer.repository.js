@@ -61,13 +61,10 @@ repairer.getRequestList = async (repairer_id) => {
     const rpr = await repairer.getRepairer(repairer_id)
     const query = 'SELECT rq.id, rq.customer_id, rq.service_id, rq.estimate_time, rq.estimate_price,  rq.schedule_time, rs.currentStatus,s.`name` as statusName, sv.`name` as serviceName FROM repairing_request rq JOIN (SELECT request_id, MAX(`status_id`) AS currentStatus FROM request_status GROUP BY `request_id`) as rs ON rq.id = rs.request_id JOIN `status` s ON s.id = rs.currentStatus JOIN services sv ON sv.id = rq.service_id  WHERE rs.currentStatus = $currentStatus AND rq.city = $city'
 
-    // console.log(rpr)
-    let rprCity = cityOfVN.find(cityVN => cityVN.Id == rpr.repairer.city).Name
-
     return await pool.query(query, {
         bind: {
             currentStatus: constants.STATUS_REQUEST_FINDING,
-            city: rprCity
+            city: rpr.repairer.city
         },
         type: sequelize.QueryTypes.SELECT
     }).then().catch(err => {
