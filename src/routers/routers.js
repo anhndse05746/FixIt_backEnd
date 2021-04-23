@@ -92,6 +92,6 @@ module.exports.setupRouters = (app) => {
     app.post('/api/createAddress', user_addressController.createAddress);
 
     //get request list for repairer
-    app.post('/api/getRequestList', repairerController.getListRequest);
+    app.post('/getRequestList', repairerController.getListRequest);
 };
 

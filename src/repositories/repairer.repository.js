@@ -3,6 +3,7 @@ const User = require('../models/user');
 const constants = require('../utils/constants');
 const Repairer = require('../models/repairer');
 const sequelize = require('sequelize')
+const cityOfVN = require('../utils/cityOfVietNam').cityOfVN;
 
 let repairer = {};
 
@@ -24,6 +25,24 @@ repairer.getAllRepairer = async () => {
     });
 };
 
+repairer.updateProfile = async (user_id, district, city, address, identity_card_number) => {
+    newRepairer = {
+        district: district,
+        city: city,
+        address: address,
+        identity_card_number: identity_card_number
+    }
+    await Repairer.update(newRepairer, {
+        where: {
+            id: user_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+    return newRepairer;
+
+
+}
 repairer.getRepairer = async (repairer_id) => {
     return await User.findOne({
         where: {
@@ -42,10 +61,13 @@ repairer.getRequestList = async (repairer_id) => {
     const rpr = await repairer.getRepairer(repairer_id)
     const query = 'SELECT rq.id, rq.customer_id, rq.service_id, rq.estimate_time, rq.estimate_price,  rq.schedule_time, rs.currentStatus,s.`name` as statusName, sv.`name` as serviceName FROM repairing_request rq JOIN (SELECT request_id, MAX(`status_id`) AS currentStatus FROM request_status GROUP BY `request_id`) as rs ON rq.id = rs.request_id JOIN `status` s ON s.id = rs.currentStatus JOIN services sv ON sv.id = rq.service_id  WHERE rs.currentStatus = $currentStatus AND rq.city = $city'
 
+    // console.log(rpr)
+    let rprCity = cityOfVN.find(cityVN => cityVN.Id == rpr.repairer.city).Name
+
     return await pool.query(query, {
         bind: {
             currentStatus: constants.STATUS_REQUEST_FINDING,
-            city: rpr.repairer.city
+            city: rprCity
         },
         type: sequelize.QueryTypes.SELECT
     }).then().catch(err => {
