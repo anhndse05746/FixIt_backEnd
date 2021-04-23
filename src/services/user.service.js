@@ -4,8 +4,9 @@ const repairerRepo = require('../repositories/repairer.repository');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
 const repairer = require('../repositories/repairer.repository');
-const cityOfVN = require('../utils/cityOfVietNam').cityOfVN
-
+const cityOfVN = require('../utils/cityOfVietNam').cityOfVN;
+const bcrypt = require('bcrypt');
+const salt = bcrypt.genSaltSync(10)
 module.exports.userAuthentication = async (phone, password, role_id, device_token) => {
     let payload;
     let userData = await user.findOne({
@@ -17,7 +18,9 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
         .then(async user => {
             if (user) {
                 console.log('user');
-                if (user.password == password) {
+                //compare password in database with password recieved from api
+                let comparePassword = await bcrypt.compare(password, user.password);
+                if (comparePassword) {
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = await userRepository.getAddressList(user.id);
                     let repairer = {}
@@ -67,6 +70,9 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
     return payload;
 };
 
+
+
+
 module.exports.checkRegisteredPhoneNumber = async (phone, role_id) => {
     let message;
     let checkResult = await userRepository.checkRegistered(phone, role_id);
@@ -81,7 +87,6 @@ module.exports.getAllCustomer = async () => {
 module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
     let result = await userRepository.updateUser(phone, role_id, name, email, image);
     if (role_id == 2) {
-
         //get repairer information 
         let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
         if (cityVN) {
@@ -95,18 +100,27 @@ module.exports.updateUser = async (user_id, phone, role_id, name, email, image, 
 };
 
 module.exports.resetPassword = async (phone, role_id, newPassword) => {
-    let result = await userRepository.resetPassword(phone, role_id, newPassword);
-    return result;
+    let message = '';
+    let passwordInDB = await userRepository.getOldPassword(phone, role_id);
+    let comparePassword = await bcrypt.compare(newPassword, passwordInDB);
+    if (comparePassword) {
+        message = constants.PASSWORD_DUPPLICATE;
+    } else {
+        newPassword = await bcrypt.hash(newPassword, salt);
+        let result = await userRepository.resetPassword(phone, role_id, newPassword);
+    }
+    return message
 }
 
 module.exports.changePassword = async (phone, role_id, oldPassword, newPassword) => {
     let message;
     let passwordInDB = await userRepository.getOldPassword(phone, role_id);
-
-    if (oldPassword === passwordInDB) {
+    let comparePassword = await bcrypt.compare(oldPassword, passwordInDB);
+    if (comparePassword) {
+        newPassword = await bcrypt.hash(newPassword, salt);
         let resultOfChangePassword = await userRepository.resetPassword(phone, role_id, newPassword);
         message = 'success';
-    } else if (oldPassword !== passwordInDB) {
+    } else {
         message = 'Incorrect password'
     }
     return message;

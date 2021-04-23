@@ -2,18 +2,11 @@ const user = require('../models/user');
 const userRegister = require('../models/user');
 const constants = require('../utils/constants');
 const Repairer = require('../models/repairer');
-const cityOfVN = require('../utils/cityOfVietNam').cityOfVN
+const bcrypt = require('bcrypt');
 
-module.exports.register = async (phone_number, password, name, role_id, email, identity_card,
-    major_id, district, city) => {
-    let cityId
-    let districtId
-    let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
-    if (cityVN) {
-        let districtVN = cityVN.Districts.find(districtVN => districtVN.Name == district)
-        cityId = cityVN.Id
-        districtId = districtVN.Id
-    }
+module.exports.register = async (phone_number, password, name, role_id, email, identity_card, major_id, district, city) => {
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     let registerCheck = await user.findOne({
         where: {
             phone_number: phone_number,
@@ -23,7 +16,7 @@ module.exports.register = async (phone_number, password, name, role_id, email, i
         if (!user) {
             let resultRegister = await userRegister.create({
                 phone_number: phone_number,
-                password: password,
+                password: hashedPassword,
                 name: name,
                 role_id: role_id,
                 email: email,
@@ -45,8 +38,8 @@ module.exports.register = async (phone_number, password, name, role_id, email, i
                     major_id: major_id,
                     identity_card_number: identity_card,
                     is_verify: 0,
-                    district: districtId,
-                    city: cityId
+                    district: district,
+                    city: city
                 }).then().catch(err => {
                     throw new Error(err.message);
                 });
