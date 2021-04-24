@@ -47,6 +47,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         role: user.role_id,
                         token: `Bearer ${token}`,
                         address_list: address_list,
+                        address: address,
                         is_verify: is_verify,
                         city: city,
                         district: district
