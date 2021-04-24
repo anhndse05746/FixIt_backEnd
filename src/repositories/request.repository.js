@@ -12,6 +12,61 @@ const Invoice = require('../models/invoice');
 const pool = require('../databases/dbConnection');
 const constants = require('../utils/constants');
 // lay ra data cua major (service, issues)
+
+module.exports.getAllRequest = async () => {
+
+    const request = await ReparingRequest.findAll({
+        include: [{
+            model: Service,
+            attributes: ['id', 'name'],
+            include: [{
+                model: Issues,
+                attributes: ['id', 'name', 'estimate_price'],
+            }]
+        },
+        {
+            model: User,
+            as: 'Customer',
+            attributes: ['id', 'name', 'phone_number'],
+        },
+        {
+            model: User,
+            as: 'Repairer',
+            attributes: ['id', 'name', 'phone_number']
+        },
+        {
+            model: StatusHistory,
+            limit: 1,
+            order: [
+                ['updatedAt', 'DESC']
+            ],
+            include: [{
+                model: Status
+            }]
+        }, {
+            model: RequestIssue,
+            include: [
+                {
+                    model: Issues,
+                    attributes: ['id', 'name', 'estimate_price'], order: [['updatedAt', 'DESC']],
+                },
+            ],
+
+        },
+        {
+            model: Invoice,
+        },
+
+        ],
+        order: [
+            ['updatedAt', 'DESC']
+        ],
+    }).then().catch(err => {
+        console.log(err)
+    });
+    return request;
+}
+
 module.exports.getRequestDetail = async (request_id) => {
 
     const request = await ReparingRequest.findOne({
