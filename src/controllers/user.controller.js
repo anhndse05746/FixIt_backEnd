@@ -12,7 +12,7 @@ const { successResponse, errorResponse } = require('../utils/responseModel');
 module.exports.register = async (req, res) => {
     try {
         let result = await registerService.register(req.body.phone_number, req.body.password,
-            req.body.name, req.body.role_id, req.body.email, req.body.identity_card, req.body.major_id,
+            req.body.name, req.body.role_id, req.body.email, req.body.identity_card, req.body.major_id, req.body.address,
             req.body.district, req.body.city);
         successResponse(
             res,

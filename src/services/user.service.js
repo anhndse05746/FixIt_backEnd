@@ -25,14 +25,16 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let address_list = await userRepository.getAddressList(user.id);
                     let repairer = {}
 
-                    let is_verify
-                    let city
-                    let district
+                    let is_verify;
+                    let address;
+                    let city;
+                    let district;
                     //Check if user is an repairer
                     if (role_id == 2) {
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
                         is_verify = repairer.repairer.is_verify;
+                        address = repairer.repairer.address;
                         city = repairer.repairer.city;
                         district = repairer.repairer.district;
                     }

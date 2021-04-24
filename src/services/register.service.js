@@ -4,7 +4,7 @@ const constants = require('../utils/constants');
 const Repairer = require('../models/repairer');
 const bcrypt = require('bcrypt');
 
-module.exports.register = async (phone_number, password, name, role_id, email, identity_card, major_id, district, city) => {
+module.exports.register = async (phone_number, password, name, role_id, email, identity_card, major_id, address, district, city) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     let registerCheck = await user.findOne({
@@ -38,6 +38,7 @@ module.exports.register = async (phone_number, password, name, role_id, email, i
                     major_id: major_id,
                     identity_card_number: identity_card,
                     is_verify: 0,
+                    address: address,
                     district: district,
                     city: city
                 }).then().catch(err => {
