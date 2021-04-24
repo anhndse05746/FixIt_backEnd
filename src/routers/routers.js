@@ -62,7 +62,7 @@ module.exports.setupRouters = (app) => {
     // major service 
     app.post('/api/getMajor', majorController.getMajorDetail);
     //get all request
-
+    app.post('/api/admin/getAllRequest', requestController.getAllRequest);
     app.post('/api/createRequest', requestController.createRequest);
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
