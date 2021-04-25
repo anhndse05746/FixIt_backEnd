@@ -22,7 +22,7 @@ const User = db.define('user', {
         type: Sequelize.STRING,
     },
     is_active: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BOOLEAN,
     },
     device_token: {
         type: Sequelize.INTEGER,

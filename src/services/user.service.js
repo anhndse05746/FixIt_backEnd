@@ -24,7 +24,6 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = await userRepository.getAddressList(user.id);
                     let repairer = {}
-
                     let is_verify;
                     let address;
                     let city;
@@ -50,7 +49,8 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         address: address,
                         is_verify: is_verify,
                         city: city,
-                        district: district
+                        district: district,
+                        is_active : user.is_active
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
