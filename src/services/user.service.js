@@ -29,7 +29,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let city;
                     let district;
                     //Check if user is an repairer
-                    if (role_id == 2) {
+                    if (role_id == constants.ROLE_REPAIRER) {
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
                         is_verify = repairer.repairer.is_verify;
@@ -89,15 +89,9 @@ module.exports.getAllCustomer = async () => {
 
 module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
     let result = await userRepository.updateUser(phone, role_id, name, email, image);
-    if (role_id == 2) {
+    if (role_id == constants.ROLE_REPAIRER) {
         //get repairer information 
-        let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
-        if (cityVN) {
-            let districtVN = cityVN.Districts.find(districtVN => districtVN.Name == district)
-            cityId = cityVN.Id
-            districtId = districtVN.Id
-        }
-        await repairerRepo.updateProfile(user_id, districtId, cityId, address, identity_card_number)
+        await repairerRepo.updateProfile(user_id, district, city, address, identity_card_number)
     }
     return result;
 };

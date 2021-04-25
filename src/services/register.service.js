@@ -24,7 +24,7 @@ module.exports.register = async (phone_number, password, name, role_id, email, i
             }).then().catch(err => {
                 throw new Error(err.message);
             });
-            if (role_id == 2) {
+            if (role_id == constants.ROLE_REPAIRER) {
                 let registeredUser = await userRegister.findOne({
                     where: {
                         phone_number: phone_number,
