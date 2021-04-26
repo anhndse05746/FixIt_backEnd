@@ -24,13 +24,12 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = await userRepository.getAddressList(user.id);
                     let repairer = {}
-
                     let is_verify;
                     let address;
                     let city;
                     let district;
                     //Check if user is an repairer
-                    if (role_id == 2) {
+                    if (role_id == constants.ROLE_REPAIRER) {
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
                         is_verify = repairer.repairer.is_verify;
@@ -50,7 +49,8 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         address: address,
                         is_verify: is_verify,
                         city: city,
-                        district: district
+                        district: district,
+                        is_active : user.is_active
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
@@ -89,15 +89,9 @@ module.exports.getAllCustomer = async () => {
 
 module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
     let result = await userRepository.updateUser(phone, role_id, name, email, image);
-    if (role_id == 2) {
+    if (role_id == constants.ROLE_REPAIRER) {
         //get repairer information 
-        let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
-        if (cityVN) {
-            let districtVN = cityVN.Districts.find(districtVN => districtVN.Name == district)
-            cityId = cityVN.Id
-            districtId = districtVN.Id
-        }
-        await repairerRepo.updateProfile(user_id, districtId, cityId, address, identity_card_number)
+        await repairerRepo.updateProfile(user_id, district, city, address, identity_card_number)
     }
     return result;
 };
