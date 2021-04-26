@@ -1,6 +1,7 @@
 const constants = require('../utils/constants');
 const registerService = require('../services/register.service');
 const userService = require('../services/user.service');
+const notify = require('../services/pushNotify.service');
 const { successResponse, errorResponse } = require('../utils/responseModel');
 
 /**
@@ -105,6 +106,25 @@ module.exports.changePassword = async (req, res) => {
             res,
             constants.STATUS_SUCCESS,
             result
+        );
+    } catch (error) {
+        res.status(400);
+        errorResponse(
+            res,
+            error.message
+        );
+    }
+}
+
+module.exports.pushMessage = async (req, res) => {
+    try {
+
+        let tokens = await notify.getRepairerDeviceTokenByCity('Hà Nội')
+        let sendNotify = await notify.send(tokens, "Bạn có yêu cầu mới", "ahihi", "hihi", "hihi")
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            tokens
         );
     } catch (error) {
         res.status(400);

@@ -15,6 +15,8 @@ module.exports = Object.freeze({
     TOKEN_EXPRIED: 'Token is expired',
     AUTHORIZE_FAIL: 'Authorize fail',
 
+    STATUS_READ: 1,
+    STATUS_UNREAD: 0,
     FK_ERROR: 'FK error',
 
     // Đang tìm thợ
