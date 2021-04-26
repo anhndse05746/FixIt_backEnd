@@ -12,12 +12,8 @@ module.exports.insertInvoiceDetail = async (request_id, payment_method_id, statu
     let count = 0;
     if (request_issues.length != list_issues.length) {
         count = 1;
-<<<<<<< HEAD
-    } else {
-=======
     }
     else {
->>>>>>> 342ebfe1dfcbe0495ec556307edb08f7dc7b2522
         for (let i = 0, l = request_issues.length; i < l; i++) {
             if (request_issues[i].issues_id != list_issues[i].issues_id) {
                 count = 1;
