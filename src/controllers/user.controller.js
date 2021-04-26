@@ -12,7 +12,7 @@ const { successResponse, errorResponse } = require('../utils/responseModel');
 module.exports.register = async (req, res) => {
     try {
         let result = await registerService.register(req.body.phone_number, req.body.password,
-            req.body.name, req.body.role_id, req.body.email, req.body.identity_card, req.body.major_id,
+            req.body.name, req.body.role_id, req.body.email, req.body.identity_card, req.body.major_id, req.body.address,
             req.body.district, req.body.city);
         successResponse(
             res,
@@ -65,8 +65,7 @@ module.exports.checkRegisteredPhoneNumber = async (req, res) => {
 
 module.exports.updateUser = async (req, res) => {
     try {
-        let result = await userService.updateUser(req.body.phone_number, req.body.role_id, req.body.name,
-            req.body.dob, req.body.email, req.body.image);
+        let result = await userService.updateUser(req.body.user_id, req.body.phone, req.body.role_id, req.body.name, req.body.email, req.body.image, req.body.district, req.body.city, req.body.address, req.body.identity_card_number);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

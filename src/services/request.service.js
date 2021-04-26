@@ -10,6 +10,13 @@ module.exports.getRequestDetail = async (request_id) => {
     return requestData;
 }
 
+module.exports.getAllRequest = async () => {
+
+    let requestData = await RequestRepo.getAllRequest();
+    //.then().catch(err => console.log(err))
+    return requestData;
+}
+
 module.exports.createRequest = async (customer_id, service_id, schedule_time, estimate_time, estimate_price, description, address, request_issues, city, district) => {
 
     await RequestRepo.createRequest(customer_id, 1, service_id, schedule_time, estimate_time, estimate_price, description, address, city, district);

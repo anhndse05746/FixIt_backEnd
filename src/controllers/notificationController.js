@@ -18,23 +18,23 @@ module.exports.getNotificationByUser = async (req, res, next) => {
         );
     }
 }
-module.exports.sendNotification = async (req, res, next) => {
-    try {
-        let user_id = req.body.user_id;
-        let title = req.body.title;
-        let type = req.body.type;
-        let request_id = req.body.request_id;
-        let result = await notificationService.insertNotification(user_id, title, type, request_id);
-        successResponse(
-            res,
-            constants.STATUS_SUCCESS,
-            result
-        );
-    } catch (error) {
-        res.status(400);
-        errorResponse(
-            res,
-            error.message
-        );
-    }
-}
+// module.exports.insertNotification = async (req, res, next) => {
+//     try {
+//         let user_id = req.body.user_id;
+//         let title = req.body.title;
+//         let type = req.body.type;
+//         let request_id = req.body.request_id;
+//         let result = await notificationService.insertNotification(user_id, title, type, request_id);
+//         successResponse(
+//             res,
+//             constants.STATUS_SUCCESS,
+//             result
+//         );
+//     } catch (error) {
+//         res.status(400);
+//         errorResponse(
+//             res,
+//             error.message
+//         );
+//     }
+// }

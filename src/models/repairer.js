@@ -12,22 +12,25 @@ const Repairer = db.define('repairer', {
     },
     identity_card_number: {
         type: Sequelize.STRING
-    }, 
+    },
     is_verify: {
         type: Sequelize.INTEGER
     },
+    address: {
+        type: Sequelize.STRING
+    },
     district: {
-        type: Sequelize.STRING
-    }, 
+        type: Sequelize.INTEGER
+    },
     city: {
-        type: Sequelize.STRING
-    }, 
+        type: Sequelize.INTEGER
+    },
 }, {
     // freezeTableName: true,
     timestamps: true
 });
 
-User.hasOne(Repairer, {foreignKey: 'id'});
-Repairer.belongsTo(User, {foreignKey: 'id'});
+User.hasOne(Repairer, { foreignKey: 'id' });
+Repairer.belongsTo(User, { foreignKey: 'id' });
 
 module.exports = Repairer;
