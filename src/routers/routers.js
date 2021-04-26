@@ -12,6 +12,7 @@ const reviewController = require('../controllers/review.controller');
 const requestController = require('../controllers/request.controller');
 const verifyRole = require('../middlewares/verifyRole');
 const user_addressController = require('../controllers/user_address.controller');
+const notificationController = require('../controllers/notificationController');
 
 /**
 * @param {import('express').Application} app
@@ -62,7 +63,7 @@ module.exports.setupRouters = (app) => {
     // major service 
     app.post('/api/getMajor', majorController.getMajorDetail);
     //get all request
-
+    app.post('/api/admin/getAllRequest', requestController.getAllRequest);
     app.post('/api/createRequest', requestController.createRequest);
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
@@ -78,7 +79,6 @@ module.exports.setupRouters = (app) => {
     app.post('/api/getInitListRequest', requestController.getInitListRequest);
 
     // user service
-
     // get Request detail by request_id
     app.post('/api/getRequestDetail', requestController.getRequestByRequestID);
 
@@ -90,6 +90,10 @@ module.exports.setupRouters = (app) => {
 
     //API for address
     app.post('/api/createAddress', user_addressController.createAddress);
+
+    //API for notification
+    app.post('/api/getNotification', notificationController.getNotificationByUser);
+    //app.post('/api/sendNotification', notificationController.insertNotification);
 
     //get request list for repairer
     app.post('/api/getRequestList', repairerController.getListRequest);

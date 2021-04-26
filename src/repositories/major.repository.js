@@ -16,7 +16,7 @@ module.exports.getMajorDetail = async () => {
                 where: {
                     is_active: constants.ACTIVE
                 },
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'is_active'],
                 order: [
                     ['id', 'ASC'],
                 ],
@@ -26,7 +26,7 @@ module.exports.getMajorDetail = async () => {
                     where: {
                         is_active: constants.ACTIVE
                     },
-                    attributes: ['id', 'name', 'estimate_fix_duration', 'estimate_price'],
+                    attributes: ['id', 'name', 'estimate_fix_duration', 'estimate_price', 'is_active'],
                     order: [
                         ['id', 'ASC'],
                     ]
@@ -48,14 +48,14 @@ module.exports.getAllMajor = async () => {
             {
                 model: Service,
                 required: false,
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'is_active'],
                 order: [
                     ['id', 'ASC'],
                 ],
                 include: {
                     model: Issues,
                     required: false,
-                    attributes: ['id', 'name', 'estimate_fix_duration', 'estimate_price'],
+                    attributes: ['id', 'name', 'estimate_fix_duration', 'estimate_price', 'is_active'],
                     order: [
                         ['id', 'ASC'],
                     ]

@@ -24,6 +24,22 @@ module.exports.getRequestDetail = async (req, res, next) => {
   }
 }
 
+module.exports.getAllRequest = async (req, res, next) => {
+  try {
+    let payload = await requestService.getAllRequest();
+    successResponse(
+      res,
+      constants.STATUS_SUCCESS,
+      payload
+    )
+  } catch (error) {
+    errorResponse(
+      res,
+      error.message
+    )
+  }
+}
+
 module.exports.createRequest = async (req, res, next) => {
   try {
     let customer_id = req.body.customer_id;

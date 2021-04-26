@@ -4,8 +4,9 @@ const repairerRepo = require('../repositories/repairer.repository');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
 const repairer = require('../repositories/repairer.repository');
-const cityOfVN = require('../utils/cityOfVietNam').cityOfVN
-
+const cityOfVN = require('../utils/cityOfVietNam').cityOfVN;
+const bcrypt = require('bcrypt');
+const salt = bcrypt.genSaltSync(10)
 module.exports.userAuthentication = async (phone, password, role_id, device_token) => {
     let payload;
     let userData = await user.findOne({
@@ -17,25 +18,25 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
         .then(async user => {
             if (user) {
                 console.log('user');
-                if (user.password == password) {
+                //compare password in database with password recieved from api
+                let comparePassword = await bcrypt.compare(password, user.password);
+                if (comparePassword) {
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = await userRepository.getAddressList(user.id);
                     let repairer = {}
 
-                    let is_verify
-                    let cityId
-                    let districtId
+                    let is_verify;
+                    let address;
+                    let city;
+                    let district;
                     //Check if user is an repairer
                     if (role_id == 2) {
                         //get repairer information 
                         repairer = await repairerRepo.getRepairer(user.id)
-                        let city = cityOfVN.find(city => city.Name == repairer.repairer.city)
-                        is_verify = repairer.repairer.is_verify
-                        if (city) {
-                            let district = city.Districts.find(district => district.Name == repairer.repairer.district)
-                            cityId = city.Id
-                            districtId = district.Id
-                        }
+                        is_verify = repairer.repairer.is_verify;
+                        address = repairer.repairer.address;
+                        city = repairer.repairer.city;
+                        district = repairer.repairer.district;
                     }
 
                     payload = {
@@ -46,9 +47,10 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         role: user.role_id,
                         token: `Bearer ${token}`,
                         address_list: address_list,
+                        address: address,
                         is_verify: is_verify,
-                        city: cityId,
-                        district: districtId
+                        city: city,
+                        district: district
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
@@ -71,6 +73,9 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
     return payload;
 };
 
+
+
+
 module.exports.checkRegisteredPhoneNumber = async (phone, role_id) => {
     let message;
     let checkResult = await userRepository.checkRegistered(phone, role_id);
@@ -82,24 +87,43 @@ module.exports.getAllCustomer = async () => {
     return await userRepository.getAllUser(constants.ROLE_CUSTOMER);
 };
 
-module.exports.updateUser = async (phone, role_id, name, dob, email, image) => {
-    let result = await userRepository.updateUser(phone, role_id, name, dob, email, image);
+module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
+    let result = await userRepository.updateUser(phone, role_id, name, email, image);
+    if (role_id == 2) {
+        //get repairer information 
+        let cityVN = cityOfVN.find(cityVN => cityVN.Name == city)
+        if (cityVN) {
+            let districtVN = cityVN.Districts.find(districtVN => districtVN.Name == district)
+            cityId = cityVN.Id
+            districtId = districtVN.Id
+        }
+        await repairerRepo.updateProfile(user_id, districtId, cityId, address, identity_card_number)
+    }
     return result;
 };
 
 module.exports.resetPassword = async (phone, role_id, newPassword) => {
-    let result = await userRepository.resetPassword(phone, role_id, newPassword);
-    return result;
+    let message = '';
+    let passwordInDB = await userRepository.getOldPassword(phone, role_id);
+    let comparePassword = await bcrypt.compare(newPassword, passwordInDB);
+    if (comparePassword) {
+        message = constants.PASSWORD_DUPPLICATE;
+    } else {
+        newPassword = await bcrypt.hash(newPassword, salt);
+        let result = await userRepository.resetPassword(phone, role_id, newPassword);
+    }
+    return message
 }
 
 module.exports.changePassword = async (phone, role_id, oldPassword, newPassword) => {
     let message;
     let passwordInDB = await userRepository.getOldPassword(phone, role_id);
-
-    if (oldPassword === passwordInDB) {
+    let comparePassword = await bcrypt.compare(oldPassword, passwordInDB);
+    if (comparePassword) {
+        newPassword = await bcrypt.hash(newPassword, salt);
         let resultOfChangePassword = await userRepository.resetPassword(phone, role_id, newPassword);
         message = 'success';
-    } else if (oldPassword !== passwordInDB) {
+    } else {
         message = 'Incorrect password'
     }
     return message;
