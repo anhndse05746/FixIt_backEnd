@@ -269,7 +269,26 @@ module.exports.getRequestByID = async (request_id) => {
     });
     return request;
 }
+module.exports.getListRequestFindingRepairer = async (city, major) => {
 
+    return await pool.query('SELECT re.id, re.customer_id, re.repairer_id, re.service_id, se.`name` AS serviceName, se.major_id, re.schedule_time, re.estimate_time, '
+        + 're.estimate_price, re.description, re.address, re.district, re.city, temp.currentStatus, st.`name` as statusName FROM repairing_request re JOIN '
+        + '(SELECT R.request_id AS request_id, R.countStatus AS currentStatus, request_status.updatedAt as time FROM (SELECT MAX(request_status.status_id) AS countStatus, '
+        + 'request_status.request_id AS request_id FROM request_status GROUP BY request_status.request_id) AS R LEFT OUTER JOIN request_status '
+        + 'ON R.request_id = request_status.request_id AND R.countStatus = request_status.status_id WHERE R.countStatus = 1 ORDER BY request_status.updatedAt DESC) AS temp '
+        + 'ON re.id = temp.request_id JOIN services se ON re.service_id = se.id JOIN status st ON temp.currentStatus = st.id WHERE re.city = $city AND re.service_id IN '
+        + '(SELECT id FROM services WHERE major_id = $major) ORDER BY temp.time DESC ', {
+        bind: {
+            city: city,
+            major: major,
+            requestPerPage: constants.NUMBER_REQUEST_PER_PAGE
+        },
+        type: Sequelize.QueryTypes.SELECT
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+
+}
 module.exports.getListRequestByStatusForCustomer = async (customer_id, role, page, status_id) => {
     let where = '';
     if (role === constants.ROLE_CUSTOMER) {

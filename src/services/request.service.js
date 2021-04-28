@@ -61,7 +61,10 @@ module.exports.getListRequestByStatusForCustomer = async (customer_id, role, pag
 
     return await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, page, status_id);
 }
-
+module.exports.getListRequestFindingRepairer = async (city, major) => {
+    let listFindingRequest = await RequestRepo.getListRequestFindingRepairer(city, major);
+    return listFindingRequest;
+}
 module.exports.getInitListRequest = async (customer_id, role) => {
     //Finding request
     let listFindingRequest = await RequestRepo.getListRequestByStatusForCustomer(customer_id, role, 0, [constants.STATUS_REQUEST_FINDING]);
