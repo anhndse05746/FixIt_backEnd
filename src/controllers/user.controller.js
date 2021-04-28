@@ -137,7 +137,7 @@ module.exports.pushMessage = async (req, res) => {
 
 module.exports.activeUser = async (req, res) => {
     try {
-        let payload = await userService.changeUserActiveStatus(req.body.user_id, constants.ACTIVE);
+        let payload = await userService.changeUserActiveStatus(req.body.user_id, role_id, constants.ACTIVE);
         successResponse(
             res,
             constants.STATUS_SUCCESS,
@@ -153,7 +153,7 @@ module.exports.activeUser = async (req, res) => {
 
 module.exports.deactiveUser = async (req, res) => {
     try {
-        let payload = await userService.changeUserActiveStatus(req.body.user_id, constants.NOT_ACTIVE);
+        let payload = await userService.changeUserActiveStatus(req.body.user_id, role_id, constants.NOT_ACTIVE);
         successResponse(
             res,
             constants.STATUS_SUCCESS,

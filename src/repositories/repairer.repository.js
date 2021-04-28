@@ -89,6 +89,18 @@ repairer.getListNotVerified = async () => {
     });
 }
 
+repairer.deactiveRepairer = async (repairer_id) => {
+    return await Repairer.update({
+        is_verify: constants.REPAIRER_NOT_VERIFIED
+    }, {
+        where: {
+            id: repairer_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
+
 repairer.approveCV = async (repairer_id) => {
     return await Repairer.update({
         is_verify: constants.REPAIRER_VERIFIED

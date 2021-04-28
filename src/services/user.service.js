@@ -77,8 +77,16 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
 };
 
 
-module.exports.changeUserActiveStatus = async (user_id, status) => {
+module.exports.changeUserActiveStatus = async (user_id, role_id, status) => {
+
     let result = await userRepository.changeActiveStatus(user_id, status);
+    if (role_id == constants.ROLE_REPAIRER) {
+        if (status == constants.NOT_ACTIVE) {
+            await repairerRepo.approveCV(user_id);
+        } else {
+            await repairerRepo.deactiveRepairer(user_id);
+        }
+    }
     // let result = await userRepository.getUserByID(user_id);
     return result;
 }
