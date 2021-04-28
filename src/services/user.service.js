@@ -22,7 +22,10 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                 let comparePassword = await bcrypt.compare(password, user.password);
                 if (comparePassword) {
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
-                    let address_list = await userRepository.getAddressList(user.id);
+                    let address_list = [];
+                    if(role_id == 3) {
+                        address_list = await userRepository.getAddressList(user.id);
+                    }
                     let repairer = {}
                     let is_verify;
                     let address;
