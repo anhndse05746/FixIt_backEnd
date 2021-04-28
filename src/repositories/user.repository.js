@@ -16,9 +16,9 @@ users.getAll = () => {
     });
 };
 
-users.getUserByID = (id) => {
+users.getUserByID = async (id) => {
     return new Promise((resolve, reject) => {
-        pool.query(`Select * from user where user_id = ?`, id, (err, results) => {
+        pool.query(`Select * from users where id = ` + id, (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -64,6 +64,18 @@ users.getAllUser = async (role_id) => {
     return getAllCustomer;
 };
 
+users.changeActiveStatus = async (user_id, status) => {
+
+    await User.update({
+        is_active: status
+    }, {
+        where: {
+            id: user_id,
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
 
 users.updateUser = async (phone, role_id, name, email, image) => {
     let user = await users.checkRegistered(phone, role_id);

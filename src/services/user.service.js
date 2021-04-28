@@ -23,7 +23,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                 if (comparePassword) {
                     let token = jwt.genreateToken(user.id, user.phone_number, user.role_id);
                     let address_list = [];
-                    if(role_id == 3) {
+                    if (role_id == 3) {
                         address_list = await userRepository.getAddressList(user.id);
                     }
                     let repairer = {}
@@ -53,7 +53,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         is_verify: is_verify,
                         city: city,
                         district: district,
-                        is_active : user.is_active
+                        is_active: user.is_active
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
@@ -77,7 +77,11 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
 };
 
 
-
+module.exports.changeUserActiveStatus = async (user_id, status) => {
+    let result = await userRepository.changeActiveStatus(user_id, status);
+    // let result = await userRepository.getUserByID(user_id);
+    return result;
+}
 
 module.exports.checkRegisteredPhoneNumber = async (phone, role_id) => {
     let message;

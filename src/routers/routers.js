@@ -63,6 +63,9 @@ module.exports.setupRouters = (app) => {
     app.post('/api/admin/deactivateService', serviceController.deactivateService);
     app.post('/api/admin/activeService', serviceController.activeService);
 
+    //Active Deactive User
+    app.post('/api/admin/activeUser', userController.activeUser);
+    app.post('/api/admin/deactiveUser', userController.deactiveUser);
     // major service 
     app.post('/api/getMajor', majorController.getMajorDetail);
 

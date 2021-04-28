@@ -134,3 +134,35 @@ module.exports.pushMessage = async (req, res) => {
         );
     }
 }
+
+module.exports.activeUser = async (req, res) => {
+    try {
+        let payload = await userService.changeUserActiveStatus(req.body.user_id, constants.ACTIVE);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            payload
+        )
+    } catch (error) {
+        errorResponse(
+            res,
+            error.message
+        )
+    }
+}
+
+module.exports.deactiveUser = async (req, res) => {
+    try {
+        let payload = await userService.changeUserActiveStatus(req.body.user_id, constants.NOT_ACTIVE);
+        successResponse(
+            res,
+            constants.STATUS_SUCCESS,
+            payload
+        )
+    } catch (error) {
+        errorResponse(
+            res,
+            error.message
+        )
+    }
+}
