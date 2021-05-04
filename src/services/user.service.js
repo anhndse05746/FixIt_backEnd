@@ -31,6 +31,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                     let address;
                     let city;
                     let district;
+                    let major;
                     //Check if user is an repairer
                     if (role_id == constants.ROLE_REPAIRER) {
                         //get repairer information 
@@ -39,6 +40,7 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         address = repairer.repairer.address;
                         city = repairer.repairer.city;
                         district = repairer.repairer.district;
+                        major = repairer.repairer.major_id
                     }
 
                     payload = {
@@ -53,7 +55,8 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
                         is_verify: is_verify,
                         city: city,
                         district: district,
-                        is_active: user.is_active
+                        is_active: user.is_active,
+                        major_id: major
                     };
                     if (user.device_token !== device_token) {
                         //update user device token
