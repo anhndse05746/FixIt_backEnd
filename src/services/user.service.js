@@ -115,7 +115,7 @@ module.exports.updateUser = async (user_id, phone, role_id, name, email, image, 
 };
 
 module.exports.resetPassword = async (phone, role_id, newPassword) => {
-    let message = '';
+    let message;
     let passwordInDB = await userRepository.getOldPassword(phone, role_id);
     let comparePassword = await bcrypt.compare(newPassword, passwordInDB);
     if (comparePassword) {
@@ -123,6 +123,7 @@ module.exports.resetPassword = async (phone, role_id, newPassword) => {
     } else {
         newPassword = await bcrypt.hash(newPassword, salt);
         let result = await userRepository.resetPassword(phone, role_id, newPassword);
+        message = true
     }
     return message
 }
