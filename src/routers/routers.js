@@ -72,7 +72,7 @@ module.exports.setupRouters = (app) => {
 
     //get all request
     app.post('/api/admin/getAllRequest', requestController.getAllRequest);
-    app.post('/createRequest', requestController.createRequest);
+    app.post('/api/createRequest', requestController.createRequest);
 
     //API for take request
     app.post('/api/repairer/takeRequest', requestController.takeRequest)
@@ -87,7 +87,7 @@ module.exports.setupRouters = (app) => {
     app.post('/api/getListRequestByStatus', requestController.getListRequestByStatusForCustomer);
     app.post('/api/getListRequestFindingRepairer', requestController.getListRequestFindingRepairer);
     //API for get init list request
-    app.post('/getInitListRequest', requestController.getInitListRequest);
+    app.post('/api/getInitListRequest', requestController.getInitListRequest);
 
     // user service
     // get Request detail by request_id
