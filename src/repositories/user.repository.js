@@ -50,10 +50,10 @@ users.getUsersByPhone = async (phone) => {
         });
 }
 
-users.getAllUser = async () => {
+users.getAllUser = async (role_id) => {
     let getAllCustomer = await User.findAll({
         where: {
-            role_id: constants.ROLE_CUSTOMER,
+            role_id: role_id,
         },
         order: [
             ['id', 'ASC']
