@@ -84,14 +84,15 @@ module.exports.changeUserActiveStatus = async (user_id, role_id, status) => {
     await userRepository.changeActiveStatus(user_id, status);
     if (role_id == constants.ROLE_REPAIRER) {
         result = await repairerRepo.getAllRepairer()
+
         if (status == constants.NOT_ACTIVE) {
-            await repairerRepo.approveCV(user_id);
-        } else {
             await repairerRepo.deactiveRepairer(user_id);
+        } else {
+            await repairerRepo.approveCV(user_id);
         }
     }
     else {
-        result = await getAllCustomer()
+        result = await userRepository.getAllUser()
     }
     // let result = await userRepository.getUserByID(user_id);
     return result;
@@ -105,7 +106,7 @@ module.exports.checkRegisteredPhoneNumber = async (phone, role_id) => {
 }
 
 module.exports.getAllCustomer = async () => {
-    return await userRepository.getAllUser(constants.ROLE_CUSTOMER);
+    return await userRepository.getAllUser();
 };
 
 module.exports.updateUser = async (user_id, phone, role_id, name, email, image, district, city, address, identity_card_number) => {
