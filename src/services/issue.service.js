@@ -2,11 +2,12 @@ const issues = require('../models/issues');
 const issueRepo = require('../repositories/issue.repository');
 const serviceRepo = require('../repositories/service.repository');
 const constants = require('../utils/constants');
+const majorRepo = require('../repositories/major.repository');
 
 module.exports.createIssue = async (name, service_id, estimate_fix_duration, estimate_price) => {
     let result;
     let checkServiceID = await serviceRepo.getServiceById(service_id);
-    if(checkServiceID) {
+    if (checkServiceID) {
         await issueRepo.createIssue(name, service_id, estimate_fix_duration, estimate_price);
         result = issueRepo.getIssueByServiceId(service_id);
     } else {
@@ -18,7 +19,7 @@ module.exports.createIssue = async (name, service_id, estimate_fix_duration, est
 module.exports.updateIssue = async (id, name, service_id, estimate_fix_duration, estimate_price) => {
     let checkServiceID = await serviceRepo.getServiceById(service_id);
     let result;
-    if(checkServiceID) {
+    if (checkServiceID) {
         await issueRepo.updateIssue(id, name, service_id, estimate_fix_duration, estimate_price);
         result = issueRepo.getIssueByServiceId(service_id);
     } else {
@@ -29,10 +30,10 @@ module.exports.updateIssue = async (id, name, service_id, estimate_fix_duration,
 
 module.exports.deactivateIssue = async (id, service_id) => {
     await issueRepo.changeIssueStatus(id, constants.NOT_ACTIVE);
-    return issueRepo.getIssueByServiceId(service_id);
+    return await majorRepo.getAllMajor();
 }
 
 module.exports.activeIssue = async (id, service_id) => {
     await issueRepo.changeIssueStatus(id, constants.ACTIVE);
-    return issueRepo.getIssueByServiceId(service_id);
+    return await majorRepo.getAllMajor();
 }
