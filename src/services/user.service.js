@@ -3,7 +3,6 @@ const user = require('../models/user');
 const repairerRepo = require('../repositories/repairer.repository');
 const constants = require('../utils/constants');
 const jwt = require('../helpers/jwt.helper');
-const repairer = require('../repositories/repairer.repository');
 const cityOfVN = require('../utils/cityOfVietNam').cityOfVN;
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10)
@@ -81,14 +80,18 @@ module.exports.userAuthentication = async (phone, password, role_id, device_toke
 
 
 module.exports.changeUserActiveStatus = async (user_id, role_id, status) => {
-
-    let result = await userRepository.changeActiveStatus(user_id, status);
+    let result
+    await userRepository.changeActiveStatus(user_id, status);
     if (role_id == constants.ROLE_REPAIRER) {
+        result = await repairerRepo.getAllRepairer()
         if (status == constants.NOT_ACTIVE) {
             await repairerRepo.approveCV(user_id);
         } else {
             await repairerRepo.deactiveRepairer(user_id);
         }
+    }
+    else {
+        result = await getAllCustomer()
     }
     // let result = await userRepository.getUserByID(user_id);
     return result;
