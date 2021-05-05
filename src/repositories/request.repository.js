@@ -302,14 +302,12 @@ module.exports.getListRequestByStatusForCustomer = async (customer_id, role, pag
     return await pool.query('SELECT re.id, re.customer_id, re.repairer_id, re.service_id, se.`name` AS serviceName, se.major_id, re.schedule_time, re.estimate_time, re.estimate_price, re.description, re.address, re.district, re.city, temp.currentStatus, st.`name` as statusName FROM repairing_request re JOIN (SELECT R.request_id AS request_id, R.countStatus AS currentStatus, request_status.updatedAt ' +
         'as time FROM (SELECT MAX(request_status.status_id) AS countStatus, request_status.request_id AS request_id FROM request_status GROUP BY request_status.request_id) AS R LEFT OUTER JOIN request_status ON R.request_id = request_status.request_id AND R.countStatus = request_status.status_id WHERE R.countStatus = $status_id_1 ' + status +
         'ORDER BY request_status.updatedAt DESC) AS temp ON re.id = temp.request_id JOIN services se ON re.service_id = se.id JOIN `status` st ON temp.currentStatus = st.id WHERE ' + where +
-        ' ORDER BY temp.time DESC ' + 'LIMIT $page, $requestPerPage', {
+        ' ORDER BY temp.time DESC', {
         bind: {
             customer_id: customer_id,
             status_id_1: status_id[0],
             status_id_2: status_id[1],
-            status_id_3: status_id[2],
-            page: page,
-            requestPerPage: constants.NUMBER_REQUEST_PER_PAGE
+            status_id_3: status_id[2]
         },
         type: Sequelize.QueryTypes.SELECT
     }).then().catch(err => {
