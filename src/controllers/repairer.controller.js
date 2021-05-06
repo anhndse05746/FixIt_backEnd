@@ -82,7 +82,7 @@ module.exports.approveCV = async (req, res, next) => {
 module.exports.rejectCV = async (req, res, next) => {
     try {
         let repairer_id = req.body.repairer_id
-
+        let result;
         let token = await pushNotifyService.getUserDeviceToken(repairer_id)
         await pushNotifyService.send(token, `CV của bạn đã bị từ chối bởi quản trị viên`, 'Bạn không thể nhận được yêu cầu của khách hàng', '', 0)
         await notification.insertNotification([repairer_id], 'CV của bạn đã bị từ chối bởi quản trị viên', 1, 0)
