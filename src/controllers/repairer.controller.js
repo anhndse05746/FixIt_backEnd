@@ -86,7 +86,8 @@ module.exports.rejectCV = async (req, res, next) => {
         let token = await pushNotifyService.getUserDeviceToken(repairer_id)
         await pushNotifyService.send(token, `CV của bạn đã bị từ chối bởi quản trị viên`, 'Bạn không thể nhận được yêu cầu của khách hàng', '', 0)
         await notification.insertNotification([repairer_id], 'CV của bạn đã bị từ chối bởi quản trị viên', 1, 0)
-await repairerService.updateIs_Verify(repairer_id);
+        await repairerService.updateIs_Verify(repairer_id);
+        result = await repairerService.getAllRepairerNotVerified();
         successResponse(
             res,
             constants.STATUS_SUCCESS,
