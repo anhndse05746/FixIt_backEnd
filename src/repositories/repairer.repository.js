@@ -24,7 +24,17 @@ repairer.getAllRepairer = async () => {
         console.log(err);
     });
 };
-
+repairer.updateIs_Verify = async(user_id) => {
+    return await Repairer.update({
+        is_verify: 2,
+    }, {
+        where: {
+            id: user_id
+        }
+    }).then().catch(err => {
+        throw new Error(err.message);
+    });
+}
 repairer.updateProfile = async (user_id, district, city, address, identity_card_number) => {
     newRepairer = {
         district: district,
