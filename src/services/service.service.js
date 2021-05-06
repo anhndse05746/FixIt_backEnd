@@ -35,7 +35,7 @@ module.exports.deactivateService = async (id, major_id) => {
         }
     }
     await serviceRepo.changeServiceStatus(id, constants.NOT_ACTIVE);
-    return await serviceRepo.getAllServiceByMajorId(major_id);
+    return await majorRepo.getAllMajor();
 }
 
 module.exports.activeService = async (id, major_id) => {
@@ -46,5 +46,5 @@ module.exports.activeService = async (id, major_id) => {
         }
     }
     await serviceRepo.changeServiceStatus(id, constants.ACTIVE);
-    return await serviceRepo.getAllServiceByMajorId(major_id);
+    return await await majorRepo.getAllMajor();
 }
