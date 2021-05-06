@@ -2,6 +2,7 @@ const pool = require('../databases/dbConnection');
 const User = require('../models/user');
 const constants = require('../utils/constants');
 const User_Address = require('../models/user_address');
+const Repairer = require('../models/repairer');
 
 let users = {};
 
@@ -51,16 +52,32 @@ users.getUsersByPhone = async (phone) => {
 }
 
 users.getAllUser = async (role_id) => {
-    let getAllCustomer = await User.findAll({
-        where: {
-            role_id: role_id,
-        },
-        order: [
-            ['id', 'ASC']
-        ]
-    }).then().catch(err => {
-        throw new Error(err.message);
-    });
+    let getAllCustomer 
+    if (role_id == constants.ROLE_REPAIRER) {
+        getAllCustomer =  await User.findAll({
+            where: {
+                role_id: role_id,
+            },
+            include: Repairer,
+            order: [
+                ['id', 'ASC']
+            ]
+        }).then().catch(err => {
+            throw new Error(err.message);
+        });
+    } else {
+        getAllCustomer = await User.findAll({
+            where: {
+                role_id: role_id,
+            },
+            order: [
+                ['id', 'ASC']
+            ]
+        }).then().catch(err => {
+            throw new Error(err.message);
+        });
+    }
+
     return getAllCustomer;
 };
 
